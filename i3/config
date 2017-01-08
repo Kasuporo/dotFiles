@@ -1,11 +1,11 @@
 # Define colors
-set $pimp	#9470c1
+set $pimp	#222222
 set $wesh	#EFD3BE
 set $back	#afafaf
 
 # Gaps
-for_window [class="^.*"] border pixel 5
-gaps inner 10
+for_window [class="^.*"] border pixel 0
+gaps inner 5
 gaps outer 5
 
 # My floating friends
@@ -18,34 +18,30 @@ for_window [class="Corebird"] floating enable
 for_window [class="Wine"] floating enable
 
 # Specify specific workspaces for applications
-assign [class="Brackets"] 2
+assign [class="Firefox"] 2
 #assign [class="(?i)thunar"] 4
 #assign [class="(?i)terminal"] 3
 
 # Font
-font pango: SourceCodePro 10
-
-# Borders
-new_window pixel 5
+font pango: Hack 10
 
 # mod
-set $mod Mod4
+set $mod Mod1
 
 # thin borders
-hide_edge_borders both
-
+#hide_edge_borders both
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec xterm 
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
+bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -opacity "85" -width 100 -padding 380 -bg "$pimp"
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -160,7 +156,7 @@ bindsym $mod+r mode "resize"
 
 # Colors
 client.focused		    $pimp	$pimp	$pimp	$pimp	$pimp
-client.focused_inactive $back	$back	$back	$back	$back
+client.focused_inactive     $back	$back	$back	$back	$back
 client.unfocused	    $back	$back	$back	$back	$back
 client.urgent		    $wesh	$wesh	$wesh	$wesh	$wesh
 client.placeholder	    $back	$back	$back	$back	$back
@@ -174,41 +170,30 @@ bindsym XF86MonBrightnessUp exec "$HOME/knix/scripts/screen_brightness.sh --incr
 bindsym XF86AudioLowerVolume exec --no-startup-id "amixer -q sset Master 3%-"
 bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer -q sset Master 3%+"
 
-
-
-
-
-
-
-
-
 # ########################
 # !! Autostart programs !!
 
 # Set the Wallpaper
-exec --no-startup-id $HOME/knix/dotfiles/feh/.fehbg
-
-# Network Manager (place the network manager icon in the menu)
-exec --no-startup-id nm-applet
+exec_always --no-startup-id feh --bg-scale $HOME/Documents/dotfiles/wallpaper.jpg
 
 # The bottom bar
-exec_always --no-startup-id $HOME/knix/dotfiles/polybar/launch.sh
+exec_always --no-startup-id $HOME/Documents/dotfiles/polybar/launch.sh
 
 # Screen lock after
-exec --no-startup-id xautolock -time 5 -locker "$HOME/knix/scripts/i3lock"
+#exec --no-startup-id xautolock -time 5 -locker "$HOME/knix/scripts/i3lock"
 
 # Window composition
-exec --no-startup-id compton --config $HOME/knix/dotfiles/compton/compton.conf -b
+exec_always  --no-startup-id compton --config $HOME/Documents/dotfiles/compton/compton.conf -b
 
 # ########################
 # !! Custom Keybindings !!
 
 # Screenshots
-bindsym Print exec "scrot -e 'mv $f ~/Screenshots'"
-bindsym $mod+Print exec "scrot -ue 'mv $f ~/Screenshots'"
+#bindsym Print exec "scrot -e 'mv $f ~/Screenshots'"
+#bindsym $mod+Print exec "scrot -ue 'mv $f ~/Screenshots'"
 
 # File Browser (PCManFM)
-bindsym $mod+Shift+f exec thunar
+#bindsym $mod+Shift+f exec thunar
 
 # i3lock
-bindsym $mod+o exec --no-startup-id $HOME/knix/scripts/i3lock
+#bindsym $mod+o exec --no-startup-id $HOME/knix/scripts/i3lock
