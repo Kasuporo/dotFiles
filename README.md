@@ -1,7 +1,7 @@
 ## dotfiles
 
 `.dotfiles` for my Manjaro configuration. I put no work into this.
-![Screenshot](https://i.imgur.com/KlOjBut.png)
+![Screenshot](https://i.imgur.com/ySNut6F.png)
 
 ## Applications
 | Application | Description |
