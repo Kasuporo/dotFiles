@@ -10,17 +10,12 @@ gaps outer 5
 
 # My floating friends
 for_window [window_role="pop-up"] floating enable
-for_window [class="imv"] floating enable
 #for_window [class="Thunar"] floating enable
-for_window [class="File-roller"] floating enable
-for_window [class="Vlc"] floating enable
-for_window [class="Corebird"] floating enable
-for_window [class="Wine"] floating enable
 
 # Specify specific workspaces for applications
 assign [class="Firefox"] 2
 #assign [class="(?i)thunar"] 4
-#assign [class="(?i)terminal"] 3
+#assign [class="(?i)terminal"] 1
 
 # Font
 font pango: Hack 10
@@ -179,9 +174,6 @@ exec_always --no-startup-id feh --bg-scale $HOME/Documents/dotfiles/wallpaper.jp
 # The bottom bar
 exec_always --no-startup-id $HOME/Documents/dotfiles/polybar/launch.sh
 
-# Screen lock after
-#exec --no-startup-id xautolock -time 5 -locker "$HOME/knix/scripts/i3lock"
-
 # Window composition
 exec_always  --no-startup-id compton --config $HOME/Documents/dotfiles/compton/compton.conf -b
 
@@ -189,11 +181,10 @@ exec_always  --no-startup-id compton --config $HOME/Documents/dotfiles/compton/c
 # !! Custom Keybindings !!
 
 # Screenshots
-#bindsym Print exec "scrot -e 'mv $f ~/Screenshots'"
 #bindsym $mod+Print exec "scrot -ue 'mv $f ~/Screenshots'"
 
 # File Browser (PCManFM)
-#bindsym $mod+Shift+f exec thunar
+bindsym $mod+Shift+f exec thunar
 
 # i3lock
 #bindsym $mod+o exec --no-startup-id $HOME/knix/scripts/i3lock
