@@ -42,11 +42,11 @@ bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 380
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
-# change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
+# change focus with vim keys
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -55,10 +55,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -67,10 +67,10 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+h split h
+bindsym $mod+Shift+b split h
 
 # split in vertical orientation
-bindsym $mod+v split v
+bindsym $mod+Shift+v split v
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -157,25 +157,22 @@ client.urgent		    $wesh	$wesh	$wesh	$wesh	$wesh
 client.placeholder	    $back	$back	$back	$back	$back
 client.background	    $back
 
-# Brightness fn keys
-bindsym XF86MonBrightnessDown exec "$HOME/knix/scripts/screen_brightness.sh --decrement"
-bindsym XF86MonBrightnessUp exec "$HOME/knix/scripts/screen_brightness.sh --increment"
-
 # Sound fn keys
-bindsym XF86AudioLowerVolume exec --no-startup-id "amixer -q sset Master 3%-"
-bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer -q sset Master 3%+"
+bindsym XF86AudioLowerVolume exec --no-startup-id "amixer -q sset Master 2%-"
+bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer -q sset Master 2%+"
 
-# ########################
+#########################
 # !! Autostart programs !!
 
 # Set the Wallpaper
-exec_always --no-startup-id feh --bg-center $HOME/Documents/dotfiles/w4llpaper.jpg
+exec_always --no-startup-id feh --bg-scale $HOME/Documents/dotfiles/wallpap3r.png
 
 # The bottom bar
 exec_always --no-startup-id $HOME/Documents/dotfiles/polybar/launch.sh
 
 # Window composition
-exec_always  --no-startup-id compton --config $HOME/Documents/dotfiles/compton/compton.conf -b
+exec_always --no-startup-id compton --config $HOME/Documents/dotfiles/compton/compton.conf -b
+
 
 # ########################
 # !! Custom Keybindings !!
@@ -186,5 +183,4 @@ exec_always  --no-startup-id compton --config $HOME/Documents/dotfiles/compton/c
 # File Browser (PCManFM)
 bindsym $mod+Shift+f exec thunar
 
-# i3lock
-#bindsym $mod+o exec --no-startup-id $HOME/knix/scripts/i3lock
+
