@@ -42,6 +42,11 @@ Plugin 'jistr/vim-nerdtree-tabs'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
+" Zenburn color config
+let g:zenburn_high_Contrast=1
+let g:zenburn_force_dark_background=1
+" let g:zenburn_transparent=1
+
 syntax on
 set encoding=utf8
 let python_highlight_all=1
@@ -51,7 +56,7 @@ colors zenburn
 set t_Co=256
 
 map n :NERDTreeMirrorToggle<ENTER> 
-let g:nerdtree_tabs_open_on_console_startup=1
+" let g:nerdtree_tabs_open_on_console_startup=1
 let NERDTreeIgnore=['\.pyc$', '\~$'] " Ignore files in nerdtree
 
 set splitbelow
