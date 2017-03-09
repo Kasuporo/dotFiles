@@ -55,6 +55,7 @@ set clipboard=unnamed
 colors zenburn
 set t_Co=256
 
+" NERDTree config
 map n :NERDTreeMirrorToggle<ENTER> 
 " let g:nerdtree_tabs_open_on_console_startup=1
 let NERDTreeIgnore=['\.pyc$', '\~$'] " Ignore files in nerdtree
