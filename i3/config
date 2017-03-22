@@ -165,7 +165,7 @@ bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer -q sset Master 2%+"
 # !! Autostart programs !!
 
 # Set the Wallpaper
-exec_always --no-startup-id feh --bg-scale $HOME/Documents/dotfiles/wallpap3r.png
+exec_always --no-startup-id feh --bg-scale $HOME/Documents/dotfiles/w4llpap3r.png
 
 # The bottom bar
 exec_always --no-startup-id $HOME/Documents/dotfiles/polybar/launch.sh

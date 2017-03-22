@@ -47,6 +47,7 @@ let g:zenburn_high_Contrast=1
 let g:zenburn_force_dark_background=1
 " let g:zenburn_transparent=1
 
+set noswapfile
 syntax on
 set encoding=utf8
 let python_highlight_all=1
@@ -59,6 +60,11 @@ set t_Co=256
 map n :NERDTreeMirrorToggle<ENTER> 
 " let g:nerdtree_tabs_open_on_console_startup=1
 let NERDTreeIgnore=['\.pyc$', '\~$'] " Ignore files in nerdtree
+
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set autoindent
 
 set splitbelow
 set splitright

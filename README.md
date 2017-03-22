@@ -1,7 +1,6 @@
 ## dotfiles
 
 `.dotfiles` for my Manjaro configuration. I put no work into this.
-![Screenshot](https://i.imgur.com/zGXHowa.png)
 
 ## Applications
 | Application | Description |
@@ -11,3 +10,6 @@
 | [compton](https://wiki.archlinux.org/index.php/Compton) | Composite manager |
 | [feh](https://feh.finalrewind.org/) | Sets Wallpaper |
 
+## Screenshot
+Last updated: `22.3.17`
+![Screenshot](https://i.imgur.com/bjzHz9U.png)
