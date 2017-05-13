@@ -72,7 +72,7 @@ set autoindent
 autocmd FileType html setlocal shiftwidth=2 tabstop=2
 
 " C tab style according to Linux kernel
-autocmd FileType c setlocal cindent tabstop=8 noexpandtab
+autocmd FileType c setlocal cindent tabstop=8 noexpandtab shiftwidth=8
 
 set splitbelow
 set splitright
