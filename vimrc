@@ -55,16 +55,24 @@ set nu
 set clipboard=unnamed
 colors zenburn
 set t_Co=256
+filetype on
 
 " NERDTree config
 map n :NERDTreeMirrorToggle<ENTER> 
 " let g:nerdtree_tabs_open_on_console_startup=1
 let NERDTreeIgnore=['\.pyc$', '\~$'] " Ignore files in nerdtree
 
+" Defaults 4 spaces per tab
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set autoindent
+
+" 2 spaces per tab for html files
+autocmd FileType html setlocal shiftwidth=2 tabstop=2
+
+" C tab style according to Linux kernel
+autocmd FileType c setlocal cindent tabstop=8 noexpandtab
 
 set splitbelow
 set splitright
