@@ -67,10 +67,10 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+b split h
+bindsym $mod+b split h;exec notify-send 'tile horizontally'
 
 # split in vertical orientation
-bindsym $mod+v split v
+bindsym $mod+v split v;exec notify-send 'tile vertically'
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -165,14 +165,19 @@ bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer -q sset Master 2%+"
 # !! Autostart programs !!
 
 # Set the Wallpaper
-exec_always --no-startup-id feh --bg-scale $HOME/Documents/dotfiles/w4llpap3r.png
+exec_always --no-startup-id feh --bg-scale $HOME/dotfiles/w4llpaper.jpg
 
 # The bottom bar
-exec_always --no-startup-id $HOME/Documents/dotfiles/polybar/launch.sh
+exec_always --no-startup-id $HOME/dotfiles/polybar/launch.sh
 
 # Window composition
-exec_always --no-startup-id compton --config $HOME/Documents/dotfiles/compton/compton.conf -b
+exec_always --no-startup-id compton --config $HOME/dotfiles/compton/compton.conf -b
 
+# Lock screen
+exec_always --no-startup-id compton xautolock -time 20 -locker blurlock
+
+# Network Manager
+exec_always --no-startup-id nm-applet
 
 # ########################
 # !! Custom Keybindings !!
@@ -182,5 +187,8 @@ exec_always --no-startup-id compton --config $HOME/Documents/dotfiles/compton/co
 
 # File Browser (PCManFM)
 bindsym $mod+Shift+f exec thunar
+
+# Lock screen
+#bindsym $mod+0 exec --no-startup-id blurlock
 
 

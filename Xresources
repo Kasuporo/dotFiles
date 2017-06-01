@@ -15,8 +15,10 @@ Xft.autohint: false
 Xft.hintstyle: hintslight
 Xft.lcdfilter: lcddefault
 
-XTerm*background: #1c1c1c
-! XTerm*background: #2b303b
+XTerm.vt100.saveLines: 4096
+XTerm*background: #111
+!XTerm*background: #1c1c1c
+!XTerm*background: #2b303b
 XTerm*foreground: #e7e7e7
 XTerm*pointerColor: #16A085
 XTerm*faceName: Hack

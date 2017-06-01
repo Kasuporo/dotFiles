@@ -1,84 +1,135 @@
-" All system-wide defaults are set in $VIMRUNTIME/archlinux.vim (usually just
-" /usr/share/vim/vimfiles/archlinux.vim) and sourced by the call to :runtime
-" you can find below.  If you wish to change any of those settings, you should
-" do it in this file (/etc/vimrc), since archlinux.vim will be overwritten
-" everytime an upgrade of the vim packages is performed.  It is recommended to
-" make changes after sourcing archlinux.vim since it alters the value of the
-" 'compatible' option.
-
-" This line should not be removed as it ensures that various options are
-" properly set to work with the Vim-related packages.
 runtime! archlinux.vim
 
-" If you prefer the old-style vim functionalty, add 'runtime! vimrc_example.vim'
-" Or better yet, read /usr/share/vim/vim80/vimrc_example.vim or the vim manual
-" and configure vim to your own liking!
+set nocompatible    " required
+filetype off        " required
 
-" do not load defaults if ~/.vimrc is missing
-" let skip_defaults_vim=1
-
-set nocompatible              " required
-filetype off                  " required
-
-" set the runtime path to include Vundle and initialize
+" set the runtime path to include Vundle and initalize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 " alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+"call vundle#begin('~/some/path')
 
-" let Vundle manage Vundle, required
+" let Vundle manage vundle, required
 Plugin 'gmarik/Vundle.vim'
 
-" Add all your plugins here (note older versions of Vundle used Bundle instead of Plugin)
-Plugin 'tmhedberg/SimplyFold'
-Plugin 'scrooloose/syntastic'
-Plugin 'nvie/vim-flake8'
-Plugin 'jnurmine/Zenburn'
+" Add all your plugins here
+
+" tools
 Plugin 'scrooloose/nerdtree'
-Plugin 'jistr/vim-nerdtree-tabs'
+Plugin 'jlanzarotta/bufexplorer'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'tpope/vim-fugitive'
+Plugin 'mbbill/undotree'
+Plugin 'tmhedberg/SimplyFold'
+" editing
+Plugin 'terryma/vim-multiple-cursors'
+Plugin 'tpope/vim-commentary'
+Plugin 'chaoren/vim-wordmotion'
+Plugin 'tpope/vim-surround'
+Plugin 'thirtythreeforty/lessspace.vim'
+" display
+Plugin 'joshdick/onedark.vim'
+Plugin 'vim-airline/vim-airline'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'scrooloose/syntastic'
 
 " All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+call vundle#end()
+filetype plugin indent on
 
-" Zenburn color config
-let g:zenburn_high_Contrast=1
-let g:zenburn_force_dark_background=1
-" let g:zenburn_transparent=1
+syntax on
+set updatetime=250 " faster gitgutter
+set tabstop=4 softtabstop=4 shiftwidth=4 autoindent " 4 space tabs
+autocmd FileType html setlocal shiftwidth=2 tabstop=2 " HTML
+autocmd FileType c setlocal cindent tabstop=8 noexpandtab shiftwidth=8 " C
+set nu " lines
+set mouse=a " enable mouse support in terminal
+set history=1000 " loadsa history
+set hidden " switch buffers without saving
+set fillchars+=vert:\│ " make split char a solid line
+set backupcopy=yes " copy the file and overwrite the original
+set encoding=utf-8
 
 set noswapfile
-syntax on
-set encoding=utf8
-let python_highlight_all=1
-set nu
-set clipboard=unnamed
-colors zenburn
-set t_Co=256
-filetype on
+" save swap, backup, etc to ~/.vim instead
+for folder in ['backup', 'swap', 'undo']
+    if !isdirectory($HOME.'/.vim/'.folder)
+        call mkdir($HOME.'/.vim/'.folder, 'p')
+    endif
+endfor
+set backupdir=$HOME/.vim/backup//
+set directory=$HOME/.vim/swap//
+set undodir=$HOME/.vim/undo//
 
-" NERDTree config
-map n :NERDTreeMirrorToggle<ENTER> 
-" let g:nerdtree_tabs_open_on_console_startup=1
-let NERDTreeIgnore=['\.pyc$', '\~$'] " Ignore files in nerdtree
+" move 'correctly' on wrapped lines
+nnoremap j gj
+nnoremap k gk
 
-" Defaults 4 spaces per tab
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
-set autoindent
+" fix common typos
+if !exists(':W')
+    command W w
+    command Q q
+endif
 
-" 2 spaces per tab for html files
-autocmd FileType html setlocal shiftwidth=2 tabstop=2
+" map vim-wordmotion prefix to comma, remap comma
+nnoremap ,, ,
+let g:wordmotion_prefix = ','
 
-" C tab style according to Linux kernel
-autocmd FileType c setlocal cindent tabstop=8 noexpandtab shiftwidth=8
+" save files as sudo
+cnoremap w!! w !sudo tee > /dev/null %
 
-set splitbelow
-set splitright
+" edit .vimrc
+nnoremap <Leader>rc :e $HOME/.vimrc<CR>
+
+" load current file in firefox
+nnoremap <Leader>ff :!firefox %<CR>
+
+" lol
+nnoremap <F5> :e %<CR>
+
+" reactify XML (eg react-native-svg)
+nnoremap <Leader>rf :%s/\(<\/\?\)\(.\)/\1\U\2/g<CR>
+
+" hex helpers
+nnoremap <Leader>hd :%! xxd<CR>
+nnoremap <Leader>hf :%! xxd -r<CR>
+
+" show weather report
+nnoremap <silent> <Leader>we :! curl -s wttr.in/Manchester \| sed -r "s/\x1B\[[0-9;]*[JKmsu]//g"<CR>
+
+" bufexplorer
+nnoremap <silent> <Leader>b :BufExplorer<CR>
+let g:bufExplorerDisableDefaultKeyMapping=1
+
+" undotree
+set undofile
+nnoremap <Leader>u :UndotreeToggle <BAR> :UndotreeFocus<CR>
+
+" YouCompleteMe
+set completeopt-=preview
+let g:ycm_add_preview_to_completeopt = 0
+nnoremap <Leader>g :YcmCompleter GoTo<CR>
+
+" start NERDTree if no file is specified
+nnoremap <Leader>nt :NERDTreeToggle<CR>
+au StdinReadPre * let s:std_in=1
+au VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | wincmd w | endif
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
+let NERDTreeStatusline = '(~˘▾˘)~'
+
+" set clipboard to system
+set clipboard=unnamedplus
+
+" colourscheme
+color onedark
+let g:airline_theme='onedark'
+let g:airline_powerline_fonts=1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
 
 " Enable folding with the spacebar
 set foldmethod=indent
 set foldlevel=99
 nnoremap <space> za
-
