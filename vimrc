@@ -128,6 +128,9 @@ let g:airline_theme='onedark'
 let g:airline_powerline_fonts=1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
+" Use terminal background
+hi Normal ctermbg=none
+highlight NonText ctermbg=none
 
 " Enable folding with the spacebar
 set foldmethod=indent

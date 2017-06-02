@@ -5,8 +5,8 @@ set $back	#afafaf
 
 # Gaps
 for_window [class="^.*"] border pixel 0
-gaps inner 5
-gaps outer 5
+gaps inner 7
+gaps outer 2
 
 # My floating friends
 for_window [window_role="pop-up"] floating enable
@@ -151,7 +151,7 @@ bindsym $mod+r mode "resize"
 
 # Colors
 client.focused		    $pimp	$pimp	$pimp	$pimp	$pimp
-client.focused_inactive     $back	$back	$back	$back	$back
+client.focused_inactive $back	$back	$back	$back	$back
 client.unfocused	    $back	$back	$back	$back	$back
 client.urgent		    $wesh	$wesh	$wesh	$wesh	$wesh
 client.placeholder	    $back	$back	$back	$back	$back
@@ -174,7 +174,7 @@ exec_always --no-startup-id $HOME/dotfiles/polybar/launch.sh
 exec_always --no-startup-id compton --config $HOME/dotfiles/compton/compton.conf -b
 
 # Lock screen
-exec_always --no-startup-id compton xautolock -time 20 -locker blurlock
+exec_always --no-startup-id compton xautolock -time 10 -locker blurlock
 
 # Network Manager
 exec_always --no-startup-id nm-applet
@@ -189,6 +189,6 @@ exec_always --no-startup-id nm-applet
 bindsym $mod+Shift+f exec thunar
 
 # Lock screen
-#bindsym $mod+0 exec --no-startup-id blurlock
+bindsym $mod+x exec --no-startup-id blurlock
 
 
