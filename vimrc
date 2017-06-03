@@ -120,7 +120,7 @@ let NERDTreeDirArrows = 1
 let NERDTreeStatusline = '(~˘▾˘)~'
 
 " set clipboard to system
-set clipboard=unnamedplus
+set clipboard=unnamed
 
 " colourscheme
 color onedark
