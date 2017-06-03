@@ -11,5 +11,5 @@
 | [feh](https://feh.finalrewind.org/) | Sets Wallpaper |
 
 ## Screenshot
-Last updated: `22.3.17`
-![Screenshot](https://i.imgur.com/bjzHz9U.png)
+Last updated: `03.06.17` (%d-%m-%Y)
+![Screenshot](https://i.imgur.com/8C6tSkW.png)
