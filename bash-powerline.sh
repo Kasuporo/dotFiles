@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 
+# Source it in .bashrc as:
+# source ~/dotfiles/bash-powerline.sh
+
 __powerline() {
 
     # Unicode symbols
-    readonly PS_SYMBOL_DARWIN=''
     readonly PS_SYMBOL_LINUX='$'
     readonly PS_SYMBOL_OTHER='%'
-    readonly GIT_BRANCH_SYMBOL='⑂ '
     readonly GIT_BRANCH_CHANGED_SYMBOL='+'
     readonly GIT_NEED_PUSH_SYMBOL='⇡'
     readonly GIT_NEED_PULL_SYMBOL='⇣'
@@ -36,18 +37,18 @@ __powerline() {
         readonly FG_RED="\[$(tput setaf 160)\]"
         readonly FG_MAGENTA="\[$(tput setaf 125)\]"
         readonly FG_VIOLET="\[$(tput setaf 61)\]"
-        readonly FG_BLUE="\[$(tput setaf 33)\]"
+        readonly FG_BLUE="\[$(tput setaf 27)\]"
         readonly FG_CYAN="\[$(tput setaf 37)\]"
-        readonly FG_GREEN="\[$(tput setaf 64)\]"
+        readonly FG_GREEN="\[$(tput setaf 58)\]"
 
         readonly BG_YELLOW="\[$(tput setab 136)\]"
         readonly BG_ORANGE="\[$(tput setab 166)\]"
         readonly BG_RED="\[$(tput setab 160)\]"
         readonly BG_MAGENTA="\[$(tput setab 125)\]"
         readonly BG_VIOLET="\[$(tput setab 61)\]"
-        readonly BG_BLUE="\[$(tput setab 33)\]"
+        readonly BG_BLUE="\[$(tput setab 27)\]"
         readonly BG_CYAN="\[$(tput setab 37)\]"
-        readonly BG_GREEN="\[$(tput setab 64)\]"
+        readonly BG_GREEN="\[$(tput setab 58)\]"
      else
         readonly FG_BASE03="\[$(tput setaf 8)\]"
         readonly FG_BASE02="\[$(tput setaf 0)\]"
@@ -56,11 +57,11 @@ __powerline() {
         readonly FG_BASE0="\[$(tput setaf 12)\]"
         readonly FG_BASE1="\[$(tput setaf 14)\]"
         readonly FG_BASE2="\[$(tput setaf 7)\]"
-        readonly FG_BASE3="\[$(tput setaf 15)\]"
+        readonly FG_BASE3="\[$(tput setaf 0)\]"
 
         readonly BG_BASE03="\[$(tput setab 8)\]"
         readonly BG_BASE02="\[$(tput setab 0)\]"
-        readonly BG_BASE01="\[$(tput setab 10)\]"
+        readonly BG_BASE01="\[$(tput setab 4)\]"
         readonly BG_BASE00="\[$(tput setab 11)\]"
         readonly BG_BASE0="\[$(tput setab 12)\]"
         readonly BG_BASE1="\[$(tput setab 14)\]"
@@ -93,10 +94,7 @@ __powerline() {
 
     if [[ -z "$PS_SYMBOL" ]]; then
       case "$(uname)" in
-          Darwin)
-              PS_SYMBOL=$PS_SYMBOL_DARWIN
-              ;;
-          Linux)
+		  Linux)
               PS_SYMBOL=$PS_SYMBOL_LINUX
               ;;
           *)
@@ -104,7 +102,7 @@ __powerline() {
       esac
     fi
 
-    __git_info() { 
+    __git_info() {
         [ -x "$(which git)" ] || return    # git not found
 
         local git_eng="env LANG=C git"   # force git output in English to make our work easier
@@ -137,7 +135,7 @@ __powerline() {
             local BG_EXIT="$BG_RED"
         fi
 
-        PS1="$BG_BASE1$FG_BASE3 \w $RESET"
+        PS1="$BG_BASE1$FG_BASE00 \w $RESET"
         # Bash by default expands the content of PS1 unless promptvars is disabled.
         # We must use another layer of reference to prevent expanding any user
         # provided strings, which would cause security issues.
