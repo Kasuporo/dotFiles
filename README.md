@@ -10,6 +10,7 @@
 | [compton](https://wiki.archlinux.org/index.php/Compton) | Composite manager |
 | [feh](https://feh.finalrewind.org/) | Sets Wallpaper |
 
-## Screenshot
-Last updated: `03.06.17` (%d-%m-%Y)
-![Screenshot](https://i.imgur.com/8C6tSkW.png)
+## Screenshots
+Last updated: `04.06.17` (%d-%m-%Y)
+![Screenshot](https://i.imgur.com/rXhnvzY.jpg)
+![Screenshot](https://i.imgur.com/MRmOGQm.png)
