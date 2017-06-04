@@ -53,7 +53,7 @@ __powerline() {
         readonly FG_BASE03="\[$(tput setaf 8)\]"
         readonly FG_BASE02="\[$(tput setaf 0)\]"
         readonly FG_BASE01="\[$(tput setaf 10)\]"
-        readonly FG_BASE00="\[$(tput setaf 11)\]"
+        readonly FG_BASE00="\[$(tput setaf 4)\]"
         readonly FG_BASE0="\[$(tput setaf 12)\]"
         readonly FG_BASE1="\[$(tput setaf 14)\]"
         readonly FG_BASE2="\[$(tput setaf 7)\]"
