@@ -13,4 +13,4 @@
 ## Screenshots
 Last updated: `04.06.17` (%d-%m-%Y)
 ![Screenshot](https://i.imgur.com/rXhnvzY.jpg)
-![Screenshot](https://i.imgur.com/MRmOGQm.png)
+![Screenshot](https://i.imgur.com/lViw61k.png)
