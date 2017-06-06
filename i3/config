@@ -35,11 +35,8 @@ bindsym $mod+Return exec xterm
 # kill focused window
 bindsym $mod+Shift+q kill
 
-# start dmenu (a program launcher)
-bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 380 
-# There also is the (new) i3-dmenu-desktop which only displays applications
-# shipping a .desktop file. It is a wrapper around dmenu, so you need that
-# installed.
+# start rofi
+bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 380
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # change focus with vim keys
@@ -149,17 +146,21 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# Colors
-client.focused		    $pimp	$pimp	$pimp	$pimp	$pimp
-client.focused_inactive $back	$back	$back	$back	$back
-client.unfocused	    $back	$back	$back	$back	$back
-client.urgent		    $wesh	$wesh	$wesh	$wesh	$wesh
-client.placeholder	    $back	$back	$back	$back	$back
+# Colors				BORDER  BACKGROUND  TEXT    INDICATOR   CHILD_BORDER
+client.focused		    $pimp	$pimp		$pimp	$pimp		$pimp
+client.focused_inactive $back	$back		$back	$back		$back
+client.unfocused	    $back	$back		$back	$back		$back
+client.urgent		    $wesh	$wesh		$wesh	$wesh		$wesh
+client.placeholder	    $back	$back		$back	$back		$back
 client.background	    $back
 
-# Sound fn keys
-bindsym XF86AudioLowerVolume exec --no-startup-id "amixer -q sset Master 2%-"
-bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer -q sset Master 2%+"
+# Sound
+bindsym $mod+F11 exec --no-startup-id "amixer set 'Speaker' 2%-"
+bindsym $mod+F12 exec --no-startup-id "amixer set 'Speaker' 2%+"
+
+# Brightness
+bindsym $mod+F5 exec --no-startup-id "xbacklight -dec 10"
+bindsym $mod+F6 exec --no-startup-id "xbacklight -inc 10"
 
 #########################
 # !! Autostart programs !!
@@ -183,9 +184,9 @@ exec_always --no-startup-id nm-applet
 # !! Custom Keybindings !!
 
 # Screenshots
-#bindsym $mod+Print exec "scrot -ue 'mv $f ~/Screenshots'"
+bindsym $mod+p exec "scrot -ue 'mv $f ~/Screenshots'";exec notify-send "Screeshot saved"
 
-# File Browser (PCManFM)
+# File Browser
 bindsym $mod+Shift+f exec thunar
 
 # Lock screen
