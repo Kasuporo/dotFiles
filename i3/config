@@ -154,9 +154,9 @@ client.urgent		    $wesh	$wesh		$wesh	$wesh		$wesh
 client.placeholder	    $back	$back		$back	$back		$back
 client.background	    $back
 
-# Sound
-bindsym $mod+F11 exec --no-startup-id "amixer set 'Speaker' 2%-"
-bindsym $mod+F12 exec --no-startup-id "amixer set 'Speaker' 2%+"
+# Sound fn keys - Make sure PulseAudio is installed
+bindsym XF86AudioLowerVolume exec --no-startup-id "amixer set Master 2%-"
+bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer set Master 2%+"
 
 # Brightness
 bindsym $mod+F5 exec --no-startup-id "xbacklight -dec 10"
