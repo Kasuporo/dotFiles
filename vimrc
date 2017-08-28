@@ -34,6 +34,7 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'scrooloose/syntastic'
 Plugin 'lervag/vimtex'
+Plugin 'Yggdroot/indentline'
 
 " All of your Plugins must be added before the following line
 call vundle#end()
@@ -137,3 +138,7 @@ highlight NonText ctermbg=none
 set foldmethod=indent
 set foldlevel=99
 nnoremap <space> za
+
+" Indent Lines
+let g:indentLine_enabled = 1 " enabled by default
+let g:indentLine_char = "|"
