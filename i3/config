@@ -180,6 +180,9 @@ exec_always --no-startup-id compton xautolock -time 10 -locker blurlock
 # Network Manager
 exec_always --no-startup-id nm-applet
 
+# Turn off DPMS
+exec_always xset s off -dpms
+
 # ########################
 # !! Custom Keybindings !!
 
