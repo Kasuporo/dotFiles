@@ -18,7 +18,6 @@ Plugin 'gmarik/Vundle.vim'
 " tools
 Plugin 'scrooloose/nerdtree'
 Plugin 'jlanzarotta/bufexplorer'
-Plugin 'Valloric/YouCompleteMe'
 Plugin 'tpope/vim-fugitive'
 Plugin 'mbbill/undotree'
 Plugin 'tmhedberg/SimplyFold'
@@ -108,12 +107,8 @@ let g:bufExplorerDisableDefaultKeyMapping=1
 set undofile
 nnoremap <Leader>u :UndotreeToggle <BAR> :UndotreeFocus<CR>
 
-" YouCompleteMe
-set completeopt-=preview
-let g:ycm_add_preview_to_completeopt = 0
-nnoremap <Leader>g :YcmCompleter GoTo<CR>
-
 " start NERDTree if no file is specified
+" \nt
 nnoremap <Leader>nt :NERDTreeToggle<CR>
 au StdinReadPre * let s:std_in=1
 au VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | wincmd w | endif

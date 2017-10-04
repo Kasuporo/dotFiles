@@ -181,7 +181,10 @@ exec_always --no-startup-id compton xautolock -time 10 -locker blurlock
 exec_always --no-startup-id nm-applet
 
 # Turn off DPMS
-exec_always xset s off -dpms
+#exec_always xset s off -dpms
+
+# Dropbox
+#exec_always --no-startup-id dropbox
 
 # ########################
 # !! Custom Keybindings !!
