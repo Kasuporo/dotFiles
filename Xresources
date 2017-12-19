@@ -84,3 +84,4 @@ rofi.color-window: argb:ee000000, #1c1c1c, #1c1c1c, #080808
 rofi.color-normal: #1c1c1c, #d9d9d9, #1c1c1c, #446a88, #ffffff
 rofi.color-active: #1c1c1c, #80cbc4, #1c1c1c, #446a88, #80cbc4
 rofi.color-urgent: #1c1c1c, #fff118, #1c1c1c, #446a88, #fff118
+rofi.show_icons: true

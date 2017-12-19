@@ -14,6 +14,7 @@ for_window [window_role="pop-up"] floating enable
 
 # Specify specific workspaces for applications
 assign [class="Firefox"] 2
+assign [class="Nightly"] 2
 #assign [class="(?i)thunar"] 4
 #assign [class="(?i)terminal"] 1
 
