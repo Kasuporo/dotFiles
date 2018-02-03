@@ -20,7 +20,6 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'jlanzarotta/bufexplorer'
 Plugin 'tpope/vim-fugitive'
 Plugin 'mbbill/undotree'
-Plugin 'tmhedberg/SimplyFold'
 " editing
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'tpope/vim-commentary'
