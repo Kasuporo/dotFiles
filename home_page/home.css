@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+body { background-color : #222628; }
+h5   { font-family      : Source Code Pro, monospace; }
+p, a { font-family      : Roboto, monospace; }
+
+/* 
+*   Container Grids 
+*/
+
+.grid {
+    width : 700px;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.container {
+    display               : grid;
+    grid-template-columns : 1fr, 1fr, 1fr;
+    grid-template-rows    : 10px, 10px, auto;
+    grid-gap              : 10px;
+}
+
+/* 
+*   Cell Formatting 
+*/
+
+.cell {
+    background-color : #555860;
+}
+
+/* 
+*   Header Cell
+*/
+
+.cHeader {
+    grid-column-start : 1;
+    grid-column-end   : 4;
+    grid-row          : 1;
+    text-align        : center;
+    color             : white;
+}
+.cHeader p { font-family: Source Code Pro, monospace; color: #e9e8eb }
+
+/* 
+*   Item Cells 
+*/
+
+.pHeader { 
+    text-align     : center; 
+    color          : #50f148; 
+    border-bottom  : 1px dashed #50f148; 
+    padding-bottom : 5px;
+}
+
+.item a       { color: #e9e8eb; text-decoration: none; }
+.item a:hover { color: #50f148; }
+.item ul      { color: #e9e8eb;}
+
+.cSearch {
+    grid-column-start : 1;
+    grid-column-end   : 4;
+    grid-row          : 2;
+}
+#search-box { 
+    width      : 100%;
+    padding    : 8px 20px;
+    display    : inline-block;
+    box-sizing : border-box;
+}
+
+.cWork {
+    grid-column   : 1;
+    grid-row      : 3;
+}
+
+.cResources {
+    grid-column   : 2;
+    grid-row      : 3;
+}
+
+.cMisc {
+    grid-column   : 3;
+    grid-row      : 3;
+}
