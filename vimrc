@@ -32,6 +32,8 @@ Plugin 'scrooloose/syntastic'
 Plugin 'lervag/vimtex'
 Plugin 'Yggdroot/indentline'
 
+" todo: organise
+
 " All of your Plugins must be added before the following line
 call vundle#end()
 filetype plugin indent on
@@ -76,7 +78,7 @@ let g:wordmotion_prefix = ','
 cnoremap w!! w !sudo tee > /dev/null %
 
 " edit .vimrc
-nnoremap <Leader>rc :e $HOME/.vimrc<CR>
+nnoremap <Leader>rc :tabe $HOME/.vimrc<CR>
 
 " load current file in firefox
 nnoremap <Leader>ff :!firefox %<CR>
@@ -86,6 +88,13 @@ noremap <Leader>py :!python %<CR>
 
 " show weather report
 nnoremap <silent> <Leader>we :! curl -s wttr.in/Sydney \| sed -r "s/\x1B\[[0-9;]*[JKmsu]//g"<CR>
+
+" open terminal
+noremap <Leader>t :terminal<CR>
+noremap <Leader>vt :vertical terminal<CR>
+
+" close terminal
+tnoremap <esc> <C-\><C-n>:q!<CR>
 
 " bufexplorer
 nnoremap <silent> <Leader>b :BufExplorer<CR>
@@ -115,7 +124,7 @@ hi Normal ctermbg=none
 highlight NonText ctermbg=none
 
 " Enable folding with the spacebar
-set foldmethod=indent
+set fdm=indent
 set foldlevel=99
 nnoremap <space> za
 
