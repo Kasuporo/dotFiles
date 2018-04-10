@@ -1,5 +1,3 @@
-runtime! archlinux.vim
-
 set nocompatible    " required
 filetype off        " required
 
@@ -40,11 +38,9 @@ filetype plugin indent on
 
 syntax on
 set updatetime=250 " faster gitgutter
-set tabstop=4 softtabstop=4 shiftwidth=4 autoindent " 4 space tabs
-autocmd FileType html setlocal shiftwidth=2 tabstop=2 " HTML
-autocmd FileType c setlocal cindent tabstop=8 noexpandtab shiftwidth=8 " C
+set tabstop=4 shiftwidth=4 autoindent " 4 space tabs
+set expandtab
 set nu " lines
-set mouse=a " enable mouse support in terminal
 set history=1000 " loadsa history
 set hidden " switch buffers without saving
 set fillchars+=vert:\│ " make split char a solid line
@@ -85,15 +81,8 @@ nnoremap <Leader>rc :e $HOME/.vimrc<CR>
 " load current file in firefox
 nnoremap <Leader>ff :!firefox %<CR>
 
-" lol
-nnoremap <F5> :e %<CR>
-
-" reactify XML (eg react-native-svg)
-nnoremap <Leader>rf :%s/\(<\/\?\)\(.\)/\1\U\2/g<CR>
-
-" hex helpers
-nnoremap <Leader>hd :%! xxd<CR>
-nnoremap <Leader>hf :%! xxd -r<CR>
+" run py script
+noremap <Leader>py :!python %<CR>
 
 " show weather report
 nnoremap <silent> <Leader>we :! curl -s wttr.in/Sydney \| sed -r "s/\x1B\[[0-9;]*[JKmsu]//g"<CR>
@@ -115,13 +104,10 @@ let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeStatusline = '(~˘▾˘)~'
 
-" set clipboard to system
-set clipboard=unnamed
-
 " colourscheme
 color onedark
 let g:airline_theme='onedark'
-let g:airline_powerline_fonts=1
+let g:airline_powerline_fonts=0
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 " Use terminal background
@@ -136,3 +122,5 @@ nnoremap <space> za
 " Indent Lines
 let g:indentLine_enabled = 1 " enabled by default
 let g:indentLine_char = "|"
+set conceallevel=1
+let g:indentLine_conceallevel=1
