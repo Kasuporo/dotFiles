@@ -21,7 +21,6 @@ Plugin 'mbbill/undotree'
 " editing
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'tpope/vim-commentary'
-Plugin 'chaoren/vim-wordmotion'
 Plugin 'tpope/vim-surround'
 Plugin 'thirtythreeforty/lessspace.vim'
 " display
@@ -39,10 +38,9 @@ filetype plugin indent on
 " remove all existing autocmds
 autocmd!
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " BASIC EDITING
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 syntax on
 " faster gitgutter
 set updatetime=250
@@ -74,8 +72,6 @@ set undodir=$HOME/.vim/undo//
 set backspace=indent,eol,start
 " display incomplete commands
 set showcmd
-" enable file type detection
-filetype plugin indent on
 " make tab completion for files/buffers act like bash
 set wildmode=longest,list
 " folding
@@ -111,9 +107,9 @@ augroup vimrcEx
   autocmd! FileType javascript set sw=2 sts=2 expandtab autoindent smartindent nocindent
 augroup END
 
-"""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLOUR
-"""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " colourscheme
 color onedark
 let g:airline_theme='onedark'
@@ -124,12 +120,18 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 hi Normal ctermbg=none
 highlight NonText ctermbg=none
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MISC KEY MAPS
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " tab traverse
 nnoremap <C-h> gT
 nnoremap <C-l> gt
+" window traverse
+" I would make it alt instead of tab but that conflicts with i3
+nnoremap <Tab>h <C-w>h
+nnoremap <Tab>j <C-w>j
+nnoremap <Tab>k <C-w>k
+nnoremap <Tab>l <C-w>l
 " move 'correctly' on wrapped lines
 nnoremap j gj
 nnoremap k gk
@@ -138,9 +140,6 @@ if !exists(':W')
     command W w
     command Q q
 endif
-" map vim-wordmotion prefix to comma, remap comma
-nnoremap ,, ,
-let g:wordmotion_prefix = ','
 " save files as sudo
 cnoremap w!! w !sudo tee > /dev/null %
 " edit .vimrc
@@ -156,6 +155,8 @@ nnoremap <Leader>ht :terminal<CR>
 nnoremap <Leader>vt :vertical terminal<CR>
 " close terminal
 tnoremap <esc> <C-\><C-n>:q!<CR>
+" make sure no other keys break when terminal closed with esc
+set notimeout ttimeout timeoutlen=100
 " bufexplorer
 nnoremap <silent> <Leader>b :BufExplorer<CR>
 let g:bufExplorerDisableDefaultKeyMapping=1
@@ -165,10 +166,10 @@ nnoremap <Leader>u :UndotreeToggle <BAR> :UndotreeFocus<CR>
 " Enable folding with the spacebar
 nnoremap <space> za
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MULTIPURPOSE TAB KEY
 " Indent if we're at the beginning of a line. Else, do completion.
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! InsertTabWrapper()
     let col = col('.') - 1
     if !col || getline('.')[col - 1] !~ '\k'
@@ -180,9 +181,9 @@ endfunction
 inoremap <expr> <tab> InsertTabWrapper()
 inoremap <s-tab> <c-n>
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RENAME CURRENT FILE
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! RenameFile()
     let old_name = expand('%')
     let new_name = input('New file name: ', expand('%'), 'file')
@@ -199,9 +200,9 @@ nnoremap <leader>n :call RenameFile()<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 cnoremap <expr> %% expand('%:h').'/'
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " PLUGINS
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " start NERDTree if no file is specified
 nnoremap <Leader>nt :NERDTreeToggle<CR>
 au StdinReadPre * let s:std_in=1
