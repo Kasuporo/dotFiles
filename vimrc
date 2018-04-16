@@ -18,11 +18,16 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'jlanzarotta/bufexplorer'
 Plugin 'tpope/vim-fugitive'
 Plugin 'mbbill/undotree'
+Plugin 'kien/ctrlp.vim'
+Plugin 'majutsushi/tagbar'
+Plugin 'mhinz/vim-startify'
+
 " editing
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-surround'
 Plugin 'thirtythreeforty/lessspace.vim'
+
 " display
 Plugin 'joshdick/onedark.vim'
 Plugin 'vim-airline/vim-airline'
@@ -124,14 +129,18 @@ highlight NonText ctermbg=none
 " MISC KEY MAPS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " tab traverse
-nnoremap <C-h> gT
-nnoremap <C-l> gt
+nnoremap == gt
+nnoremap -- gT
+
+" Easy nerd tree
+nnoremap <leader><leader> :NERDTreeToggle<CR>:TagbarToggle<CR>
+
 " window traverse
-" I would make it alt instead of tab but that conflicts with i3
-nnoremap <Tab>h <C-w>h
-nnoremap <Tab>j <C-w>j
-nnoremap <Tab>k <C-w>k
-nnoremap <Tab>l <C-w>l
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
 " move 'correctly' on wrapped lines
 nnoremap j gj
 nnoremap k gk
@@ -140,17 +149,23 @@ if !exists(':W')
     command W w
     command Q q
 endif
+
 " save files as sudo
 cnoremap w!! w !sudo tee > /dev/null %
+
 " edit .vimrc
 nnoremap <Leader>rc :tabe $HOME/.vimrc<CR>
+
 " load current file in firefox
 nnoremap <Leader>ff :!firefox %<CR>
+
 " run py script
 noremap <Leader>py :!python %<CR>
+
 " show weather report
 nnoremap <silent> <Leader>we :! curl -s wttr.in/Sydney \| sed -r "s/\x1B\[[0-9;]*[JKmsu]//g"<CR>
 " open terminal
+"
 nnoremap <Leader>ht :terminal<CR>
 nnoremap <Leader>vt :vertical terminal<CR>
 " close terminal
@@ -182,6 +197,39 @@ inoremap <expr> <tab> InsertTabWrapper()
 inoremap <s-tab> <c-n>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" STARTIFY CONFIG
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:ctrlp_reuse_window  = 'startify' " Alow ctrlp to use startify window
+let g:startify_session_dir='~/.vim/session'
+
+let g:startify_list_order=[
+    \ ['   My sessions:'],
+    \ 'sessions',
+    \ ['   My most recently used files in the current directory:'],
+    \ 'dir',
+    \ ['   My most recently used files'],
+    \ 'files',
+    \ ['   My bookmarks:'],
+    \ 'bookmarks',
+    \ ['   My commands:'],
+    \ 'commands',
+\ ]
+"
+" Close Cleanup
+let g:startify_session_before_save = [
+    \ 'echo "Cleaning up before saving.."',
+    \ 'silent! NERDTreeClose',
+    \ 'silent! TagbarClose',
+\ ]
+
+let g:startify_bookmarks = [
+      \ { 'v': '~/dotfiles/vimrc' },
+      \ { 'z': '~/dotfiles/zshrc' },
+      \ { 'p': '~/dotfiles/pythonrc.py' },
+\ ]
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RENAME CURRENT FILE
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! RenameFile()
@@ -203,6 +251,7 @@ cnoremap <expr> %% expand('%:h').'/'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " PLUGINS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 " start NERDTree if no file is specified
 nnoremap <Leader>nt :NERDTreeToggle<CR>
 au StdinReadPre * let s:std_in=1
@@ -215,3 +264,13 @@ let g:indentLine_enabled = 1 " enabled by default
 let g:indentLine_char = "|"
 set conceallevel=1
 let g:indentLine_conceallevel=1
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" COMMANDS
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+command! -nargs=+ Gitlazy :!pwd;git add .;git commit -am '<args>';git push
+
+command! Pyrun execute "!python %"
+command! PyrunI execute "!python -i %"
+
+command! Write :!sudo tee %
