@@ -46,6 +46,8 @@ autocmd!
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " BASIC EDITING
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let mapleader=","
+
 syntax on
 " faster gitgutter
 set updatetime=250
@@ -129,7 +131,7 @@ highlight NonText ctermbg=none
 nnoremap == gt
 nnoremap -- gT
 
-" Easy nerd tree
+" easy nerd tree
 nnoremap <leader><leader> :NERDTreeToggle<CR>:TagbarToggle<CR>
 
 " window traverse
@@ -138,9 +140,19 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
+" buffer traverse
+nnoremap <leader>l :bnext<CR>
+nnoremap <leader>h :bprevious<CR>
+" close current buffer and move to previous one
+nnoremap <leader>bq :bp <BAR> bd #<CR>
+" bufexplorer
+nnoremap <silent> <Leader>bl :BufExplorerVerticalSplit<CR>
+let g:bufExplorerDisableDefaultKeyMapping=1
+
 " move 'correctly' on wrapped lines
 nnoremap j gj
 nnoremap k gk
+
 " fix common typos
 if !exists(':W')
     command W w
@@ -150,6 +162,7 @@ endif
 " save files as sudo
 cnoremap w!! w !sudo tee > /dev/null %
 
+" quick quit all
 cnoremap qq qall
 
 " edit .vimrc
@@ -163,20 +176,19 @@ noremap <Leader>py :!python %<CR>
 
 " show weather report
 nnoremap <silent> <Leader>we :! curl -s wttr.in/Sydney \| sed -r "s/\x1B\[[0-9;]*[JKmsu]//g"<CR>
+
 " open terminal
-"
 nnoremap <Leader>ht :terminal<CR>
 nnoremap <Leader>vt :vertical terminal<CR>
 " close terminal
 tnoremap <esc> <C-\><C-n>:q!<CR>
 " make sure no other keys break when terminal closed with esc
 set notimeout ttimeout timeoutlen=100
-" bufexplorer
-nnoremap <silent> <Leader>b :BufExplorer<CR>
-let g:bufExplorerDisableDefaultKeyMapping=1
+
 " undotree
 set undofile
 nnoremap <Leader>u :UndotreeToggle <BAR> :UndotreeFocus<CR>
+
 " Enable folding with the spacebar
 nnoremap <space> za
 
@@ -260,7 +272,6 @@ command! Write :!sudo tee %
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " PLUGINS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " start NERDTree if no file is specified
 nnoremap <Leader>nt :NERDTreeToggle<CR>
 au StdinReadPre * let s:std_in=1
