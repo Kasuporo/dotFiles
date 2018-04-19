@@ -101,15 +101,12 @@ augroup vimrcEx
     \ endif
 
   " python
-  autocmd FileType python set sw=4 sts=4 et
+  autocmd FileType python set sw=4 ts=4 et
 
   " Leave the return key alone when in command line windows, since it's used
   " to run commands there.
   autocmd! CmdwinEnter * :unmap <cr>
   autocmd! CmdwinLeave * :call MapCR()
-
-  " javascript
-  autocmd! FileType javascript set sw=2 sts=2 expandtab autoindent smartindent nocindent
 augroup END
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -152,6 +149,8 @@ endif
 
 " save files as sudo
 cnoremap w!! w !sudo tee > /dev/null %
+
+cnoremap qq qall
 
 " edit .vimrc
 nnoremap <Leader>rc :tabe $HOME/.vimrc<CR>
@@ -249,6 +248,16 @@ nnoremap <leader>n :call RenameFile()<cr>
 cnoremap <expr> %% expand('%:h').'/'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" COMMANDS
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+command! -nargs=+ Gitlazy :!pwd;git add .;git commit -am '<args>';git push
+
+command! Pyrun execute "!python %"
+command! PyrunI execute "!python -i %"
+
+command! Write :!sudo tee %
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " PLUGINS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -264,13 +273,3 @@ let g:indentLine_enabled = 1 " enabled by default
 let g:indentLine_char = "|"
 set conceallevel=1
 let g:indentLine_conceallevel=1
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" COMMANDS
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-command! -nargs=+ Gitlazy :!pwd;git add .;git commit -am '<args>';git push
-
-command! Pyrun execute "!python %"
-command! PyrunI execute "!python -i %"
-
-command! Write :!sudo tee %
