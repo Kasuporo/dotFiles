@@ -84,8 +84,8 @@ set wildmode=longest,list
 " folding
 set fdm=indent
 set foldlevel=99
-" keep 5 lines below and above the cursor
-set scrolloff=5
+" keep 3 lines below and above the cursor
+set scrolloff=3
 " if a file is changed outside vim reload it without asking
 set autoread
 
@@ -141,8 +141,8 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
 " buffer traverse
-nnoremap <leader>l :bnext<CR>
-nnoremap <leader>h :bprevious<CR>
+nnoremap <Tab>j :bnext<CR>
+nnoremap <Tab>k :bprevious<CR>
 " close current buffer and move to previous one
 nnoremap <leader>bq :bp <BAR> bd #<CR>
 " bufexplorer
