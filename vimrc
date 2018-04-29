@@ -166,7 +166,7 @@ cnoremap w!! w !sudo tee > /dev/null %
 cnoremap qq qall
 
 " edit .vimrc
-nnoremap <Leader>rc :tabe $HOME/.vimrc<CR>
+nnoremap <Leader>rc :enew $HOME/.vimrc<CR>
 
 " load current file in firefox
 nnoremap <Leader>ff :!firefox %<CR>
@@ -235,10 +235,8 @@ let g:startify_session_before_save = [
 
 let g:startify_bookmarks = [
       \ { 'v': '~/dotfiles/vimrc' },
-      \ { 'z': '~/dotfiles/zshrc' },
-      \ { 'p': '~/dotfiles/pythonrc.py' },
+      \ { 'z': '~/dotfiles/bashrc' },
 \ ]
-
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RENAME CURRENT FILE
