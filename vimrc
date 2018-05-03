@@ -27,6 +27,8 @@ Plugin 'terryma/vim-multiple-cursors'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-surround'
 Plugin 'thirtythreeforty/lessspace.vim'
+Plugin 'tomtom/tcomment_vim'
+Plugin 'easymotion/vim-easymotion'
 
 " display
 Plugin 'joshdick/onedark.vim'
@@ -166,7 +168,7 @@ cnoremap w!! w !sudo tee > /dev/null %
 cnoremap qq qall
 
 " edit .vimrc
-nnoremap <Leader>rc :tabe $HOME/.vimrc<CR>
+nnoremap <Leader>rc :e $HOME/.vimrc<CR>
 
 " load current file in firefox
 nnoremap <Leader>ff :!firefox %<CR>
