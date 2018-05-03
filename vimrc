@@ -166,7 +166,7 @@ cnoremap w!! w !sudo tee > /dev/null %
 cnoremap qq qall
 
 " edit .vimrc
-nnoremap <Leader>rc :enew $HOME/.vimrc<CR>
+nnoremap <Leader>rc :tabe $HOME/.vimrc<CR>
 
 " load current file in firefox
 nnoremap <Leader>ff :!firefox %<CR>
@@ -250,7 +250,7 @@ function! RenameFile()
         redraw!
     endif
 endfunction
-nnoremap <leader>n :call RenameFile()<cr>
+nnoremap <leader>rn :call RenameFile()<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " SHORTCUT TO REFERENCE CURRENT FILE'S PATH IN COMMAND LINE MODE
