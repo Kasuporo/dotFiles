@@ -188,7 +188,7 @@ mode "resize" {
 }
 
 # bind keys
-bindcode 99 exec --no-startup-id scrot '%Y-%m-%d-%T_$wx$h_scrot.png' -e 'mv $f $HOME/Pictures/screenshots/'
+bindsym $mod+p exec --no-startup-id scrot '%Y-%m-%d-%T_$wx$h_scrot.png' -e 'mv $f $HOME/Pictures/screenshots/'
 exec_always --no-startup-id xmodmap $HOME/dotfiles/map_cap_to_back
 
 # run bar
@@ -204,3 +204,4 @@ exec_always --no-startup-id compton --config $HOME/.config/compton/compton.conf 
 exec_always xset s off -dpms
 
 for_window [window_role="pop_up"] floating enable
+for_window [window_role="toolbox"] floating enable
