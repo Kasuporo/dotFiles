@@ -84,7 +84,7 @@ set showcmd
 " make tab completion for files/buffers act like bash
 set wildmode=longest,list
 " folding
-set fdm=indent
+set fdm=marker
 set foldlevel=99
 " keep 3 lines below and above the cursor
 set scrolloff=3
