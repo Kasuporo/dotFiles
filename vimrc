@@ -194,6 +194,10 @@ nnoremap <Leader>u :UndotreeToggle <BAR> :UndotreeFocus<CR>
 " Enable folding with the spacebar
 nnoremap <space> za
 
+" ctags
+nnoremap <leader>. :CtrlPTag<cr>
+nnoremap <silent> <Leader>t :TagbarToggle<CR>
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MULTIPURPOSE TAB KEY
 " Indent if we're at the beginning of a line. Else, do completion.
