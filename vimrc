@@ -241,7 +241,8 @@ let g:startify_session_before_save = [
 
 let g:startify_bookmarks = [
       \ { 'v': '~/dotfiles/vimrc' },
-      \ { 'z': '~/dotfiles/bashrc' },
+      \ { 'b': '~/dotfiles/bashrc' },
+      \ { 'z': '~/dotfiles/zshrc' },
 \ ]
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -276,10 +277,10 @@ command! Write :!sudo tee %
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " PLUGINS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" start NERDTree if no file is specified
 nnoremap <Leader>nt :NERDTreeToggle<CR>
 au StdinReadPre * let s:std_in=1
-au VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | wincmd w | endif
+" start NERDTree if no file is specified
+" au VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | wincmd w | endif
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeStatusline = '(~˘▾˘)~'
