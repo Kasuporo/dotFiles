@@ -133,8 +133,10 @@ highlight NonText ctermbg=none
 nnoremap == gt
 nnoremap -- gT
 
-" easy nerd tree
-nnoremap <leader><leader> :NERDTreeToggle<CR>:TagbarToggle<CR>
+nnoremap <leader>nt :NERDTreeToggle<CR>
+nnoremap <leader>tt :TagbarToggle<CR>
+" nerd tree + tagbar
+nnoremap <leader><Tab> :NERDTreeToggle<CR>:TagbarToggle<CR>
 
 " window traverse
 nnoremap <C-h> <C-w>h
@@ -277,7 +279,6 @@ command! Write :!sudo tee %
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " PLUGINS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <Leader>nt :NERDTreeToggle<CR>
 au StdinReadPre * let s:std_in=1
 " start NERDTree if no file is specified
 " au VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | wincmd w | endif
