@@ -7,8 +7,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="common"
-#https://github.com/jackharrisonsherlock/common
+ZSH_THEME="hyperzsh"
 
 # Set list of themes to load
 # Setting this variable when ZSH_THEME=random
@@ -146,7 +145,7 @@ function find_env()
         OUT_LARGE="
           #                  .::::::::::.                ##  ____        _   _
           #                .::''::::::::::.              ## |  _ \ _   _| |_| |__   ___  _ __
-          #                :::..:::::::::::              ## | |_) | | | | __| '_ \ / _ \| '_ \
+          #                :::..:::::::::::              ## | |_) | | | | __| '_ \ / _ \| '_ \\
           #                ''''''''::::::::              ## |  __/| |_| | |_| | | | (_) | | | |
           #        .::::::::::::::::::::::: ,iiiiii,     ## |_|    \__, |\__|_| |_|\___/|_| |_|
           #     .:::::::::::::::::::::::::: ,iiiiiiii.   ##        |___/  $version
@@ -164,7 +163,7 @@ function find_env()
         OUT_MEDIUM="
           #                 .:::::::.               ##  ____        _   _
           #               .::'':::::::.             ## |  _ \ _   _| |_| |__   ___  _ __
-          #               :::..::::::::             ## | |_) | | | | __| '_ \ / _ \| '_ \
+          #               :::..::::::::             ## | |_) | | | | __| '_ \ / _ \| '_ \\
           #               '''''':::::::             ## |  __/| |_| | |_| | | | (_) | | | |
           #        .::::::::::::::::::: ,iiiii,     ## |_|    \__, |\__|_| |_|\___/|_| |_|
           #     .:::::::::::::::::::::: ,iiiiiii.   ##        |___/  $version
@@ -180,13 +179,14 @@ function find_env()
         OUT_SMALL="
           #    ##   ____        _   _
           #    ##  |  _ \ _   _| |_| |__   ___  _ __
-          #    ##  | |_) | | | | __| '_ \ / _ \| '_ \
+          #    ##  | |_) | | | | __| '_ \ / _ \| '_ \\
           #    ##  |  __/| |_| | |_| | | | (_) | | | |
           #    ##  |_|    \__, |\__|_| |_|\___/|_| |_|
           #    ##         |___/  $version
           #
           #    ##  Activated: $activated
-          #    ##  Pip:       $pip_version"
+          #    ##  Pip:       $pip_version
+          "
 
         out=$OUT_SMALL
         package_padding="                        "
