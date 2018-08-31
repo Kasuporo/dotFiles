@@ -1,5 +1,5 @@
 ! STYLE
-URxvt*font:	xft:hack:style=Regular:pixelsize=11:antialias=true
+URxvt*font:	xft:hack:style=Regular:pixelsize=9:antialias=true
 URxvt*foreground: #f7f7f7
 URxvt*cursorColor: white
 URxvt*depth: 32
