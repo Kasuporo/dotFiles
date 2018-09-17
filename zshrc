@@ -101,10 +101,10 @@ export SSH_KEY_PATH="~/.ssh/rsa_id"
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# Stolen from: https://github.com/yevrah/dotfiles/blob/master/zshrc
-#
-# AUTO Import Virtual Env When Entering CD
-#
+#####################################################################
+# AUTO Import Virtual Env When Entering Directory                   #
+# Stolen from: https://github.com/yevrah/dotfiles/blob/master/zshrc #
+#####################################################################
 
 # Gives the path to the nearest parent env file or nothing if it gets to root
 function find_env()
@@ -185,8 +185,7 @@ function find_env()
           #    ##         |___/  $version
           #
           #    ##  Activated: $activated
-          #    ##  Pip:       $pip_version
-          "
+          #    ##  Pip:       $pip_version"
 
         out=$OUT_SMALL
         package_padding="                        "

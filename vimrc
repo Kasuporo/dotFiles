@@ -29,6 +29,9 @@ Plugin 'tpope/vim-surround'
 Plugin 'thirtythreeforty/lessspace.vim'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'easymotion/vim-easymotion'
+Plugin 'vimwiki/vimwiki'
+Plugin 'davidhalter/jedi-vim'
+Plugin 'SirVer/ultisnips'
 
 " display
 Plugin 'joshdick/onedark.vim'
@@ -37,6 +40,7 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'scrooloose/syntastic'
 Plugin 'lervag/vimtex'
 Plugin 'Yggdroot/indentline'
+Plugin 'pangloss/vim-javascript'
 
 " All of your Plugins must be added before the following line
 call vundle#end()
@@ -198,22 +202,6 @@ nnoremap <space> za
 
 " ctags
 nnoremap <leader>. :CtrlPTag<cr>
-nnoremap <silent> <Leader>t :TagbarToggle<CR>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" MULTIPURPOSE TAB KEY
-" Indent if we're at the beginning of a line. Else, do completion.
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! InsertTabWrapper()
-    let col = col('.') - 1
-    if !col || getline('.')[col - 1] !~ '\k'
-        return "\<tab>"
-    else
-        return "\<c-p>"
-    endif
-endfunction
-inoremap <expr> <tab> InsertTabWrapper()
-inoremap <s-tab> <c-n>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " STARTIFY CONFIG

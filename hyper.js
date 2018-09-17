@@ -9,7 +9,7 @@ module.exports = {
     updateChannel: 'stable',
 
     // default font size in pixels for all tabs
-    fontSize: 12,
+    fontSize: 10,
 
     // font family with optional fallbacks
     fontFamily: 'Menlo, "DejaVu Sans Mono", Consolas, "Lucida Console", monospace',
@@ -150,7 +150,7 @@ module.exports = {
   //   `@company/project`
   //   `project#1.0.1`
   plugins: [
-      "hyper-material-theme",
+    "hyper-material-theme",
   ],
 
   // in development, you can create a directory under
