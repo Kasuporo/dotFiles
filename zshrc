@@ -75,6 +75,7 @@ source $ZSH/oh-my-zsh.sh
 
 export DEVBOX='dev'
 export EDITOR='vim'
+export DOCKERID='beanpupper'
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -100,6 +101,26 @@ export SSH_KEY_PATH="~/.ssh/rsa_id"
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+alias docker-clean="docker ps -a | grep 'Exited\|Created' | cut -d ' ' -f 1 | xargs docker rm"
+
+function docker-enter() {
+    if [ -n "$1" ]
+    then
+        docker-compose run rm --service-ports $1 /bin/bash
+    else
+        docker-compose run --rm --service-ports app /bin/bash
+    fi
+}
+
+function docker-enter-again() {
+    if [ -n "$1" ]
+    then
+        docker-compose run rm $1 /bin/bash
+    else
+        docker-compose run --rm app /bin/bash
+    fi
+}
 
 #####################################################################
 # AUTO Import Virtual Env When Entering Directory                   #
@@ -129,7 +150,7 @@ function find_env()
         #  2. Remove uncecessary information
         #  3. Pip sens out a single list, use column to conver to multiple columns of a width taking into account the logo
         #  4. Column outputs tabs, which breaks design, use expand to conver to spaces
-        packages=`pip list --format=legacy | sed -e 's/ (.*//g' | column -c $((COLUMNS-45)) | expand`
+        packages=`pip list | sed -e 's/ (.*//g' | column -c $((COLUMNS-45)) | expand`
 
         package_table=()
         while read -r line; do

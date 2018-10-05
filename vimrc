@@ -32,6 +32,7 @@ Plugin 'easymotion/vim-easymotion'
 Plugin 'vimwiki/vimwiki'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'SirVer/ultisnips'
+Plugin 'godlygeek/tabular'
 
 " display
 Plugin 'joshdick/onedark.vim'
