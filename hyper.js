@@ -12,7 +12,7 @@ module.exports = {
     fontSize: 10,
 
     // font family with optional fallbacks
-    fontFamily: 'Menlo, "DejaVu Sans Mono", Consolas, "Lucida Console", monospace',
+    fontFamily: 'Hack, Menlo, "DejaVu Sans Mono", Consolas, "Lucida Console", monospace',
 
     // default font weight: 'normal' or 'bold'
     fontWeight: 'normal',
@@ -151,6 +151,8 @@ module.exports = {
   //   `project#1.0.1`
   plugins: [
     "hyper-material-theme",
+    "hyperterm-paste",
+    "hyper-tab-icons",
   ],
 
   // in development, you can create a directory under

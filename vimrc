@@ -111,6 +111,7 @@ augroup vimrcEx
 
   " python
   autocmd FileType python set sw=4 ts=4 et
+  " autocmd FileType javascript set sw=2 ts=2 et
 
   " Leave the return key alone when in command line windows, since it's used
   " to run commands there.
