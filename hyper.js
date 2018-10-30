@@ -92,7 +92,7 @@ module.exports = {
 
         // [Optional] Set the rgba() app background opacity, useful when enableVibrance is true
         // OPTIONS: From 0.1 to 1
-        backgroundOpacity: '0.5',
+        backgroundOpacity: '0.7',
 
         // [Optional] Set the accent color for the current active tab
         accentColor: '#64FFDA',

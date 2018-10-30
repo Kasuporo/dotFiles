@@ -31,8 +31,17 @@ Plugin 'tomtom/tcomment_vim'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'vimwiki/vimwiki'
 Plugin 'davidhalter/jedi-vim'
-Plugin 'SirVer/ultisnips'
 Plugin 'godlygeek/tabular'
+
+if has('nvim')
+  Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plugin 'Shougo/deoplete.nvim'
+  Plugin 'roxma/nvim-yarp'
+  Plugin 'roxma/vim-hug-neovim-rpc'
+endif
+Plugin 'Shougo/neosnippet.vim'
+Plugin 'Shougo/neosnippet-snippets'
 
 " display
 Plugin 'joshdick/onedark.vim'
@@ -109,8 +118,8 @@ augroup vimrcEx
     \   exe "normal g`\"" |
     \ endif
 
-  " python
   autocmd FileType python set sw=4 ts=4 et
+  autocmd FileType ruby set sw=2 ts=2 et
   " autocmd FileType javascript set sw=2 ts=2 et
 
   " Leave the return key alone when in command line windows, since it's used
@@ -233,7 +242,6 @@ let g:startify_session_before_save = [
 
 let g:startify_bookmarks = [
       \ { 'v': '~/dotfiles/vimrc' },
-      \ { 'b': '~/dotfiles/bashrc' },
       \ { 'z': '~/dotfiles/zshrc' },
 \ ]
 
@@ -264,18 +272,69 @@ command! -nargs=+ Gitlazy :!pwd;git add .;git commit -am '<args>';git push
 command! Pyrun execute "!python %"
 command! PyrunI execute "!python -i %"
 
-command! Write :!sudo tee %
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " PLUGINS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ================ deoplete setup ===================
+
+" MORE CONFIG HERE: https://github.com/rafi/vim-config/blob/master/config/plugins/deoplete.vim
+"
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#auto_complete_start_length = 3
+let g:neosnippet#enable_snipmate_compatibility = 1
+let g:neosnippet#snippets_directory='~/dotfiles/NeoSnips'
+let g:jedi#show_call_signatures = "2"
+
+inoremap <expr><C-n>  deoplete#mappings#manual_complete()
+
+augroup startup_deoplete
+    autocmd!
+    autocmd FileType markdown
+           \ call deoplete#custom#buffer_option('auto_complete', v:false)
+augroup END
+
+" Src: https://computableverse.com/blog/my-terminal-setup<Paste>
+" SuperTab like snippets' behavior.
+" Map expression when a tab is hit:
+"           checks if the completion popup is visible
+"           if yes
+"               tab just exits out, use <C-n>, <C-p> as normal
+"           else
+"               if expandable_or_jumpable
+"                   then expands_or_jumps
+"                   else returns a normal TAB
+
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+imap <expr><TAB>
+ \ pumvisible() ? "\<CR>" :
+ \ neosnippet#expandable_or_jumpable() ?
+ \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+ \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+" Expands or completes the selected snippet/item in the popup menu
+imap <expr><silent><CR> pumvisible() ? deoplete#mappings#close_popup() .
+      \ "\<Plug>(neosnippet_jump_or_expand)" : "\<CR>"
+
+smap <silent><CR> <Plug>(neosnippet_jump_or_expand)
+
+
+" I dont know what this is
 au StdinReadPre * let s:std_in=1
+
+" nerdtree
 " start NERDTree if no file is specified
 " au VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | wincmd w | endif
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeStatusline = '(~˘▾˘)~'
-" Indent Lines
+
+
+" Indent Lines (this has to be at the very bottom for some reason)
 let g:indentLine_enabled = 1 " enabled by default
 let g:indentLine_char = "|"
 set conceallevel=1
