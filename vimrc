@@ -322,6 +322,8 @@ imap <expr><silent><CR> pumvisible() ? deoplete#mappings#close_popup() .
 
 smap <silent><CR> <Plug>(neosnippet_jump_or_expand)
 
+" look in the current directory for 'tags', and work up the tree towards root until one is found.
+set tags=./tags;/
 
 " I dont know what this is
 au StdinReadPre * let s:std_in=1
