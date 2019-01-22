@@ -102,6 +102,10 @@ export SSH_KEY_PATH="~/.ssh/rsa_id"
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+#
+# Docker Stuffs
+#
+
 alias docker-clean="docker ps -a | grep 'Exited\|Created' | cut -d ' ' -f 1 | xargs docker rm"
 
 function docker-enter() {
@@ -122,10 +126,10 @@ function docker-enter-again() {
     fi
 }
 
-#####################################################################
-# AUTO Import Virtual Env When Entering Directory                   #
-# Stolen from: https://github.com/yevrah/dotfiles/blob/master/zshrc #
-#####################################################################
+#
+# AUTO Import Virtual Env When Entering Directory
+# Stolen from: https://github.com/yevrah/dotfiles/blob/master/zshrc
+#
 
 # Gives the path to the nearest parent env file or nothing if it gets to root
 function find_env()
@@ -261,3 +265,60 @@ add-zsh-hook chpwd find_env
 # auto-detect virtualenv on zsh startup
 [[ -o interactive ]] && find_env
 
+
+#
+# Defines transfer alias and provides easy command line file and folder sharing.
+#
+# Authors:
+#   Remco Verhoef <remco@dutchcoders.io>
+#
+
+function transfer() {
+    # check arguments
+    if [ $# -eq 0 ];
+    then
+        echo "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"
+        return 1
+    fi
+
+    # get temporarily filename, output is written to this file show progress can be showed
+    tmpfile=$( mktemp -t transferXXX )
+
+    # upload stdin or file
+    file=$1
+
+    if tty -s;
+    then
+        basefile=$(basename "$file" | sed -e 's/[^a-zA-Z0-9._-]/-/g')
+
+        if [ ! -e $file ];
+        then
+            echo "File $file doesn't exists."
+            return 1
+        fi
+
+        if [ -d $file ];
+        then
+            # zip directory and transfer
+            zipfile=$( mktemp -t transferXXX.zip )
+            cd $(dirname $file) && zip -r -q - $(basename $file) >> $zipfile
+            curl --progress-bar --upload-file "$zipfile" "https://transfer.sh/$basefile.zip" >> $tmpfile
+            rm -f $zipfile
+        else
+            # transfer file
+            curl --progress-bar --upload-file "$file" "https://transfer.sh/$basefile" >> $tmpfile
+        fi
+    else
+        # transfer pipe
+        curl --progress-bar --upload-file "-" "https://transfer.sh/$file" >> $tmpfile
+    fi
+
+    # cat output link
+    cat $tmpfile
+
+    # cleanup
+    rm -f $tmpfile
+}
+
+# added by travis gem
+[ -f /Users/justin/.travis/travis.sh ] && source /Users/justin/.travis/travis.sh

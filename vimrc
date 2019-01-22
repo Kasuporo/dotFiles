@@ -21,6 +21,7 @@ Plugin 'mbbill/undotree'
 Plugin 'kien/ctrlp.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'mhinz/vim-startify'
+" Plugin 'ludovicchabant/vim-gutentags'
 
 " editing
 Plugin 'terryma/vim-multiple-cursors'
@@ -32,6 +33,8 @@ Plugin 'easymotion/vim-easymotion'
 Plugin 'vimwiki/vimwiki'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'godlygeek/tabular'
+Plugin 'rust-lang/rust.vim'
+Plugin 'plasticboy/vim-markdown'
 
 if has('nvim')
   Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -104,6 +107,8 @@ set foldlevel=99
 set scrolloff=3
 " if a file is changed outside vim reload it without asking
 set autoread
+" hlsearch
+set hlsearch
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " CUSTOM AUTOCMDS
