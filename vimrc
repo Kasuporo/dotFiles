@@ -36,7 +36,7 @@ Plugin 'vimwiki/vimwiki'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'godlygeek/tabular'
 Plugin 'rust-lang/rust.vim'
-Plugin 'plasticboy/vim-markdown'
+Plugin 'gabrielelana/vim-markdown'
 Plugin 'junegunn/limelight.vim'
 Plugin 'junegunn/goyo.vim'
 " snip stuff
