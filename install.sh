@@ -63,6 +63,13 @@ ln $FOLDER/ptpython/config.py $HOME/.ptpython/config.py
 printf "Done\n\n"
 
 
+# Setup Ctags
+printf "Setting up ctags\n"
+backup_file '.ctags'
+ln $FOLDER/ctags $HOME/.ctags
+printf "Done\n\n"
+
+
 # Finish
 printf "All done!\n"
 printf "Check to make sure everything works -- You can delete all the backups with this command:\n\n"
