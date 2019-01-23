@@ -22,11 +22,13 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'mhinz/vim-startify'
 " Plugin 'ludovicchabant/vim-gutentags'
+Plugin 'metakirby5/codi.vim'
 
 " editing
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-sleuth'
 Plugin 'thirtythreeforty/lessspace.vim'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'easymotion/vim-easymotion'
@@ -35,11 +37,11 @@ Plugin 'davidhalter/jedi-vim'
 Plugin 'godlygeek/tabular'
 Plugin 'rust-lang/rust.vim'
 Plugin 'plasticboy/vim-markdown'
-
-if has('nvim')
-  Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plugin 'Shougo/deoplete.nvim'
+Plugin 'junegunn/limelight.vim'
+Plugin 'junegunn/goyo.vim'
+" snip stuff
+Plugin 'Shougo/deoplete.nvim'
+if !has('nvim')
   Plugin 'roxma/nvim-yarp'
   Plugin 'roxma/vim-hug-neovim-rpc'
 endif
@@ -66,6 +68,9 @@ autocmd!
 " BASIC EDITING
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader=","
+
+" Use deoplete.
+let g:deoplete#enable_at_startup = 1
 
 syntax on
 " faster gitgutter
@@ -109,6 +114,8 @@ set scrolloff=3
 set autoread
 " hlsearch
 set hlsearch
+" look in the current directory for 'tags', and work up the tree towards root until one is found.
+set tags=./tags;/
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " CUSTOM AUTOCMDS
@@ -123,8 +130,9 @@ augroup vimrcEx
     \   exe "normal g`\"" |
     \ endif
 
+  " tpope/vim-sleuth autodetects file indents, so i dont think i need this
   autocmd FileType python set sw=4 ts=4 et
-  autocmd FileType ruby set sw=2 ts=2 et
+  " autocmd FileType ruby set sw=2 ts=2 et
   " autocmd FileType javascript set sw=2 ts=2 et
 
   " Leave the return key alone when in command line windows, since it's used
@@ -226,41 +234,41 @@ let g:ctrlp_reuse_window  = 'startify' " Alow ctrlp to use startify window
 let g:startify_session_dir='~/.vim/session'
 
 let g:startify_list_order=[
-    \ ['   My sessions:'],
-    \ 'sessions',
-    \ ['   My most recently used files in the current directory:'],
-    \ 'dir',
-    \ ['   My most recently used files'],
-    \ 'files',
-    \ ['   My bookmarks:'],
-    \ 'bookmarks',
-    \ ['   My commands:'],
-    \ 'commands',
+  \ ['   My sessions:'],
+  \ 'sessions',
+  \ ['   My most recently used files in the current directory:'],
+  \ 'dir',
+  \ ['   My most recently used files'],
+  \ 'files',
+  \ ['   My bookmarks:'],
+  \ 'bookmarks',
+  \ ['   My commands:'],
+  \ 'commands',
 \ ]
-"
+
 " Close Cleanup
 let g:startify_session_before_save = [
-    \ 'echo "Cleaning up before saving.."',
-    \ 'silent! NERDTreeClose',
-    \ 'silent! TagbarClose',
+  \ 'echo "Cleaning up before saving.."',
+  \ 'silent! NERDTreeClose',
+  \ 'silent! TagbarClose',
 \ ]
 
 let g:startify_bookmarks = [
-      \ { 'v': '~/dotfiles/vimrc' },
-      \ { 'z': '~/dotfiles/zshrc' },
+  \ { 'v': '~/dotfiles/vimrc' },
+  \ { 'z': '~/dotfiles/zshrc' },
 \ ]
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RENAME CURRENT FILE
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! RenameFile()
-    let old_name = expand('%')
-    let new_name = input('New file name: ', expand('%'), 'file')
-    if new_name != '' && new_name != old_name
-        exec ':saveas ' . new_name
-        exec ':silent !rm ' . old_name
-        redraw!
-    endif
+  let old_name = expand('%')
+  let new_name = input('New file name: ', expand('%'), 'file')
+  if new_name != '' && new_name != old_name
+    exec ':saveas ' . new_name
+    exec ':silent !rm ' . old_name
+    redraw!
+  endif
 endfunction
 nnoremap <leader>rn :call RenameFile()<cr>
 
@@ -272,73 +280,46 @@ cnoremap <expr> %% expand('%:h').'/'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COMMANDS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-command! -nargs=+ Gitlazy :!pwd;git add .;git commit -am '<args>';git push
-
 command! Pyrun execute "!python %"
 command! PyrunI execute "!python -i %"
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " PLUGINS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" ================ deoplete setup ===================
+let g:neosnippet#snippets_directory='~/dotfiles/neosnippet'
 
-" MORE CONFIG HERE: https://github.com/rafi/vim-config/blob/master/config/plugins/deoplete.vim
-"
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#auto_complete_start_length = 3
-let g:neosnippet#enable_snipmate_compatibility = 1
-let g:neosnippet#snippets_directory='~/dotfiles/NeoSnips'
-let g:jedi#show_call_signatures = "2"
-
-inoremap <expr><C-n>  deoplete#mappings#manual_complete()
-
-augroup startup_deoplete
-    autocmd!
-    autocmd FileType markdown
-           \ call deoplete#custom#buffer_option('auto_complete', v:false)
-augroup END
-
-" Src: https://computableverse.com/blog/my-terminal-setup<Paste>
-" SuperTab like snippets' behavior.
-" Map expression when a tab is hit:
-"           checks if the completion popup is visible
-"           if yes
-"               tab just exits out, use <C-n>, <C-p> as normal
-"           else
-"               if expandable_or_jumpable
-"                   then expands_or_jumps
-"                   else returns a normal TAB
-
+" Plugin key-mappings.
 imap <C-k>     <Plug>(neosnippet_expand_or_jump)
 smap <C-k>     <Plug>(neosnippet_expand_or_jump)
 xmap <C-k>     <Plug>(neosnippet_expand_target)
 
-imap <expr><TAB>
- \ pumvisible() ? "\<CR>" :
- \ neosnippet#expandable_or_jumpable() ?
- \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
- \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-" Expands or completes the selected snippet/item in the popup menu
-imap <expr><silent><CR> pumvisible() ? deoplete#mappings#close_popup() .
-      \ "\<Plug>(neosnippet_jump_or_expand)" : "\<CR>"
-
-smap <silent><CR> <Plug>(neosnippet_jump_or_expand)
-
-" look in the current directory for 'tags', and work up the tree towards root until one is found.
-set tags=./tags;/
-
-" I dont know what this is
-au StdinReadPre * let s:std_in=1
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 " nerdtree
-" start NERDTree if no file is specified
-" au VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | wincmd w | endif
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeStatusline = '(~˘▾˘)~'
+
+" limelight
+" Color name (:help cterm-colors) or ANSI code
+let g:limelight_conceal_ctermfg = 'gray'
+let g:limelight_conceal_ctermfg = 240
+
+" Color name (:help gui-colors) or RGB color
+let g:limelight_conceal_guifg = 'DarkGray'
+let g:limelight_conceal_guifg = '#777777'
+
+let g:limelight_default_coefficient = 0.8
+
+" Number of preceding/following paragraphs to include (default: 0)
+let g:limelight_paragraph_span = 1
+
+" Highlighting priority (default: 10)
+"   Set it to -1 not to overrule hlsearch
+let g:limelight_priority = -1
+
+autocmd! User GoyoEnter Limelight
+autocmd! User GoyoLeave Limelight!
 
 
 " Indent Lines (this has to be at the very bottom for some reason)
