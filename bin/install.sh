@@ -89,13 +89,13 @@ ln -sFf $FOLDER/ctags ~/.ctags
 
 # Setup 2FA recovery code file
 newline
-read -p "$bld    Do you want to setup a file for 2FA recovery codes? [Y/n] " response
+read -p "$bld    Do you want to setup a file for 2FA recovery codes? [y/N] " response
 case "$response" in
 [yY][eE][sS]|[yY])
 
     newline
     printbarr "Please enter a directory to store the file (excluding the file)."
-    read -r -p "${1:-[e.g '~/Documents/']:} " directory
+    read -p "$bld    [e.g '~/Documents': " directory
     eval mkdir -p "$directory"
 
     printgarr "Generating recovery script"
