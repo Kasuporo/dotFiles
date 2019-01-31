@@ -7,17 +7,33 @@
 
 #cd_placeholder#
 
+source $DOTFILES_PATH/bin/utils.sh
+
+try_again()
+{
+    newline
+    read -p "$bld    Do you want to try again? [y/N] " response
+    case "$response" in
+    [yY][eE][sS]|[yY])
+        $DOTFILES_PATH/bin/recover.sh;;
+    esac
+}
+
 if [[ -f "codes.txt" ]]; then
-    printf "\n---Encrypting 'codes.txt'---\n\n"
+    newline
+    printbarr "Encrypting$grn codes.txt$whi"
+    newline
     openssl enc -aes-256-cbc -salt -in codes.txt -out codes.txt.enc
     if [[ $? -eq 0 ]]; then
         rm codes.txt
     else
-        printf "try again\n"
-        $DOTFILES_PATH/bin/recover.sh
+        printerr "Passwords don't match."
+        try_again
     fi
 elif [[ -f "codes.txt.enc" ]]; then
-    printf "\n--- Decrypting 'codes.txt.enc' ---\n\n"
+    newline
+    printbarr "Decrypting$grn codes.txt.enc$whi"
+    newline
     openssl enc -aes-256-cbc -d -in codes.txt.enc -out codes.txt
     if [[ $? -eq 0 ]]; then
         rm codes.txt.enc
@@ -26,11 +42,8 @@ elif [[ -f "codes.txt.enc" ]]; then
     else
         rm codes.txt
 
-        read -r -p "${1:-Do you want to try again? [y/N]} " response
-        case "$response" in
-        [yY][eE][sS]|[yY])
-            $DOTFILES_PATH/bin/recover.sh;;
-        esac
+        printerr "Wrong password."
+        try_again
     fi
 else
     touch codes.txt

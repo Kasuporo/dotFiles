@@ -26,7 +26,7 @@ function docker-enter-again() {
 # 2FA recovery script
 #
 
-alias open_recovery_file="$DOTFILES_PATH/bin/recover.sh"
+alias 2fa_recovery="$DOTFILES_PATH/bin/recover.sh"
 
 #
 # Quick cd into ~/dev directory

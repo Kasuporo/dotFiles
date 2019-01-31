@@ -51,6 +51,3 @@ function transfer() {
     # cleanup
     rm -f $tmpfile
 }
-
-# added by travis gem
-[ -f /Users/justin/.travis/travis.sh ] && source /Users/justin/.travis/travis.sh
