@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# A dotfiles setup script for my MacOS install
+
 set -e
 
 cd $(dirname $0)/../
@@ -24,12 +26,17 @@ is_command()
 
 
 # Setup Hyper
-if is_command hyper ; then
-    printf "Setting up hyper\n"
-    backup_file '.hyper.js'
-    ln -sFf $FOLDER/hyper.js ~/.hyper.js
-    printf "Done\n\n"
-fi
+printf "Setting up hyper\n"
+backup_file '.hyper.js'
+ln -sFf $FOLDER/hyper.js ~/.hyper.js
+printf "Done\n\n"
+
+
+# Setup mackup
+printf "Setting up mackup\n"
+backup_file '.mackup.cfg'
+ln -sFf $FOLDER/mackup.cfg ~/.mackup.cfg
+printf "Done\n\n"
 
 
 # Setup Vim
@@ -115,6 +122,7 @@ case "$response" in
 
     ;;
 esac
+
 
 # Finish
 printf "Removing backups\n"

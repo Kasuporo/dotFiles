@@ -56,6 +56,7 @@ Plugin 'scrooloose/syntastic'
 Plugin 'lervag/vimtex'
 Plugin 'Yggdroot/indentline'
 Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
 
 " All of your Plugins must be added before the following line
 call vundle#end()
@@ -116,6 +117,8 @@ set autoread
 set hlsearch
 " look in the current directory for 'tags', and work up the tree towards root until one is found.
 set tags=./tags;/
+" set conceal
+set conceallevel=1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " CUSTOM AUTOCMDS
@@ -321,9 +324,7 @@ let g:limelight_priority = -1
 autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
 
-
-" Indent Lines (this has to be at the very bottom for some reason)
+" Indent Lines
 let g:indentLine_enabled = 1 " enabled by default
-let g:indentLine_char = "|"
-set conceallevel=1
 let g:indentLine_conceallevel=1
+let g:indentLine_char = "┆"
