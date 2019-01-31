@@ -8,28 +8,29 @@ whi=$'\e[0m'
 
 bld=$'\e[1m' # bold
 und=$'\e[4m' # underline
+rst=`tput sgr0` # reset
 
 # print green arrow
 printgarr()
 {
-    echo $grn"===>"$whi$bld $1
+    echo $grn"===>"$whi$bld $1$rst
 }
 
 # print blue arrow
 printbarr()
 {
-    echo $blu"===>"$whi$bld $1
+    echo $blu"===>"$whi$bld $1$rst
 }
 
 # print error
 printerr()
 {
-    echo $red"Error:"$whi$bld $1
+    echo $red"Error:"$whi$bld $1$rst
 }
 
 printtxt()
 {
-    echo "$bld    $1"
+    echo "$bld    $1$rst"
 }
 
 newline()

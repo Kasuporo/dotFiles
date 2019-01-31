@@ -21,7 +21,7 @@ try_again()
 
 if [[ -f "codes.txt" ]]; then
     newline
-    printbarr "Encrypting$grn codes.txt$whi"
+    printbarr "Encrypting$grn codes.txt"
     newline
     openssl enc -aes-256-cbc -salt -in codes.txt -out codes.txt.enc
     if [[ $? -eq 0 ]]; then
@@ -32,7 +32,7 @@ if [[ -f "codes.txt" ]]; then
     fi
 elif [[ -f "codes.txt.enc" ]]; then
     newline
-    printbarr "Decrypting$grn codes.txt.enc$whi"
+    printbarr "Decrypting$grn codes.txt.enc"
     newline
     openssl enc -aes-256-cbc -d -in codes.txt.enc -out codes.txt
     if [[ $? -eq 0 ]]; then
