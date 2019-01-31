@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# This is a script to encrypt and decrypt a file specfically,
+# a file to store 2FA recovery codes.
+# This could be edited to be able to be used on any file, but I'm
+# too lazy.
+
+#cd_placeholder#
+
+if [[ -f "codes.txt" ]]; then
+    printf "\n---Encrypting 'codes.txt'---\n\n"
+    openssl enc -aes-256-cbc -salt -in codes.txt -out codes.txt.enc
+    if [[ $? -eq 0 ]]; then
+        rm codes.txt
+    else
+        printf "try again\n"
+        $DOTFILES_PATH/bin/recover.sh
+    fi
+elif [[ -f "codes.txt.enc" ]]; then
+    printf "\n--- Decrypting 'codes.txt.enc' ---\n\n"
+    openssl enc -aes-256-cbc -d -in codes.txt.enc -out codes.txt
+    if [[ $? -eq 0 ]]; then
+        rm codes.txt.enc
+
+        vim codes.txt && $DOTFILES_PATH/bin/recover.sh
+    else
+        rm codes.txt
+
+        read -r -p "${1:-Do you want to try again? [y/N]} " response
+        case "$response" in
+        [yY][eE][sS]|[yY])
+            $DOTFILES_PATH/bin/recover.sh;;
+        esac
+    fi
+else
+    touch codes.txt
+    $DOTFILES_PATH/bin/recover.sh
+fi
+

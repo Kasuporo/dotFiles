@@ -76,6 +76,7 @@ source $ZSH/oh-my-zsh.sh
 export DEVBOX='dev'
 export EDITOR='vim'
 export DOCKERID='beanpupper'
+export DOTFILES_PATH=/Users/justin/dotfiles
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -125,6 +126,12 @@ function docker-enter-again() {
         docker-compose run --rm app /bin/bash
     fi
 }
+
+#
+# 2FA recovery script
+#
+
+alias open_recovery_file="$DOTFILES_PATH/bin/recover.sh"
 
 #
 # AUTO Import Virtual Env When Entering Directory

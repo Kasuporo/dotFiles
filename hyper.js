@@ -9,7 +9,7 @@ module.exports = {
     updateChannel: 'stable',
 
     // default font size in pixels for all tabs
-    fontSize: 9,
+    fontSize: 10,
 
     // font family with optional fallbacks
     fontFamily: 'Hack, Menlo, "DejaVu Sans Mono", Consolas, "Lucida Console", monospace',
@@ -124,12 +124,6 @@ module.exports = {
 
     // for advanced config flags please refer to https://hyper.is/#cfg
 
-    hyperline: {
-      plugins: [
-        "spotify"
-      ]
-    },
-
     hyperBorder: {
       borderColors: ['#fc1da7', '#fba506'],
       borderWidth: '2px',
@@ -149,7 +143,6 @@ module.exports = {
     "hyperborder",
     "hyper-tabs-enhanced",
     "hyper-alt-click",
-    "hyperline",
     "hyper-search"
   ],
 
