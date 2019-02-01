@@ -128,7 +128,17 @@ module.exports = {
       borderColors: ['#fc1da7', '#fba506'],
       borderWidth: '2px',
       animate: true,
-    }
+    },
+
+    paneNavigation: {
+      showIndicators: false, // Show pane number
+      focusOnMouseHover: true,
+      inactivePaneOpacity: 0.4, // Set to 1 to disable inactive panes dimming
+    },
+
+    materialBox: {
+      scheme: 'tomorrow-night',
+    },
   },
 
   // a list of plugins to fetch and install from npm
@@ -138,12 +148,22 @@ module.exports = {
   //   `@company/project`
   //   `project#1.0.1`
   plugins: [
+    // Themes
+    // "hyper-theme",
+    // "hyperterm-dark-macos",
+    // "hyper-material-box",
+    // "hyperterm-panda",
+    // "hyperterm-hybrid",
+    "hyper-materialshell",
+    // Plugins
     "hyperterm-paste",
-    "hyper-darkmatter",
     "hyperborder",
     "hyper-tabs-enhanced",
     "hyper-alt-click",
-    "hyper-search"
+    "hyper-search",
+    "hyper-broadcast",
+    "hypercwd",
+    "hyper-pane",
   ],
 
   // in development, you can create a directory under

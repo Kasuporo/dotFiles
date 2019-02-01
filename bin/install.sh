@@ -125,7 +125,7 @@ case "$response" in
 
     cd - 1>/dev/null
 
-    printbarr "You can open it with the zsh alias:$grn 2fa_recovery"
+    printbarr "You can open it with the zsh alias:$grn recover_mfa"
     ;;
 esac
 newline

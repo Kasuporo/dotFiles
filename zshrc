@@ -77,7 +77,7 @@ source $ZSH/oh-my-zsh.sh
 export DEVBOX='dev'
 export EDITOR='vim'
 export DOCKERID='beanpupper'
-export DOTFILES_PATH="$HOME/dotfiles"
+export DOTFILES="$HOME/dotfiles"
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -104,6 +104,6 @@ export SSH_KEY_PATH="~/.ssh/rsa_id"
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-source $DOTFILES_PATH/zsh/autoload-env.zsh
-source $DOTFILES_PATH/zsh/transfer.zsh
-source $DOTFILES_PATH/zsh/aliases.zsh
+source $DOTFILES/zsh/autoload-env.zsh
+source $DOTFILES/zsh/transfer.zsh
+source $DOTFILES/zsh/aliases.zsh

@@ -7,7 +7,7 @@
 
 #cd_placeholder#
 
-source $DOTFILES_PATH/bin/utils.sh
+source $DOTFILES/bin/utils.sh
 
 try_again()
 {
@@ -15,7 +15,7 @@ try_again()
     read -p "$bld    Do you want to try again? [y/N] " response
     case "$response" in
     [yY][eE][sS]|[yY])
-        $DOTFILES_PATH/bin/recover.sh;;
+        $DOTFILES/bin/recover.sh;;
     esac
 }
 
@@ -38,7 +38,7 @@ elif [[ -f "codes.txt.enc" ]]; then
     if [[ $? -eq 0 ]]; then
         rm codes.txt.enc
 
-        vim codes.txt && $DOTFILES_PATH/bin/recover.sh
+        vim codes.txt && $DOTFILES/bin/recover.sh
     else
         rm codes.txt
 
@@ -47,6 +47,6 @@ elif [[ -f "codes.txt.enc" ]]; then
     fi
 else
     touch codes.txt
-    $DOTFILES_PATH/bin/recover.sh
+    $DOTFILES/bin/recover.sh
 fi
 
