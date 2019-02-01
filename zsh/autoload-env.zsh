@@ -2,6 +2,28 @@
 # AUTO Import Virtual Env When Entering Directory
 #
 
+# Create virtual environment for current directory
+function mkenv()
+{
+    python3 -m venv env
+
+    source env/bin/activate
+
+    if [[ -f "requirements.txt" ]]; then
+        pip install -r requirements.txt
+    fi
+}
+
+# Remove virtual environment for current directory
+function rmenv()
+{
+    if [[ -d "env/" ]]; then
+        rm -rf env/
+    else
+        printf "No 'env/' folder in the current directory!\n"
+    fi
+}
+
 # Gives the path to the nearest parent env file or nothing if it gets to root
 function find_env()
 {
@@ -135,4 +157,3 @@ add-zsh-hook chpwd find_env
 
 # auto-detect virtualenv on zsh startup
 [[ -o interactive ]] && find_env
-

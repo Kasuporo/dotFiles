@@ -1,3 +1,7 @@
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" vimrc {{{1
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 " We need these folders to exist
 call system('mkdir -p ~/.vim/session/' )   " session files
 call system('mkdir -p ~/.vim/backup/' )    " backups folder
@@ -20,30 +24,32 @@ Plug 'scrooloose/nerdtree'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'tpope/vim-fugitive'
 Plug 'mbbill/undotree'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'majutsushi/tagbar'
 Plug 'mhinz/vim-startify'
 Plug 'metakirby5/codi.vim'
 Plug 'moll/vim-node'
 Plug 'w0rp/ale'
 Plug 'vimwiki/vimwiki'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 
 " editing
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-sleuth'
 Plug 'thirtythreeforty/lessspace.vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'junegunn/vim-easy-align'
 Plug 'rust-lang/rust.vim'
-Plug 'gabrielelana/vim-markdown'
 Plug 'junegunn/goyo.vim'
-" snip stuff
-Plug 'Shougo/deoplete.nvim'
+Plug 'tpope/vim-sleuth'
+" code completion
+Plug 'davidhalter/jedi-vim'
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'zchee/deoplete-jedi'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 
@@ -52,11 +58,12 @@ Plug 'vim-airline/vim-airline'
 Plug 'airblade/vim-gitgutter'
 Plug 'scrooloose/syntastic'
 Plug 'lervag/vimtex'
-Plug 'junegunn/limelight.vim'
 Plug 'Yggdroot/indentline'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'pacha/vem-tabline'
+Plug 'junegunn/limelight.vim'
+Plug 'gabrielelana/vim-markdown'
 " themes
 Plug 'joshdick/onedark.vim'
 Plug 'pbrisbin/vim-colors-off'
@@ -67,12 +74,15 @@ call plug#end()
 " remove all existing autocmds
 autocmd!
 
+filetype off
+syntax on
+set nocompatible
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" BASIC EDITING
+" BASIC EDITING {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader=","
 
-syntax on
 " faster gitgutter
 set updatetime=250
 " remember more commands and search history
@@ -100,9 +110,9 @@ set fillchars+=vert:\│
 " set backups/undos
 set backup
 set undofile
-set backupdir=$HOME/.vim/backup//
-set directory=$HOME/.vim/swap//
-set undodir=$HOME/.vim/undo//
+set backupdir=$HOME/.vim/backup/
+set directory=$HOME/.vim/swap/
+set undodir=$HOME/.vim/undo/
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 " display incomplete commands
@@ -127,22 +137,19 @@ set modeline
 set modelines=5
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" CUSTOM AUTOCMDS
+" CUSTOM AUTOCMDS {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-augroup vimrcEx
-  " Clear all autocmds in the group
-  autocmd!
-  autocmd FileType text setlocal textwidth=78
+augroup vimrc
   " Jump to last cursor position unless it's invalid or in an event handler
   autocmd BufReadPost *
     \ if line("'\"") > 0 && line("'\"") <= line("$") |
     \   exe "normal g`\"" |
     \ endif
 
-  " tpope/vim-sleuth autodetects file indents, so i dont think i need this
-  autocmd FileType python set sw=4 ts=4 et
-  " autocmd FileType ruby set sw=2 ts=2 et
-  " autocmd FileType javascript set sw=2 ts=2 et
+  autocmd FileType python setlocal sw=4 ts=4 et
+  autocmd FileType ruby setlocal sw=2 ts=2 et
+  autocmd FileType javascript setlocal sw=2 ts=2 et
+  autocmd FileType javascript.jsx setlocal ts=2 sts=2 sw=2
 
   " Leave the return key alone when in command line windows, since it's used
   " to run commands there.
@@ -152,10 +159,16 @@ augroup vimrcEx
   " If in particular window, just tab to main
   autocmd FileType nerdtree noremap <buffer> <Tab> <c-w>l
   autocmd FileType tagbar noremap <buffer> <Tab> <c-w>h
+
+  " Automatic rename of tmux window
+  if exists('$TMUX') && !exists('$NORENAME')
+    au BufEnter * if empty(&buftype) | call system('tmux rename-window '.expand('%:t:S')) | endif
+    au VimLeave * call system('tmux set-window automatic-rename on')
+  endif
 augroup END
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" MISC KEY MAPS
+" MISC KEY MAPS {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " tab traverse
 nnoremap <silent>tt :tabnew<CR>
@@ -191,14 +204,20 @@ nmap <Tab>l <Plug>vem_move_buffer_right-
 nnoremap j gj
 nnoremap k gk
 
+" Movement in insert mode
+inoremap <C-h> <C-o>h
+inoremap <C-l> <C-o>a
+inoremap <C-j> <C-o>j
+inoremap <C-k> <C-o>k
+
 " save files as sudo
 cnoremap w!! w !sudo tee > /dev/null %
 
 " quick quit all
 cnoremap qq qall
 
-" edit .vimrc
-nnoremap <Leader>rc :e $HOME/.vimrc<CR>
+" edit nvimrc
+nnoremap <Leader>rc :e $DOTFILES/nvimrc<CR>
 
 " load current file in firefox
 nnoremap <Leader>ff :!firefox %<CR>
@@ -210,7 +229,7 @@ noremap <Leader>rb :!ruby %<CR>
 noremap <Leader>sh :!sh %<CR>
 
 " undotree
-nnoremap <Leader>u :UndotreeToggle <BAR> :UndotreeFocus<CR>
+nnoremap <silent> U :UndotreeToggle <BAR> :UndotreeFocus<CR>
 
 " Enable folding/unfold with the spacebar
 nnoremap <space> za
@@ -218,12 +237,6 @@ nnoremap <leader><space> zR
 
 " no highlight
 nnoremap // :noh<CR>
-
-" fix common typos
-if !exists(':W')
-  command W w
-  command Q q
-endif
 
 " Reference current file's path
 cnoremap <expr> %% expand('%:h').'/'
@@ -236,17 +249,16 @@ vnoremap > >gv
 " normal mode
 nnoremap <C-j> :m .+1<CR>==
 nnoremap <C-k> :m .-2<CR>==
-" insert mode
-inoremap <C-j> <ESC>:m .+1<CR>==gi
-inoremap <C-k> <ESC>:m .-2<CR>==gi
 " visual mode (blocks)
 vnoremap <C-j> :m '>+1<CR>gv=gv
 vnoremap <C-k> :m '<-2<CR>gv=gv
 
-" EasyAlign
-" Start interactive EasyAlign in visual mode (e.g. vipga)
+" indent a line
+nnoremap <silent> <C-h> <<
+nnoremap <silent> <C-l> >>
+
+" easyalign
 xmap ga <Plug>(EasyAlign)
-" Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
 " Fzf
@@ -254,21 +266,37 @@ nnoremap <leader>f :FZF<CR>
 " Also use ctrl-p because I am wayyyyy too used to it.
 nnoremap <C-p> :FZF<CR>
 
+" Fugitive
+nnoremap <Leader>g :Gstatus<CR>gg<c-n>
+nnoremap <Leader>d :Gdiff<CR>
+
 " show weather report
 nnoremap <silent> <Leader>we :! curl -s wttr.in/Sydney \| sed -r "s/\x1B\[[0-9;]*[JKmsu]//g"<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" COMMANDS
+" COMMANDS {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 command! Pyrun execute "!python -i %"
 command! Trim :%s/\s*$//g | nohlsearch | exe "normal! g'\""
 
 " Change colorscheme
 command! Mono :colorscheme off | hi Normal ctermbg=none
-command! Color :colorscheme onedark | hi Normal ctermbg=none
+command! Colour :colorscheme onedark | hi Normal ctermbg=none
+
+" chmod +x
+command! EX
+  \  if !empty(expand('%'))
+  \|   write
+  \|   call system('chmod +x '.expand('%'))
+  \|   silent e
+  \| else
+  \|   echohl WarningMsg
+  \|   echo 'Save the file first'
+  \|   echohl None
+  \| endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" FUNCTIONS
+" FUNCTIONS {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Rename current file
@@ -294,8 +322,20 @@ function! AppendModeline()
   let l:modeline = substitute(&commentstring, "%s", l:modeline, "")
   call append(line("$"), l:modeline)
 endfunction
-
 nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
+
+" Change directory to the root of the Git repository
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! s:root()
+  let root = systemlist('git rev-parse --show-toplevel')[0]
+  if v:shell_error
+    echo 'Not in git repo'
+  else
+    execute 'lcd' root
+    echo 'Changed directory to: '.root
+  endif
+endfunction
+command! Root call s:root()
 
 " Folds
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -312,13 +352,22 @@ function! NeatFoldText()
 endfunction
 set foldtext=NeatFoldText()
 
+" Help in new tabs
+" ----------------------------------------------------------------------------
+function! s:helptab()
+  if &buftype == 'help'
+    wincmd T
+    nnoremap <buffer> q :q<cr>
+  endif
+endfunction
+autocmd vimrc BufEnter *.txt call s:helptab()
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" OTHER PLUGINS
+" OTHER PLUGINS {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Startify config
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:ctrlp_reuse_window = 'startify' " Alow ctrlp to use startify window
 let g:startify_session_dir ='~/.vim/session'
 
 let g:startify_list_order = [
@@ -343,6 +392,7 @@ let g:startify_session_before_save = [
 
 let g:startify_bookmarks = [
   \ { 'v': '~/dotfiles/vimrc' },
+  \ { 'n': '~/dotfiles/nvimrc' },
   \ { 'z': '~/dotfiles/zshrc' },
   \ { 'h': '~/dotfiles/hyper.js' },
 \ ]
@@ -393,10 +443,10 @@ let g:limelight_conceal_ctermfg = 240
 let g:limelight_conceal_guifg = 'DarkGray'
 let g:limelight_conceal_guifg = '#777777'
 
-let g:limelight_default_coefficient = 0.8
+let g:limelight_default_coefficient = 0.9
 
 " Number of preceding/following paragraphs to include (default: 0)
-let g:limelight_paragraph_span = 1
+let g:limelight_paragraph_span = 5
 
 " Highlighting priority (default: 10)
 "   Set it to -1 not to overrule hlsearch
@@ -404,9 +454,34 @@ let g:limelight_priority = -1
 
 " Goyo
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" auto activate/deactivate limelight on enter/leave
-autocmd! User GoyoEnter Limelight
-autocmd! User GoyoLeave Limelight!
+function! s:goyo_enter()
+  Limelight
+
+  let b:quitting = 0
+  let b:quitting_bang = 0
+  autocmd QuitPre <buffer> let b:quitting = 1
+  cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
+endfunction
+
+function! s:goyo_leave()
+  hi Normal ctermbg=none
+  Limelight!
+
+  " Quit Vim if this is the only remaining buffer
+  if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
+    if b:quitting_bang
+      qa!
+    else
+      qa
+    endif
+  endif
+endfunction
+
+autocmd! User GoyoEnter nested call <SID>goyo_enter()
+autocmd! User GoyoLeave nested call <SID>goyo_leave()
+
+let g:goyo_width = "70%"
+let g:goyo_height = "85%"
 
 " Indent lines
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -422,10 +497,11 @@ let g:ale_lint_on_enter = 0 " Less distracting when opening a new file
 let g:airline#extensions#ale#enabled = 1 " enable with airline
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" COLOUR
+" COLOUR {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 " colourscheme
-color onedark
+colorscheme onedark
 
 " airline
 let g:airline_theme='onedark'
@@ -434,3 +510,5 @@ let g:airline_powerline_fonts=0
 " Use terminal background
 hi Normal ctermbg=none
 highlight NonText ctermbg=none
+
+" vim: set ts=4 sw=2 tw=78 fdm=marker et :
