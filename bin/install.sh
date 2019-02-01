@@ -43,10 +43,16 @@ printgarr "Setting up$grn vimrc"
 backup_file '.vimrc'
 ln -sFf $DIR/vimrc ~/.vimrc
 mkdir -p ~/.vim/backup ~/.vim/swap ~/.vim/undo
-if [[ ! -d "$HOME/.vim/bundle/Vundle.vim" ]]; then
-    printgarr "Installing Vundle"
-    git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-fi
+newline
+
+
+# Setup NeoVim
+printgarr "Setting up$grn nvimrc"
+mkdir -p $HOME/.config/nvim
+backup_file './config/nvim/init.vim'
+ln -sFf $DIR/nvimrc ~/.config/nvim/vimrc
+printgarr "Installing $grn pynvim"
+pip3 install pynvim
 newline
 
 

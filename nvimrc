@@ -1,19 +1,30 @@
 " We need these folders to exist
-call system('mkdir -p ~/.vim/session/' )   " session files
-call system('mkdir -p ~/.vim/backup/' )    " backups folder
-call system('mkdir -p ~/.vim/undo/' )      " undo folder
-call system('mkdir -p ~/.vim/swap/' )      " swap files
-call system('mkdir -p ~/.vim/autoload/' )  " autoload folder
+call system('mkdir -p ~/.vim/session/' )           " session files (shared with vim)
+call system('mkdir -p ~/.config/nvim/backup/' )    " backups folder
+call system('mkdir -p ~/.config/nvim/undo/' )      " undo folder
+call system('mkdir -p ~/.config/nvim/swap/' )      " swap files
+call system('mkdir -p ~/.config/nvim/autoload/' )  " autoload folder
+call system('mkdir -p ~/.config/nvim/plugged/')    " plugin folder
+
+" Figure out the system python for neovim - we assume that the neovim python
+" server has been installed globally.
+if exists("$VIRTUAL_ENV")
+  let g:python3_host_prog=substitute(system("which -a python3 | head -n2 | tail -n1"), "\n", '', 'g')
+  let g:python_host_prog=substitute(system("which -a python | head -n2 | tail -n1"), "\n", '', 'g')
+else
+  let g:python3_host_prog=substitute(system("which python3"), "\n", '', 'g')
+  let g:python_host_prog=substitute(system("which python3"), "\n", '', 'g')
+endif
 
 " Install vim plug if not already
 if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $DOTFILES/vimrc
+  autocmd VimEnter * PlugInstall --sync | source $DOTFILES/nvimrc
 endif
 
 " Add plugins here
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.config/nvim/plugged')
 
 " tools
 Plug 'scrooloose/nerdtree'
@@ -32,18 +43,17 @@ Plug 'vimwiki/vimwiki'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-sleuth'
 Plug 'thirtythreeforty/lessspace.vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'junegunn/vim-easy-align'
 Plug 'rust-lang/rust.vim'
-Plug 'gabrielelana/vim-markdown'
 Plug 'junegunn/goyo.vim'
-" snip stuff
-Plug 'Shougo/deoplete.nvim'
-Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'tpope/vim-sleuth'
+" code completion
+Plug 'davidhalter/jedi-vim'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'zchee/deoplete-jedi'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 
@@ -52,11 +62,12 @@ Plug 'vim-airline/vim-airline'
 Plug 'airblade/vim-gitgutter'
 Plug 'scrooloose/syntastic'
 Plug 'lervag/vimtex'
-Plug 'junegunn/limelight.vim'
 Plug 'Yggdroot/indentline'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'pacha/vem-tabline'
+Plug 'junegunn/limelight.vim'
+Plug 'gabrielelana/vim-markdown'
 " themes
 Plug 'joshdick/onedark.vim'
 Plug 'pbrisbin/vim-colors-off'
@@ -67,12 +78,15 @@ call plug#end()
 " remove all existing autocmds
 autocmd!
 
+filetype off
+syntax on
+set nocompatible
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " BASIC EDITING
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader=","
 
-syntax on
 " faster gitgutter
 set updatetime=250
 " remember more commands and search history
@@ -100,9 +114,9 @@ set fillchars+=vert:\│
 " set backups/undos
 set backup
 set undofile
-set backupdir=$HOME/.vim/backup//
-set directory=$HOME/.vim/swap//
-set undodir=$HOME/.vim/undo//
+set backupdir=$HOME/.config/nvim/backup/
+set directory=$HOME/.config/nvim/swap/
+set undodir=$HOME/.config/nvim/undo/
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 " display incomplete commands
@@ -139,10 +153,10 @@ augroup vimrcEx
     \   exe "normal g`\"" |
     \ endif
 
-  " tpope/vim-sleuth autodetects file indents, so i dont think i need this
-  autocmd FileType python set sw=4 ts=4 et
-  " autocmd FileType ruby set sw=2 ts=2 et
-  " autocmd FileType javascript set sw=2 ts=2 et
+  autocmd FileType python setlocal sw=4 ts=4 et
+  autocmd FileType ruby setlocal sw=2 ts=2 et
+  autocmd FileType javascript setlocal sw=2 ts=2 et
+  autocmd FileType javascript.jsx setlocal ts=2 sts=2 sw=2
 
   " Leave the return key alone when in command line windows, since it's used
   " to run commands there.
@@ -197,8 +211,8 @@ cnoremap w!! w !sudo tee > /dev/null %
 " quick quit all
 cnoremap qq qall
 
-" edit .vimrc
-nnoremap <Leader>rc :e $HOME/.vimrc<CR>
+" edit nvimrc
+nnoremap <Leader>rc :e $DOTFILES/nvimrc<CR>
 
 " load current file in firefox
 nnoremap <Leader>ff :!firefox %<CR>
@@ -318,8 +332,7 @@ set foldtext=NeatFoldText()
 
 " Startify config
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:ctrlp_reuse_window = 'startify' " Alow ctrlp to use startify window
-let g:startify_session_dir ='~/.vim/session'
+let g:startify_session_dir ='~/.vim/session' " share sessions with normal vim
 
 let g:startify_list_order = [
   \ ['   My sessions:'],
@@ -343,6 +356,7 @@ let g:startify_session_before_save = [
 
 let g:startify_bookmarks = [
   \ { 'v': '~/dotfiles/vimrc' },
+  \ { 'n': '~/dotfiles/nvimrc' },
   \ { 'z': '~/dotfiles/zshrc' },
   \ { 'h': '~/dotfiles/hyper.js' },
 \ ]
@@ -424,8 +438,9 @@ let g:airline#extensions#ale#enabled = 1 " enable with airline
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLOUR
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 " colourscheme
-color onedark
+colorscheme onedark
 
 " airline
 let g:airline_theme='onedark'
