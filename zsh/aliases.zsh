@@ -2,6 +2,7 @@
 # Docker Stuffs
 #
 
+# I think there's a homebrew package for this, but I'm a lazy boi
 alias docker-clean="docker ps -a | grep 'Exited\|Created' | cut -d ' ' -f 1 | xargs docker rm"
 
 function docker-enter() {
@@ -32,4 +33,8 @@ alias 2fa_recovery="$DOTFILES_PATH/bin/recover.sh"
 # Quick cd into ~/dev directory
 #
 
-alias cdd="cd ~/dev"
+# Create a static named directory '~d'
+hash -d d=~/dev
+
+# Swtich to ~/dev using '~d' without 'cd'
+setopt AUTO_CD

@@ -65,6 +65,7 @@ plugins=(
   sudo
   systemd
   zsh-syntax-highlighting
+  zsh-completeion
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -76,7 +77,7 @@ source $ZSH/oh-my-zsh.sh
 export DEVBOX='dev'
 export EDITOR='vim'
 export DOCKERID='beanpupper'
-export DOTFILES_PATH=$HOME/dotfiles
+export DOTFILES_PATH="$HOME/dotfiles"
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
