@@ -21,8 +21,11 @@ Plugin 'mbbill/undotree'
 Plugin 'kien/ctrlp.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'mhinz/vim-startify'
+" vvv makes my comp slow as shit, so it's disabled for now
 " Plugin 'ludovicchabant/vim-gutentags'
 Plugin 'metakirby5/codi.vim'
+Plugin 'moll/vim-node'
+Plugin 'w0rp/ale'
 
 " editing
 Plugin 'terryma/vim-multiple-cursors'
@@ -49,7 +52,6 @@ Plugin 'Shougo/neosnippet.vim'
 Plugin 'Shougo/neosnippet-snippets'
 
 " display
-Plugin 'joshdick/onedark.vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'scrooloose/syntastic'
@@ -57,6 +59,9 @@ Plugin 'lervag/vimtex'
 Plugin 'Yggdroot/indentline'
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
+Plugin 'pacha/vem-tabline'
+" themes
+Plugin 'joshdick/onedark.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()
@@ -85,6 +90,10 @@ set incsearch
 set showmatch
 set expandtab
 set nu
+" Split predictably below
+set splitbelow
+" Split redictably right
+set splitright
 " make searches case-sensitve if they contain upper-case chars
 set ignorecase smartcase
 " highlight current line
@@ -94,9 +103,9 @@ set switchbuf=useopen
 set hidden
 " make split char a solid line
 set fillchars+=vert:\│
-" dont make backups
-set nobackup
-set nowritebackup
+" set backups/undos
+set backup
+set undofile
 set backupdir=$HOME/.vim/backup//
 set directory=$HOME/.vim/swap//
 set undodir=$HOME/.vim/undo//
@@ -145,22 +154,10 @@ augroup vimrcEx
 augroup END
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" COLOUR
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" colourscheme
-color onedark
-let g:airline_theme='onedark'
-let g:airline_powerline_fonts=0
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#fnamemod = ':t'
-" Use terminal background
-hi Normal ctermbg=none
-highlight NonText ctermbg=none
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MISC KEY MAPS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " tab traverse
+nnoremap <silent>tt :tabnew<CR>
 nnoremap == gt
 nnoremap -- gT
 
@@ -180,6 +177,7 @@ nnoremap <Tab>j :bnext<CR>
 nnoremap <Tab>k :bprevious<CR>
 " close current buffer and move to previous one
 nnoremap <leader>bq :bp <BAR> bd #<CR>
+
 " bufexplorer
 nnoremap <silent> <Leader>bl :BufExplorerVerticalSplit<CR>
 let g:bufExplorerDisableDefaultKeyMapping=1
@@ -187,12 +185,6 @@ let g:bufExplorerDisableDefaultKeyMapping=1
 " move 'correctly' on wrapped lines
 nnoremap j gj
 nnoremap k gk
-
-" fix common typos
-if !exists(':W')
-    command W w
-    command Q q
-endif
 
 " save files as sudo
 cnoremap w!! w !sudo tee > /dev/null %
@@ -208,35 +200,110 @@ nnoremap <Leader>ff :!firefox %<CR>
 
 " run py script
 noremap <Leader>py :!python %<CR>
-
-" show weather report
-nnoremap <silent> <Leader>we :! curl -s wttr.in/Sydney \| sed -r "s/\x1B\[[0-9;]*[JKmsu]//g"<CR>
-
-" open terminal
-nnoremap <Leader>ht :terminal<CR>
-nnoremap <Leader>vt :vertical terminal<CR>
-" close terminal
-tnoremap <esc> <C-\><C-n>:q!<CR>
-" make sure no other keys break when terminal closed with esc
-set notimeout ttimeout timeoutlen=100
+" run rb script
+noremap <Leader>rb :!ruby %<CR>
+" run sh script
+noremap <Leader>sh :!sh %<CR>
 
 " undotree
 set undofile
 nnoremap <Leader>u :UndotreeToggle <BAR> :UndotreeFocus<CR>
 
-" Enable folding with the spacebar
+" Enable folding/unfold with the spacebar
 nnoremap <space> za
+nnoremap <leader><space> zR
 
-" ctags
+" ctrlp + ctags
 nnoremap <leader>. :CtrlPTag<cr>
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" STARTIFY CONFIG
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:ctrlp_reuse_window  = 'startify' " Alow ctrlp to use startify window
-let g:startify_session_dir='~/.vim/session'
+" fix common typos
+if !exists(':W')
+  command W w
+  command Q q
+endif
 
-let g:startify_list_order=[
+" Reference current file's path
+cnoremap <expr> %% expand('%:h').'/'
+
+" Keep selection after indent
+vnoremap < <gv
+vnoremap > >gv
+
+" move lines and blocks
+" normal mode
+nnoremap <C-j> :m .+1<CR>==
+nnoremap <C-k> :m .-2<CR>==
+" insert mode
+inoremap <C-j> <ESC>:m .+1<CR>==gi
+inoremap <C-k> <ESC>:m .-2<CR>==gi
+" visual mode (blocks)
+vnoremap <C-j> :m '>+1<CR>gv=gv
+vnoremap <C-k> :m '<-2<CR>gv=gv
+
+" show weather report
+nnoremap <silent> <Leader>we :! curl -s wttr.in/Sydney \| sed -r "s/\x1B\[[0-9;]*[JKmsu]//g"<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" COMMANDS
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+command! Pyrun execute "!python -i %"
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" FUNCTIONS
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Rename current file
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! RenameFile()
+  let old_name = expand('%')
+  let new_name = input('New file name: ', expand('%'), 'file')
+  if new_name != '' && new_name != old_name
+    exec ':saveas ' . new_name
+    exec ':silent !rm ' . old_name
+    redraw!
+  endif
+endfunction
+nnoremap <leader>rn :call RenameFile()<cr>
+
+" Append modeline after last line in buffer.
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
+" files.
+function! AppendModeline()
+  let l:modeline = printf(" vim: set ts=%d sw=%d tw=%d fdm=%s %set :",
+    \ &tabstop, &shiftwidth, &textwidth, &foldmethod, &expandtab ? '' : 'no')
+  let l:modeline = substitute(&commentstring, "%s", l:modeline, "")
+  call append(line("$"), l:modeline)
+endfunction
+
+nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
+
+" Folds
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+hi Folded term=bold cterm=NONE ctermfg=lightblue " ctermbg=NONE
+
+function! NeatFoldText()
+  let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
+  let lines_count = v:foldend - v:foldstart + 1
+  let lines_count_text = '| ' . printf("%10s", lines_count . ' lines') . ' |'
+  let foldchar = '·'
+  let foldtextstart = strpart('+' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
+  let foldtextend = lines_count_text . repeat(foldchar, 8)
+  let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
+  return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
+endfunction
+set foldtext=NeatFoldText()
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" PLUGINS
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Startify config
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:ctrlp_reuse_window = 'startify' " Alow ctrlp to use startify window
+let g:startify_session_dir ='~/.vim/session'
+
+let g:startify_list_order = [
   \ ['   My sessions:'],
   \ 'sessions',
   \ ['   My most recently used files in the current directory:'],
@@ -259,37 +326,12 @@ let g:startify_session_before_save = [
 let g:startify_bookmarks = [
   \ { 'v': '~/dotfiles/vimrc' },
   \ { 'z': '~/dotfiles/zshrc' },
+  \ { 'h': '~/dotfiles/hyper.js' },
 \ ]
 
+" Neosnippets
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" RENAME CURRENT FILE
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! RenameFile()
-  let old_name = expand('%')
-  let new_name = input('New file name: ', expand('%'), 'file')
-  if new_name != '' && new_name != old_name
-    exec ':saveas ' . new_name
-    exec ':silent !rm ' . old_name
-    redraw!
-  endif
-endfunction
-nnoremap <leader>rn :call RenameFile()<cr>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" SHORTCUT TO REFERENCE CURRENT FILE'S PATH IN COMMAND LINE MODE
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-cnoremap <expr> %% expand('%:h').'/'
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" COMMANDS
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-command! Pyrun execute "!python %"
-command! PyrunI execute "!python -i %"
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" PLUGINS
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:neosnippet#snippets_directory='~/dotfiles/neosnippet'
+let g:neosnippet#snippets_directory = '~/dotfiles/neosnippet'
 
 " Plugin key-mappings.
 imap <C-k>     <Plug>(neosnippet_expand_or_jump)
@@ -298,12 +340,19 @@ xmap <C-k>     <Plug>(neosnippet_expand_target)
 
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
-" nerdtree
+" Nerdtree
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeStatusline = '(~˘▾˘)~'
 
-" limelight
+" vem-tabline
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nmap <leader>h <Plug>vem_move_buffer_left-
+nmap <leader>l <Plug>vem_move_buffer_right-
+
+" Limelight
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Color name (:help cterm-colors) or ANSI code
 let g:limelight_conceal_ctermfg = 'gray'
 let g:limelight_conceal_ctermfg = 240
@@ -321,10 +370,35 @@ let g:limelight_paragraph_span = 1
 "   Set it to -1 not to overrule hlsearch
 let g:limelight_priority = -1
 
+" Goyo
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" auto activate/deactivate limelight on enter/leave
 autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
 
-" Indent Lines
+" Indent lines
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:indentLine_enabled = 1 " enabled by default
 let g:indentLine_conceallevel=1
-let g:indentLine_char = "┆"
+let g:indentLine_char = "┆" " requires utf-8 in file
+
+" Ale
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:ale_sign_error = '●' " Less aggressive than the default '>>'
+let g:ale_sign_warning = '.'
+let g:ale_lint_on_enter = 0 " Less distracting when opening a new file
+let g:airline#extensions#ale#enabled = 1 " enable with airline
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" COLOUR
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" colourscheme
+color onedark
+
+" airline
+let g:airline_theme='onedark'
+let g:airline_powerline_fonts=0
+
+" Use terminal background
+hi Normal ctermbg=none
+highlight NonText ctermbg=none
