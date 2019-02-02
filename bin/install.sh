@@ -38,14 +38,6 @@ ln -sFf $DIR/mackup.cfg ~/.mackup.cfg
 newline
 
 
-# Setup Vim
-printgarr "Setting up$grn vimrc"
-backup_file '.vimrc'
-ln -sFf $DIR/vimrc ~/.vimrc
-mkdir -p ~/.vim/backup ~/.vim/swap ~/.vim/undo
-newline
-
-
 # Setup NeoVim
 printgarr "Setting up$grn nvimrc"
 mkdir -p $HOME/.config/nvim
@@ -53,6 +45,14 @@ backup_file './config/nvim/init.vim'
 ln -sFf $DIR/nvimrc ~/.config/nvim/vimrc
 printgarr "Installing $grn pynvim"
 pip3 install pynvim
+newline
+
+
+# Setup Vim
+printgarr "Setting up$grn vimrc"
+backup_file '.vimrc'
+ln -sFf $DIR/vimrc ~/.vimrc
+mkdir -p ~/.vim/backup ~/.vim/swap ~/.vim/undo
 newline
 
 

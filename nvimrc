@@ -464,8 +464,6 @@ let g:limelight_priority = -1
 " Goyo
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! s:goyo_enter()
-  Limelight
-
   let b:quitting = 0
   let b:quitting_bang = 0
   autocmd QuitPre <buffer> let b:quitting = 1
@@ -474,8 +472,6 @@ endfunction
 
 function! s:goyo_leave()
   hi Normal ctermbg=none
-  Limelight!
-
   " Quit Vim if this is the only remaining buffer
   if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
     if b:quitting_bang
@@ -490,7 +486,7 @@ autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 let g:goyo_width = "70%"
-let g:goyo_height = "85%"
+let g:goyo_height = "80%"
 
 " Indent lines
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
