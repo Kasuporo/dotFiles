@@ -104,6 +104,8 @@ export SSH_KEY_PATH="~/.ssh/rsa_id"
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+source $DOTFILES/bin/utils.sh
+
 source $DOTFILES/zsh/autoload-env.zsh
 source $DOTFILES/zsh/codi.zsh
 source $DOTFILES/zsh/transfer.zsh

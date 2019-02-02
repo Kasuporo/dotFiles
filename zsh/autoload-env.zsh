@@ -2,27 +2,66 @@
 # AUTO Import Virtual Env When Entering Directory
 #
 
+autoload -Uz add-zsh-hook
+
 # Create virtual environment for current directory
 function mkenv()
 {
-    python3 -m venv env
+    if [[ -d "env/" ]]; then
+        printerr "env/ already exisits in the current directory!"
+    else
+        python3 -m venv env
 
-    source env/bin/activate
+        source env/bin/activate
 
-    if [[ -f "requirements.txt" ]]; then
-        pip install -r requirements.txt
+        if [[ -f "requirements.txt" ]]; then
+           pip install -r requirements.txt
+        fi
+
+        find_env
     fi
 }
 
 # Remove virtual environment for current directory
 function rmenv()
 {
-    if [[ -d "env/" ]]; then
-        rm -rf env/
+    if [[ "$VIRTUAL_ENV" ]]; then
+        deactivate
+        rm -rf $VIRTUAL_ENV
+    elif [[ -d "env/" ]]; then
+            rm -rf env/
     else
-        printf "No 'env/' folder in the current directory!\n"
+        printerr "No 'env/' folder in the current directory!"
+        return
+    fi
+
+    printifo "Virtual environment removed."
+}
+
+# If we leave the project directory, I want the env to deactivate
+function auto_deactivate()
+{
+    # Get project directory
+    local project="${VIRTUAL_ENV%/env}"
+
+    # If we are in the project this will be the directory of the project we are in
+    # e.g if
+    #   $project=/home/justin/dev/python-project
+    # and
+    #   $PWD=/home/justin/dev/python-project/test
+    # then
+    #   $current_dir=/test
+    local current_dir="${PWD##$project}"
+
+    # Now we only need to check if $project + $current_dir is an actual directory
+    if [ ! -d "$project$current_dir" ]; then
+        printifo "Left$grn $project$whi$bld. Deactivating env."
+        deactivate
     fi
 }
+
+add-zsh-hook -D chpwd auto_deactivate
+add-zsh-hook chpwd auto_deactivate
 
 # Gives the path to the nearest parent env file or nothing if it gets to root
 function find_env()
@@ -110,15 +149,15 @@ function find_env()
         package_more_after=10000
 
         if [[ "$COLUMNS" -gt "125" ]]; then
-          package_padding="                                                "
-          package_more_after=3
-          out=$OUT_MEDIUM
+            package_padding="                                                "
+            package_more_after=3
+            out=$OUT_MEDIUM
         fi
 
         if [[ "$COLUMNS" -gt "160" ]]; then
-          package_padding="                                                        "
-          package_more_after=5
-          out=$OUT_LARGE
+            package_padding="                                                        "
+            package_more_after=5
+            out=$OUT_LARGE
         fi
 
         out=${out// ,i/$fg[yellow] ,i}
@@ -133,9 +172,9 @@ function find_env()
 
         index=0
         for i in "${package_table[@]}"; do
-          let index=index+1
-          if [[ "$index" -gt "$package_more_after" ]]; then
-          fi
+            let index=index+1
+            if [[ "$index" -gt "$package_more_after" ]]; then
+            fi
         done
 
         echo ""
@@ -151,7 +190,6 @@ function find_env()
 }
 
 
-autoload -Uz add-zsh-hook
 add-zsh-hook -D chpwd find_env
 add-zsh-hook chpwd find_env
 

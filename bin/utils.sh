@@ -28,6 +28,13 @@ printerr()
     echo $red"Error:"$whi$bld $1$rst
 }
 
+# print info
+printifo()
+{
+    echo $cyn"Info:"$whi$bld $1$rst
+}
+
+
 printtxt()
 {
     echo "$bld    $1$rst"

@@ -1,5 +1,5 @@
-# Usage: codi [filetype] [filename]
-codi() {
+function codi()
+{
   local syntax="${1:-python}"
   shift
   nvim -c \
