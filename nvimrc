@@ -20,13 +20,6 @@ else
   let g:python_host_prog=substitute(system("which python3"), "\n", '', 'g')
 endif
 
-" Install vim plug if not already
-if empty(glob('~/.condig/nvim/autoload/plug.vim'))
-  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $DOTFILES/nvimrc
-endif
-
 " Add plugins here
 call plug#begin('~/.config/nvim/plugged')
 

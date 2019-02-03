@@ -45,6 +45,10 @@ backup_file './config/nvim/init.vim'
 ln -sFf $DIR/nvimrc ~/.config/nvim/vimrc
 printgarr "Installing $grn pynvim"
 pip3 install pynvim
+if [ ! -d "~/.config/nvim/autoload" ]; then
+    printgarr "Installing $grn plug.vim"
+    curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+fi
 newline
 
 
