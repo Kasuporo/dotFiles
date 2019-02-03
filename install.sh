@@ -5,4 +5,4 @@ if [ -d "~/dotfiles" ]; then
     rm -rf ~/dotfiles
 fi
 
-git clone https://github.com/beanpuppy/dotfiles ~/dotfiles && ~/dotfiles/bin/install.sh
+git clone https://github.com/beanpuppy/dotfiles ~/dotfiles && ~/dotfiles/bin/setup.sh
