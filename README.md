@@ -6,7 +6,7 @@ This doesn't include installing programs, look at [macos-setup](https://github.c
 ## install
 Network setup (repository not cloned):
 ```bash
-curl https://raw.githubusercontent.com/beanpuppy/dotfiles/master/setup.sh | /bin/bash
+curl https://raw.githubusercontent.com/beanpuppy/dotfiles/master/ninstall.sh | /bin/bash
 ```
 
 Local setup (repository already cloned):
