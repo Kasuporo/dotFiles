@@ -106,9 +106,7 @@ export SSH_KEY_PATH="~/.ssh/rsa_id"
 
 source $DOTFILES/bin/utils.sh
 
-source $DOTFILES/zsh/autoload-env.zsh
+source $DOTFILES/zsh/auto-load.zsh
 source $DOTFILES/zsh/codi.zsh
 source $DOTFILES/zsh/transfer.zsh
 source $DOTFILES/zsh/aliases.zsh
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

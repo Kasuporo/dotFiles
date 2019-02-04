@@ -1,42 +1,11 @@
 #
-# AUTO Import Virtual Env When Entering Directory
+# auto load things
 #
-
 autoload -Uz add-zsh-hook
 
-# Create virtual environment for current directory
-function mkenv()
-{
-    if [[ -d "env/" ]]; then
-        printerr "env/ already exisits in the current directory!"
-    else
-        python3 -m venv env
-
-        source env/bin/activate
-
-        if [[ -f "requirements.txt" ]]; then
-           pip install -r requirements.txt
-        fi
-
-        find_env
-    fi
-}
-
-# Remove virtual environment for current directory
-function rmenv()
-{
-    if [[ "$VIRTUAL_ENV" ]]; then
-        deactivate
-        rm -rf $VIRTUAL_ENV
-    elif [[ -d "env/" ]]; then
-            rm -rf env/
-    else
-        printerr "No 'env/' folder in the current directory!"
-        return
-    fi
-
-    printifo "Virtual environment removed."
-}
+#
+# AUTO Activate/Deactivate Virtual Env
+#
 
 # If we leave the project directory, I want the env to deactivate
 function auto_deactivate()
