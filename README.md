@@ -1,7 +1,8 @@
 ## dotfiles
 I don't know what I'm doing.
 
-Requires: HyperJS/ZSH/Neovim
+Requires: `HyperJS/ZSH/Neo(vim)`
+
 This doesn't include installing programs, look at [macos-setup](https://github.com/beanpuppy/macos-setup) for that.
 
 ## install
