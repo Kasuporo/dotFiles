@@ -11,7 +11,7 @@ DIR=`pwd`
 
 backup_file()
 {
-    if [[ -f "$HOME/$1" ]]; then
+    if [ -f "$HOME/$1" ]; then
         printbarr "Backing up old $1"
         cp ~/$1 ~/$1.dotfile.bak
     fi
@@ -38,7 +38,7 @@ ln -sFf $DIR/mackup.cfg ~/.mackup.cfg
 newline
 
 
-# Setup NeoVim
+# Setup Neovim
 printgarr "Setting up$grn nvimrc"
 mkdir -p $HOME/.config/nvim
 backup_file './config/nvim/vimrc'
@@ -64,7 +64,7 @@ newline
 printgarr "Setting up$grn zshrc"
 backup_file '.zshrc'
 ln -sFf $DIR/zshrc ~/.zshrc
-if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
     printf "Installing Oh My Zsh\n"
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 fi
@@ -76,7 +76,7 @@ if is_command tmux ; then
     printgarr "Setting up$grn tmux"
     backup_file 'tmux.conf'
     ln -sFf $DIR/tmux.conf ~/tmux.conf
-    if [[ ! -d "$HOME/.tmux/plugins/tpm" ]]; then
+    if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
         printgarr "Installing TPM"
         git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     fi
@@ -122,7 +122,7 @@ case "$response" in
     eval cd "$directory"
 
     newline
-    if [[ -f "codes.txt.enc" ]]; then
+    if [ -f "codes.txt.enc" ]; then
         printbarr "Found existing$grn codes.txt.enc"
     else
         printbarr "Please enter a password to encrypt the file"
@@ -143,7 +143,9 @@ newline
 
 # Finish
 printbarr "Removing backups"
-rm ~/.*.dotfile.bak && test -e ~/.ptpython/config.py.dotfile.bak && rm ~/.ptpython/config.py.dotfile.bak
+rm ~/.*.dotfile.bak
+test -e ~/.config/nvim/vimrc.dotfile.bak && rm ~/.config/nvim/vimrc.dotfile.bak
+test -e ~/.ptpython/config.py.dotfile.bak && rm ~/.ptpython/config.py.dotfile.bak
 newline
 
 printtxt "All done!"
