@@ -13,7 +13,7 @@ call system('mkdir -p ~/.vim/autoload/' )  " autoload folder
 
 " Install vim plug if not already
 if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+  silent !curl -fLo ~/.vim/autoload/plug.vim
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $DOTFILES/vimrc
 endif
