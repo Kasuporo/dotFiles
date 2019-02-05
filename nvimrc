@@ -22,7 +22,7 @@ endif
 
 " Install vim plug if not already
 if glob("~/.config/nvim/autoload/plug.vim") ==# ""
-  silent !curl -fLo ~/.vim/autoload/plug.vim
+  silent !curl -fLo ~/.config/nvim/autoload/plug.vim
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $DOTFILES/vimrc
 endif
