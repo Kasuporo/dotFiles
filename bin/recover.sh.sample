@@ -38,7 +38,7 @@ elif [[ -f "codes.txt.enc" ]]; then
     if [[ $? -eq 0 ]]; then
         rm codes.txt.enc
 
-        vim codes.txt && $DOTFILES/bin/recover.sh
+        nvim codes.txt && $DOTFILES/bin/recover.sh
     else
         rm codes.txt
 
