@@ -39,9 +39,9 @@ function mkenv()
 # Remove virtual environment
 function rmenv()
 {
-    if [[ "$VIRTUAL_ENV" ]]; then
+    if [ "$VIRTUAL_ENV" ]; then
         printgarr "Removing \`env\` folder."
-        rm -rf $VIRTUAL_ENV
+        eval rm -rf $VIRTUAL_ENV
         printgarr "Deactivaing virtual env."
         deactivate
     elif [[ -d "env/" ]]; then
