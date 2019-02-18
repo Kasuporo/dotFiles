@@ -180,14 +180,13 @@ augroup END
 " MISC KEY MAPS {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " tab traverse
-nnoremap <silent>tt :tabnew<CR>
 nnoremap == gt
 nnoremap -- gT
 
-nnoremap <leader>nt :NERDTreeToggle<CR>
+nnoremap <silent>tt :NERDTreeToggle<CR>
 nnoremap <leader>tt :TagbarToggle<CR>
 " nerd tree + tagbar
-nnoremap <leader><Tab> :NERDTreeToggle<CR>:TagbarToggle<CR>
+nnoremap <Tab><Tab> :NERDTreeToggle<CR>:TagbarToggle<CR>
 
 " window traverse
 nnoremap <C-h> <C-w>h
@@ -503,7 +502,7 @@ let g:airline#extensions#ale#enabled = 1 " enable with airline
 
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_echo_msg_format = '[%linter%] %code%: %s [%severity%]'
 
 let g:ale_fixers = {
 \ '*': ['remove_trailing_lines', 'trim_whitespace'],
