@@ -65,7 +65,6 @@ Plug 'Shougo/neosnippet-snippets'
 " display
 Plug 'vim-airline/vim-airline'
 Plug 'airblade/vim-gitgutter'
-Plug 'scrooloose/syntastic'
 Plug 'lervag/vimtex'
 Plug 'Yggdroot/indentline'
 Plug 'pangloss/vim-javascript'
@@ -198,7 +197,7 @@ nnoremap <C-l> <C-w>l
 nnoremap <Tab>j :bnext<CR>
 nnoremap <Tab>k :bprevious<CR>
 " close current buffer and move to previous one
-nnoremap <leader>bq :bp <BAR> bd #<CR>
+nnoremap <Tab>q :bp <BAR> bd #<CR>
 
 " bufexplorer
 nnoremap <silent> <Leader>bl :BufExplorerVerticalSplit<CR>
@@ -511,6 +510,8 @@ let g:ale_linters = {
 \ 'javascript': ['eslint'],
 \ 'python': ['flake8'],
 \}
+
+let g:ale_python_flake8_options = '--ignore=E201,E202,E221,E241,E303,E501,E701'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLOUR {{{1
