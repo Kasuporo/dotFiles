@@ -509,6 +509,7 @@ let g:ale_fixers = {
 let g:ale_linters = {
 \ 'javascript': ['eslint'],
 \ 'python': ['flake8'],
+\ 'bash': ['shellcheck'],
 \}
 
 let g:ale_python_flake8_options = '--ignore=E201,E202,E221,E241,E303,E501,E701'
