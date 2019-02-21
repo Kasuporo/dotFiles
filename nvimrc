@@ -72,6 +72,8 @@ Plug 'mxw/vim-jsx'
 Plug 'pacha/vem-tabline'
 Plug 'junegunn/limelight.vim'
 Plug 'gabrielelana/vim-markdown'
+Plug 'TaDaa/vimade'
+Plug 'ryanoasis/vim-devicons'
 " themes
 Plug 'joshdick/onedark.vim'
 Plug 'pbrisbin/vim-colors-off'
