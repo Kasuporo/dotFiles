@@ -223,7 +223,7 @@ cnoremap w!! w !sudo tee > /dev/null %
 cnoremap qq qall
 
 " edit nvimrc
-nnoremap <Leader>rc :e $DOTFILES/nvimrc<CR>
+cnoremap EditRC :e ~/dotfiles/nvimrc<CR>
 
 " load current file in firefox
 nnoremap <Leader>ff :!firefox %<CR>
@@ -489,7 +489,7 @@ let g:goyo_height = "80%"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:indentLine_enabled = 1 " enabled by default
 let g:indentLine_conceallevel=1
-let g:indentLine_char = "┆" " requires utf-8 in file
+let g:indentLine_char = "┆" " requires utf-8 in file/terminal
 
 " Ale
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
