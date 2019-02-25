@@ -12,13 +12,8 @@ call system('mkdir -p ~/.config/nvim/plugged/')    " plugin folder
 
 " Figure out the system python for neovim - we assume that the neovim python
 " server has been installed globally.
-if exists("$VIRTUAL_ENV")
-  let g:python3_host_prog=substitute(system("which -a python3 | head -n2 | tail -n1"), "\n", '', 'g')
-  let g:python_host_prog=substitute(system("which -a python | head -n2 | tail -n1"), "\n", '', 'g')
-else
-  let g:python3_host_prog=substitute(system("which python3"), "\n", '', 'g')
-  let g:python_host_prog=substitute(system("which python3"), "\n", '', 'g')
-endif
+let g:python3_host_prog=substitute(system("which -a python3 | head -n2 | tail -n1"), "\n", '', 'g')
+let g:python_host_prog=substitute(system("which -a python2 | head -n2 | tail -n1"), "\n", '', 'g')
 
 " Install vim plug if not already
 if glob("~/.config/nvim/autoload/plug.vim") ==# ""
@@ -43,6 +38,7 @@ Plug 'w0rp/ale'
 Plug 'vimwiki/vimwiki'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'craigemery/vim-autotag'
 
 " editing
 Plug 'terryma/vim-multiple-cursors'
@@ -64,6 +60,7 @@ Plug 'Shougo/neosnippet-snippets'
 
 " display
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
 Plug 'lervag/vimtex'
 Plug 'Yggdroot/indentline'
@@ -75,7 +72,7 @@ Plug 'gabrielelana/vim-markdown'
 Plug 'TaDaa/vimade'
 Plug 'ryanoasis/vim-devicons'
 " themes
-Plug 'joshdick/onedark.vim'
+Plug 'drewtempelmeyer/palenight.vim'
 Plug 'pbrisbin/vim-colors-off'
 
 " Initialise plugin system
@@ -521,10 +518,12 @@ let g:ale_python_flake8_options = '--ignore=E201,E202,E221,E241,E303,E501,E701'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " colourscheme
-colorscheme onedark
+set background=dark
+colorscheme palenight
+let g:palenight_terminal_italics=1
 
 " airline
-let g:airline_theme='onedark'
+let g:airline_theme='monochrome'
 let g:airline_powerline_fonts=0
 
 " Use terminal background

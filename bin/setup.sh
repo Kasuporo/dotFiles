@@ -60,10 +60,6 @@ newline
 printgarr "Setting up$grn zshrc"
 backup_file '.zshrc'
 ln -sFf $DIR/zshrc ~/.zshrc
-if [ ! -d "$HOME/.oh-my-zsh" ]; then
-    printf "Installing Oh My Zsh\n"
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-fi
 newline
 
 
