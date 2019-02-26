@@ -313,7 +313,7 @@ command! Trim :%s/\s*$//g | nohlsearch | exe "normal! g'\""
 
 " Change colorscheme
 command! Mono :colorscheme off | hi Normal ctermbg=none
-command! Colour :colorscheme onedark | hi Normal ctermbg=none
+command! Colour :colorscheme palenight | hi Normal ctermbg=none
 
 " chmod +x
 command! EX
