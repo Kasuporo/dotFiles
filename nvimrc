@@ -302,6 +302,9 @@ nnoremap K :silent! grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 " find todos and fixmes
 nnoremap <leader>t :Ag '(FIXME)\\\|(TODO)'<cr>
 
+" Helper to replace words under cursor
+nnoremap <Leader>fr :%s/\<<C-r><C-w>\>//g<Left><Left>
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COMMANDS {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
