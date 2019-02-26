@@ -209,8 +209,8 @@ nnoremap <silent> <Leader>bl :BufExplorerVerticalSplit<CR>
 let g:bufExplorerDisableDefaultKeyMapping=1
 
 " vem-tabline
-nmap <Tab>h <Plug>vem_move_buffer_left-
-nmap <Tab>l <Plug>vem_move_buffer_right-
+noremap <Tab>h <Plug>vem_move_buffer_left-
+noremap <Tab>l <Plug>vem_move_buffer_right-
 
 " move 'correctly' on wrapped lines
 nnoremap j gj
@@ -267,8 +267,8 @@ nnoremap <silent> <C-h> <<
 nnoremap <silent> <C-l> >>
 
 " easyalign
-xmap ga <Plug>(EasyAlign)
-nmap ga <Plug>(EasyAlign)
+xnoremap ga <Plug>(EasyAlign)
+nnoremap ga <Plug>(EasyAlign)
 
 " Fzf
 nnoremap <leader>f :FZF<CR>
@@ -303,7 +303,7 @@ nnoremap <leader>t :Ag '(FIXME)\\\|(TODO)'<cr>
 nnoremap <Leader>fr :%s/\<<C-r><C-w>\>//g<Left><Left>
 
 " YankRing show
-nnoremap <silent> Y :YRShow<CR>
+nnoremap <silent>Y :YRShow<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COMMANDS {{{1
