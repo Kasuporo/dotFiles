@@ -228,9 +228,6 @@ cnoremap w!! w !sudo tee > /dev/null %
 " quick quit all
 cnoremap qq qall
 
-" edit nvimrc
-cnoremap EditRC :e ~/dotfiles/nvimrc<CR>
-
 " load current file in firefox
 nnoremap <Leader>ff :!firefox %<CR>
 " run py script
@@ -327,6 +324,9 @@ command! EX
   \|   echohl None
   \| endif
 
+" edit nvimrc
+command! EditRC :e ~/dotfiles/nvimrc<CR>
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " FUNCTIONS {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -342,7 +342,7 @@ function! RenameFile()
     redraw!
   endif
 endfunction
-nnoremap <leader>rn :call RenameFile()<cr>
+command! Rename :call RenameFile()<cr>
 
 " Append modeline after last line in buffer.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
