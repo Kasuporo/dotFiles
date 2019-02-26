@@ -19,7 +19,7 @@ let g:python_host_prog=substitute(system("which -a python2 | head -n2 | tail -n1
 if glob("~/.config/nvim/autoload/plug.vim") ==# ""
   silent !curl -fLo ~/.config/nvim/autoload/plug.vim
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $DOTFILES/vimrc
+  autocmd VimEnter * PlugInstall --sync | source ~/dotfiles/nvimrc
 endif
 
 " Add plugins here
@@ -51,6 +51,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'rust-lang/rust.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'tpope/vim-sleuth'
+Plug 'vim-scripts/YankRing.vim'
 " code completion
 Plug 'davidhalter/jedi-vim'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -186,6 +187,11 @@ nnoremap <leader>tt :TagbarToggle<CR>
 " nerd tree + tagbar
 nnoremap <Tab><Tab> :NERDTreeToggle<CR>:TagbarToggle<CR>
 
+" Split vert.
+nnoremap <silent> vv <C-w>v
+" Split hori.
+nnoremap <silent> ss <C-w>s
+
 " window traverse
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
@@ -278,6 +284,23 @@ nnoremap <Leader>d :Gdiff<CR>
 
 " show weather report
 nnoremap <silent> <Leader>we :! curl -s wttr.in/Sydney \| sed -r "s/\x1B\[[0-9;]*[JKmsu]//g"<CR>
+
+" The Silver Searcher, if available
+"  1. bind to :grep syntax
+"  2. create new :Ag syntax
+if executable('ag')
+  set grepprg=ag\ --nogroup\ --nocolor\ --vimgrep
+  set grepformat^=%f:%l:%c:%m   " file:line:column:message
+endif
+
+" Create Ag command
+command! -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
+
+" bind K to grep word under cursor - useful even if Ag not installed
+nnoremap K :silent! grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+
+" find todos and fixmes
+nnoremap <leader>t :Ag '(FIXME)\\\|(TODO)'<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COMMANDS {{{1
