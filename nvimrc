@@ -293,14 +293,17 @@ endif
 " Create Ag command
 command! -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
 
-" bind K to grep word under cursor - useful even if Ag not installed
-nnoremap K :silent! grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+" bind mm to grep word under cursor - useful even if Ag not installed
+nnoremap mm :silent! grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 " find todos and fixmes
 nnoremap <leader>t :Ag '(FIXME)\\\|(TODO)'<cr>
 
 " Helper to replace words under cursor
 nnoremap <Leader>fr :%s/\<<C-r><C-w>\>//g<Left><Left>
+
+" YankRing show
+nnoremap <silent> Y :YRShow<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COMMANDS {{{1
@@ -325,7 +328,7 @@ command! EX
   \| endif
 
 " edit nvimrc
-command! EditRC :e ~/dotfiles/nvimrc<CR>
+command! EditRC :e ~/dotfiles/nvimrc
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " FUNCTIONS {{{1
@@ -538,6 +541,11 @@ let g:ale_linters = {
 \}
 
 let g:ale_python_flake8_options = '--ignore=E201,E202,E221,E241,E303,E501,E701'
+
+" YankRing
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:yankring_replace_n_pkey = '<m-p>'
+let g:yankring_replace_n_nkey = '<m-n>'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLOUR {{{1
