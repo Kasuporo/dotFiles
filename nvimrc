@@ -73,7 +73,7 @@ Plug 'gabrielelana/vim-markdown'
 Plug 'TaDaa/vimade'
 Plug 'ryanoasis/vim-devicons'
 " themes
-Plug 'drewtempelmeyer/palenight.vim'
+Plug 'flazz/vim-colorschemes'
 Plug 'pbrisbin/vim-colors-off'
 
 " Initialise plugin system
@@ -313,7 +313,7 @@ command! Trim :%s/\s*$//g | nohlsearch | exe "normal! g'\""
 
 " Change colorscheme
 command! Mono :colorscheme off | hi Normal ctermbg=none
-command! Colour :colorscheme palenight | hi Normal ctermbg=none
+command! Colour :colorscheme onedark | hi Normal ctermbg=none
 
 " chmod +x
 command! EX
@@ -553,15 +553,14 @@ let g:yankring_replace_n_nkey = '<m-n>'
 
 " colourscheme
 set background=dark
-colorscheme palenight
-let g:palenight_terminal_italics=1
-
-" airline
-let g:airline_theme='monochrome'
-let g:airline_powerline_fonts=0
+colorscheme Tomorrow-Night
 
 " Use terminal background
 hi Normal ctermbg=none
 highlight NonText ctermbg=none
+
+" airline
+let g:airline_theme='night_owl'
+let g:airline_powerline_fonts=0
 
 " vim: set ts=4 sw=2 tw=78 fdm=marker et :
