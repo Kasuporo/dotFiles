@@ -73,7 +73,7 @@ Plug 'gabrielelana/vim-markdown'
 Plug 'TaDaa/vimade'
 Plug 'ryanoasis/vim-devicons'
 " themes
-Plug 'flazz/vim-colorschemes'
+Plug 'rafi/awesome-vim-colorschemes'
 Plug 'pbrisbin/vim-colors-off'
 
 " Initialise plugin system
@@ -552,14 +552,14 @@ let g:yankring_replace_n_nkey = '<m-n>'
 
 " colourscheme
 set background=dark
-colorscheme Tomorrow-Night
+colorscheme hybrid_material
 
 " Use terminal background
 hi Normal ctermbg=none
 highlight NonText ctermbg=none
 
 " airline
-let g:airline_theme='night_owl'
+let g:airline_theme='monochrome'
 let g:airline_powerline_fonts=0
 
 " vim: set ts=4 sw=2 tw=78 fdm=marker et :

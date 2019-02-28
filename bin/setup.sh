@@ -31,6 +31,11 @@ ln -sFf $DIR/hyper.js ~/.hyper.js
 newline
 
 
+# Setup Base16 Colours
+printgarr "Setting up$grn base16"
+git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
+newline
+
 # Setup mackup
 printgarr "Setting up$grn mackup"
 backup_file '.mackup.cfg'
@@ -139,7 +144,7 @@ rm ~/.*.dotfile.bak
 test -e ~/.config/nvim/vimrc.dotfile.bak && rm ~/.config/nvim/vimrc.dotfile.bak
 test -e ~/.ptpython/config.py.dotfile.bak && rm ~/.ptpython/config.py.dotfile.bak
 newline
-
 printtxt "All done!"
+
 printtxt "Please restart your terminal for some things to take effect."
 newline
