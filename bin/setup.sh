@@ -46,7 +46,7 @@ newline
 # Setup Neovim
 printgarr "Setting up$grn nvimrc"
 mkdir -p $HOME/.config/nvim
-backup_file './config/nvim/vimrc'
+backup_file './config/nvim/init.vim'
 ln -sFf $DIR/nvimrc ~/.config/nvim/init.vim
 printgarr "Installing $grn pynvim"
 pip3 install pynvim
