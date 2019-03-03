@@ -111,3 +111,5 @@ source $DOTFILES/zsh/codi.zsh
 source $DOTFILES/zsh/transfer.zsh
 source $DOTFILES/zsh/aliases.zsh
 source $DOTFILES/zsh/base16.zsh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

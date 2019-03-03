@@ -75,6 +75,8 @@ Plug 'ryanoasis/vim-devicons'
 " themes
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'pbrisbin/vim-colors-off'
+" ?
+Plug 'junegunn/vim-emoji'
 
 " Initialise plugin system
 call plug#end()
@@ -145,37 +147,6 @@ set modeline
 set modelines=5
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" CUSTOM AUTOCMDS {{{1
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-augroup vimrc
-  " Jump to last cursor position unless it's invalid or in an event handler
-  autocmd BufReadPost *
-    \ if line("'\"") > 0 && line("'\"") <= line("$") |
-    \   exe "normal g`\"" |
-    \ endif
-
-  autocmd FileType python setlocal sw=4 ts=4 et
-  autocmd FileType ruby setlocal sw=2 ts=2 et
-  autocmd FileType javascript setlocal sw=2 ts=2 et
-  autocmd FileType javascript.jsx setlocal ts=2 sts=2 sw=2
-
-  " Leave the return key alone when in command line windows, since it's used
-  " to run commands there.
-  autocmd! CmdwinEnter * :unmap <cr>
-  autocmd! CmdwinLeave * :call MapCR()
-
-  " If in particular window, just tab to main
-  autocmd FileType nerdtree noremap <buffer> <Tab> <c-w>l
-  autocmd FileType tagbar noremap <buffer> <Tab> <c-w>h
-
-  " Automatic rename of tmux window
-  if exists('$TMUX') && !exists('$NORENAME')
-    au BufEnter * if empty(&buftype) | call system('tmux rename-window '.expand('%:t:S')) | endif
-    au VimLeave * call system('tmux set-window automatic-rename on')
-  endif
-augroup END
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MISC KEY MAPS {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " tab traverse
@@ -187,9 +158,9 @@ nnoremap <leader>tt :TagbarToggle<CR>
 " nerd tree + tagbar
 nnoremap <Tab><Tab> :NERDTreeToggle<CR>:TagbarToggle<CR>
 
-" Split vert.
+" Split vertical
 nnoremap <silent> vv <C-w>v
-" Split hori.
+" Split horizontal
 nnoremap <silent> ss <C-w>s
 
 " window traverse
@@ -282,6 +253,9 @@ nnoremap <Leader>d :Gdiff<CR>
 " show weather report
 nnoremap <silent> <Leader>we :! curl -s wttr.in/Sydney \| sed -r "s/\x1B\[[0-9;]*[JKmsu]//g"<CR>
 
+" qq to record, Q to replay
+nnoremap Q @q
+
 " The Silver Searcher, if available
 "  1. bind to :grep syntax
 "  2. create new :Ag syntax
@@ -303,12 +277,11 @@ nnoremap <leader>t :Ag '(FIXME)\\\|(TODO)'<cr>
 nnoremap <Leader>fr :%s/\<<C-r><C-w>\>//g<Left><Left>
 
 " YankRing show
-nnoremap <silent>Y :YRShow<CR>
+nnoremap <silent>yr :YRShow<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COMMANDS {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-command! Pyrun execute "!python -i %"
 command! Trim :%s/\s*$//g | nohlsearch | exe "normal! g'\""
 
 " Change colorscheme
@@ -332,19 +305,6 @@ command! EditRC :e ~/dotfiles/nvimrc
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " FUNCTIONS {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Rename current file
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! RenameFile()
-  let old_name = expand('%')
-  let new_name = input('New file name: ', expand('%'), 'file')
-  if new_name != '' && new_name != old_name
-    exec ':saveas ' . new_name
-    exec ':silent !rm ' . old_name
-    redraw!
-  endif
-endfunction
-command! Rename :call RenameFile()<cr>
 
 " Append modeline after last line in buffer.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -386,18 +346,114 @@ function! NeatFoldText()
 endfunction
 set foldtext=NeatFoldText()
 
-" Help in new tabs
+" <F5> / <F6> | Run script
 " ----------------------------------------------------------------------------
-function! s:helptab()
-  if &buftype == 'help'
-    wincmd T
-    nnoremap <buffer> q :q<cr>
+function! s:run_this_script(output)
+  let head   = getline(1)
+  let pos    = stridx(head, '#!')
+  let file   = expand('%:p')
+  let ofile  = tempname()
+  let rdr    = " 2>&1 | tee ".ofile
+  let win    = winnr()
+  let prefix = a:output ? 'silent !' : '!'
+  " Shebang found
+  if pos != -1
+    execute prefix.strpart(head, pos + 2).' '.file.rdr
+  " Shebang not found but executable
+  elseif executable(file)
+    execute prefix.file.rdr
+  elseif &filetype == 'ruby'
+    execute prefix.'/usr/bin/env ruby '.file.rdr
+  elseif &filetype == 'tex'
+    execute prefix.'latex '.file. '; [ $? -eq 0 ] && xdvi '. expand('%:r').rdr
+  elseif &filetype == 'dot'
+    let svg = expand('%:r') . '.svg'
+    let png = expand('%:r') . '.png'
+    " librsvg >> imagemagick + ghostscript
+    execute 'silent !dot -Tsvg '.file.' -o '.svg.' && '
+          \ 'rsvg-convert -z 2 '.svg.' > '.png.' && open '.png.rdr
+  else
+    return
+  end
+  redraw!
+  if !a:output | return | endif
+
+  " Scratch buffer
+  if exists('s:vim_exec_buf') && bufexists(s:vim_exec_buf)
+    execute bufwinnr(s:vim_exec_buf).'wincmd w'
+    %d
+  else
+    silent!  bdelete [vim-exec-output]
+    silent!  vertical botright split new
+    silent!  file [vim-exec-output]
+    setlocal buftype=nofile bufhidden=wipe noswapfile
+    let      s:vim_exec_buf = winnr()
+  endif
+  execute 'silent! read' ofile
+  normal! gg"_dd
+  execute win.'wincmd w'
+endfunction
+nnoremap <silent> <F5> :call <SID>run_this_script(0)<cr>
+nnoremap <silent> <F6> :call <SID>run_this_script(1)<cr>
+
+" Syntax highlighting in code snippets
+" ----------------------------------------------------------------------------
+function! s:syntax_include(lang, b, e, inclusive)
+  let syns = split(globpath(&rtp, "syntax/".a:lang.".vim"), "\n")
+  if empty(syns)
+    return
+  endif
+
+  if exists('b:current_syntax')
+    let csyn = b:current_syntax
+    unlet b:current_syntax
+  endif
+
+  let z = "'" " Default
+  for nr in range(char2nr('a'), char2nr('z'))
+    let char = nr2char(nr)
+    if a:b !~ char && a:e !~ char
+      let z = char
+      break
+    endif
+  endfor
+
+  silent! exec printf("syntax include @%s %s", a:lang, syns[0])
+  if a:inclusive
+    exec printf('syntax region %sSnip start=%s\(%s\)\@=%s ' .
+                \ 'end=%s\(%s\)\@<=\(\)%s contains=@%s containedin=ALL',
+                \ a:lang, z, a:b, z, z, a:e, z, a:lang)
+  else
+    exec printf('syntax region %sSnip matchgroup=Snip start=%s%s%s ' .
+                \ 'end=%s%s%s contains=@%s containedin=ALL',
+                \ a:lang, z, a:b, z, z, a:e, z, a:lang)
+  endif
+
+  if exists('csyn')
+    let b:current_syntax = csyn
   endif
 endfunction
-autocmd vimrc BufEnter *.txt call s:helptab()
+
+function! s:file_type_handler()
+  if &ft =~ 'jinja' && &ft != 'jinja'
+    call s:syntax_include('jinja', '{{', '}}', 1)
+    call s:syntax_include('jinja', '{%', '%}', 1)
+  elseif &ft =~ 'mkd\|markdown'
+    for lang in ['ruby', 'yaml', 'vim', 'sh', 'bash:sh', 'python', 'java', 'c',
+          \ 'clojure', 'clj:clojure', 'scala', 'sql', 'gnuplot']
+      call s:syntax_include(split(lang, ':')[-1], '```'.split(lang, ':')[0], '```', 0)
+    endfor
+
+    highlight def link Snip Folded
+    setlocal textwidth=78
+    setlocal completefunc=emoji#complete
+  elseif &ft == 'sh'
+    call s:syntax_include('ruby', '#!ruby', '/\%$', 1)
+  endif
+endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" OTHER PLUGINS {{{1
+" PLUGINS {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Startify config
@@ -548,7 +604,6 @@ let g:yankring_replace_n_nkey = '<m-n>'
 
 " FZF
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " Customize fzf colors to match color scheme
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
@@ -566,9 +621,59 @@ let g:fzf_colors =
   \ 'header':  ['fg', 'Comment'] }
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" AUTOCMD {{{1
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+augroup vimrc
+  " Jump to last cursor position unless it's invalid or in an event handler
+  autocmd BufReadPost *
+    \ if line("'\"") > 0 && line("'\"") <= line("$") |
+    \   exe "normal g`\"" |
+    \ endif
+
+  autocmd FileType python setlocal sw=4 ts=4 et
+  autocmd FileType ruby setlocal sw=2 ts=2 et
+  autocmd FileType javascript setlocal sw=2 ts=2 et
+  autocmd FileType javascript.jsx setlocal ts=2 sts=2 sw=2
+
+  " File types
+  au BufNewFile,BufRead *.icc set filetype=cpp
+  au BufNewFile,BufRead *.pde set filetype=java
+  au BufNewFile,BufRead *.coffee-processing set filetype=coffee
+  au BufNewFile,BufRead Dockerfile* set filetype=dockerfile
+
+  " Included syntax
+  au FileType,ColorScheme * call <SID>file_type_handler()
+
+  " Fugitive
+  au FileType gitcommit setlocal completefunc=emoji#complete
+  au FileType gitcommit nnoremap <buffer> <silent> cd :<C-U>Gcommit --amend --date="$(date)"<CR>
+
+  " http://vim.wikia.com/wiki/Highlight_unwanted_spaces
+  au BufNewFile,BufRead,InsertLeave * silent! match ExtraWhitespace /\s\+$/
+  au InsertEnter * silent! match ExtraWhitespace /\s\+\%#\@<!$/
+
+  " Unset paste on InsertLeave
+  au InsertLeave * silent! set nopaste
+
+  " Leave the return key alone when in command line windows, since it's used
+  " to run commands there.
+  autocmd! CmdwinEnter * :unmap <cr>
+  autocmd! CmdwinLeave * :call MapCR()
+
+  " If in particular window, just tab to main
+  autocmd FileType nerdtree noremap <buffer> <Tab> <c-w>l
+  autocmd FileType tagbar noremap <buffer> <Tab> <c-w>h
+
+  " Automatic rename of tmux window
+  if exists('$TMUX') && !exists('$NORENAME')
+    au BufEnter * if empty(&buftype) | call system('tmux rename-window '.expand('%:t:S')) | endif
+    au VimLeave * call system('tmux set-window automatic-rename on')
+  endif
+augroup END
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLOUR {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " colourscheme
 set background=dark
 colorscheme hybrid_material
