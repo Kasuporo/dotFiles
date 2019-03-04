@@ -1,7 +1,6 @@
 --exclude=node_modules
 --exclude=dist
 --exclude=bower_components
---exclude=*.min.js
 --exclude=*.txt
 --exclude=*.json
 --exclude=vendors
@@ -11,6 +10,27 @@
 --exclude=*.md
 --exclude=.sass-cache
 --exclude=Gruntfile.js
+--exclude=.svn
+--exclude=.hg
+--exclude=bundle
+--exclude=min
+--exclude=vendor
+--exclude=\*.min.\*
+--exclude=\*.map
+--exclude=\*.swp
+--exclude=\*.bak
+--exclude=\*.pyc
+--exclude=\*.class
+--exclude=\*.sln
+--exclude=\*.Master
+--exclude=\*.csproj
+--exclude=\*.csproj.user
+--exclude=\*.cache
+--exclude=\*.dll
+--exclude=\*.pdb
+--exclude=tags
+--exclude=cscope.\*
+--exclude=\*.tar.\*
 
 --langdef=html
 --langmap=html:.htm.html.erb
