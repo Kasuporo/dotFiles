@@ -72,6 +72,7 @@ Plug 'junegunn/limelight.vim'
 Plug 'gabrielelana/vim-markdown'
 Plug 'TaDaa/vimade'
 Plug 'ryanoasis/vim-devicons'
+Plug 'RRethy/vim-illuminate'
 " themes
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'pbrisbin/vim-colors-off'
@@ -145,13 +146,23 @@ set conceallevel=1
 " set modelines
 set modeline
 set modelines=5
+" wildignore
+set wildignore=*.o
+set wildignore+=*~
+set wildignore+=*.pyc
+set wildignore+=.git/*
+set wildignore+=.hg/*
+set wildignore+=.svn/*
+set wildignore+=*.DS_Store
+set wildignore+=CVS/*
+set wildignore+=*.mod
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MISC KEY MAPS {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " tab traverse
-nnoremap == gt
-nnoremap -- gT
+nnoremap <silent>== gt
+nnoremap <silent>-- gT
 
 nnoremap <silent>tt :NERDTreeToggle<CR>
 nnoremap <leader>tt :TagbarToggle<CR>
@@ -187,12 +198,6 @@ noremap <Tab>l <Plug>vem_move_buffer_right-
 nnoremap j gj
 nnoremap k gk
 
-" Movement in insert mode
-inoremap <C-h> <C-o>h
-inoremap <C-l> <C-o>a
-inoremap <C-j> <C-o>j
-inoremap <C-k> <C-o>k
-
 " save files as sudo
 cnoremap w!! w !sudo tee > /dev/null %
 
@@ -201,12 +206,6 @@ cnoremap qq qall
 
 " load current file in firefox
 nnoremap <Leader>ff :!firefox %<CR>
-" run py script
-noremap <Leader>py :!python %<CR>
-" run rb script
-noremap <Leader>rb :!ruby %<CR>
-" run sh script
-noremap <Leader>sh :!sh %<CR>
 
 " undotree
 nnoremap <silent> U :UndotreeToggle <BAR> :UndotreeFocus<CR>
@@ -619,6 +618,10 @@ let g:fzf_colors =
   \ 'marker':  ['fg', 'Keyword'],
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
+
+" vim-illuminate
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:Illuminate_delay = 0
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " AUTOCMD {{{1
