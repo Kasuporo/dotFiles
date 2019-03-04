@@ -12,7 +12,13 @@ call system('mkdir -p ~/.config/nvim/plugged/')    " plugin folder
 
 " Figure out the system python for neovim - we assume that the neovim python
 " server has been installed globally.
-let g:python3_host_prog=substitute(system("which -a python3 | head -n2 | tail -n1"), "\n", '', 'g')
+let py3 = systemlist("which -a python3")[0]
+" on some machines python3 is python3.6
+if !v:shell_error
+  let g:python3_host_prog=substitute(system("which -a python3 | head -n2 | tail -n1"), "\n", '', 'g')
+else
+  let g:python3_host_prog=substitute(system("which -a python3.6 | head -n2 | tail -n1"), "\n", '', 'g')
+endif
 let g:python_host_prog=substitute(system("which -a python2 | head -n2 | tail -n1"), "\n", '', 'g')
 
 " Install vim plug if not already
@@ -146,6 +152,13 @@ set conceallevel=1
 " set modelines
 set modeline
 set modelines=5
+" Command menu
+set wildmenu
+" Make repeated presses cycle between all matching choices
+set wildmode=longest,full
+" better command line completion
+set fileignorecase
+set wildignorecase
 " wildignore
 set wildignore=*.o
 set wildignore+=*~
@@ -161,8 +174,8 @@ set wildignore+=*.mod
 " MISC KEY MAPS {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " tab traverse
-nnoremap <silent>== gt
-nnoremap <silent>-- gT
+nnoremap <silent> == gt
+nnoremap <silent> -- gT
 
 nnoremap <silent>tt :NERDTreeToggle<CR>
 nnoremap <leader>tt :TagbarToggle<CR>
@@ -677,6 +690,7 @@ augroup END
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLOUR {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 " colourscheme
 set background=dark
 colorscheme hybrid_material
