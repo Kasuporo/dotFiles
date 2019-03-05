@@ -213,6 +213,12 @@ noremap <Tab>l <Plug>vem_move_buffer_right-
 nnoremap j gj
 nnoremap k gk
 
+" Movement in insert mode
+inoremap <C-h> <C-o>h
+inoremap <C-l> <C-o>a
+inoremap <C-j> <C-o>j
+inoremap <C-k> <C-o>k
+
 " save files as sudo
 cnoremap w!! w !sudo tee > /dev/null %
 
@@ -251,9 +257,9 @@ vnoremap <C-k> :m '<-2<CR>gv=gv
 nnoremap <silent> <C-h> <<
 nnoremap <silent> <C-l> >>
 
-" easyalign
-xnoremap ga <Plug>(EasyAlign)
-nnoremap ga <Plug>(EasyAlign)
+" easy align
+xnoremap ga :EasyAlign<CR>
+nnoremap ga :EasyAlign<CR>
 
 " Fzf
 nnoremap <leader>f :FZF<CR>
