@@ -44,7 +44,7 @@ Plug 'w0rp/ale'
 Plug 'vimwiki/vimwiki'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'craigemery/vim-autotag'
+Plug 'ludovicchabant/vim-gutentags'
 
 " editing
 Plug 'terryma/vim-multiple-cursors'
@@ -292,6 +292,9 @@ nnoremap <Leader>fr :%s/\<<C-r><C-w>\>//g<Left><Left>
 
 " YankRing show
 nnoremap <silent>yr :YRShow<CR>
+
+" Ctags open in split
+nnoremap <C-\> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COMMANDS {{{1
