@@ -79,6 +79,7 @@ Plug 'gabrielelana/vim-markdown'
 Plug 'TaDaa/vimade'
 Plug 'ryanoasis/vim-devicons'
 Plug 'RRethy/vim-illuminate'
+Plug 'tveskag/nvim-blame-line'
 " themes
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'pbrisbin/vim-colors-off'
@@ -213,12 +214,6 @@ noremap <Tab>l <Plug>vem_move_buffer_right-
 nnoremap j gj
 nnoremap k gk
 
-" Movement in insert mode
-inoremap <C-h> <C-o>h
-inoremap <C-l> <C-o>a
-inoremap <C-j> <C-o>j
-inoremap <C-k> <C-o>k
-
 " save files as sudo
 cnoremap w!! w !sudo tee > /dev/null %
 
@@ -257,9 +252,9 @@ vnoremap <C-k> :m '<-2<CR>gv=gv
 nnoremap <silent> <C-h> <<
 nnoremap <silent> <C-l> >>
 
-" easy align
-xnoremap ga :EasyAlign<CR>
-nnoremap ga :EasyAlign<CR>
+" easyalign
+xnoremap ga <Plug>(EasyAlign)
+nnoremap ga <Plug>(EasyAlign)
 
 " Fzf
 nnoremap <leader>f :FZF<CR>
@@ -301,6 +296,10 @@ nnoremap <silent>yr :YRShow<CR>
 
 " Ctags open in split
 nnoremap <C-\> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
+nnoremap <C-[> :sp <CR>:exec("tag ".expand("<cword>"))<CR>
+
+" Blame line
+nnoremap <expr> <leader>b ToggleBlameLine()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COMMANDS {{{1
@@ -752,6 +751,7 @@ let g:ale_linters = {
 \}
 
 let g:ale_python_flake8_options = '--ignore=E201,E202,E221,E241,E303,E501,E701'
+let g:ale_nasm_nasm_options = '-f elf64'
 
 " YankRing
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
