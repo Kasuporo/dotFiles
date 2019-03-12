@@ -45,6 +45,8 @@ Plug 'vimwiki/vimwiki'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
+Plug 'skywind3000/gutentags_plus'
+Plug 'skywind3000/asyncrun.vim'
 
 " editing
 Plug 'terryma/vim-multiple-cursors'
@@ -296,7 +298,6 @@ nnoremap <silent>yr :YRShow<CR>
 
 " Ctags open in split
 nnoremap <C-\> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
-nnoremap <C-[> :sp <CR>:exec("tag ".expand("<cword>"))<CR>
 
 " Blame line
 nnoremap <expr> <leader>b ToggleBlameLine()
@@ -780,6 +781,31 @@ let g:fzf_colors =
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:Illuminate_delay = 0
 
+" AsyncRun
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:asyncrun_open = 12
+
+let g:asyncrun_status = ''
+let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status}'])
+
+command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
+
+nnoremap <silent> <leader>c :AsyncRun gcc -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <CR>
+
+" Gutentags
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" enable gtags module
+let g:gutentags_modules = ['ctags', 'gtags_cscope']
+
+" config project root markers.
+let g:gutentags_project_root = ['.git']
+
+" generate datebases in my cache directory, prevent gtags files polluting my project
+let g:gutentags_cache_dir = expand('~/.cache/tags')
+
+" change focus to quickfix window after search (optional).
+let g:gutentags_plus_switch = 1
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " AUTOCMD {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -798,6 +824,7 @@ augroup vimrc
 
   autocmd FileType python setlocal sw=4 ts=4 et
   autocmd FileType ruby setlocal sw=2 ts=2 et
+  autocmd FileType yaml setlocal sw=2 ts=2 et
   autocmd FileType javascript setlocal sw=2 ts=2 et
   autocmd FileType javascript.jsx setlocal ts=2 sts=2 sw=2
 
@@ -829,6 +856,9 @@ augroup vimrc
   " If in particular window, just tab to main
   autocmd FileType nerdtree noremap <buffer> <Tab> <c-w>l
   autocmd FileType tagbar noremap <buffer> <Tab> <c-w>h
+
+  " close quickfix if only window
+  autocmd WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"| q | endif
 
   " Automatic rename of tmux window
   if exists('$TMUX') && !exists('$NORENAME')
