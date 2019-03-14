@@ -330,12 +330,13 @@ command! EditRC :e ~/dotfiles/nvimrc
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 function! Root()
-  execute 'lcd %:p:h'
+  " cd to current path of file
+  let path = expand('%:p:h')
+  silent! execute 'lcd' path
+  " cd to git repo root
   let root = systemlist('git rev-parse --show-toplevel')[0]
   if !v:shell_error
     execute 'lcd' root
-  else
-    execute 'lcd -'
   endif
 endfunction
 command! Root call Root()
