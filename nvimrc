@@ -329,6 +329,17 @@ command! EditRC :e ~/dotfiles/nvimrc
 " FUNCTIONS {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+function! Root()
+  execute 'lcd %:p:h'
+  let root = systemlist('git rev-parse --show-toplevel')[0]
+  if !v:shell_error
+    execute 'lcd' root
+  else
+    execute 'lcd -'
+  endif
+endfunction
+command! Root call Root()
+
 " Append modeline after last line in buffer.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
@@ -355,6 +366,30 @@ function! NeatFoldText()
   return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
 endfunction
 set foldtext=NeatFoldText()
+
+" Operate on word (line) in all buffers
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! OperateBuffers(find, ...)
+  let operation=join(a:000, ' ')
+  execute 'bufdo g/' . a:find . '/exe "norm /' . a:find . '\<cr>\' . operation . '" | update'
+endfunction
+command! -bang -nargs=* OB call OperateBuffers(<f-args>)
+
+" Operate on word (line)
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! Operate(find, ...)
+  let operation=join(a:000, ' ')
+  execute 'g/' . a:find . '/exe "norm /' . a:find . '\<cr>\' . operation . '" | update'
+endfunction
+command! -bang -nargs=* O call Operate(<f-args>)
+
+" Find and replace in all buffers
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! Replace(find, ...)
+  let replace=join(a:000, ' ')
+  execute 'bufdo %s/'. a:find . '/'. replace . '/gc | update'
+endfunction
+command! -bang -nargs=* R call Replace(<f-args>)
 
 " <F5> / <F6> | Run script
 " ----------------------------------------------------------------------------
@@ -816,11 +851,8 @@ augroup vimrc
     \   exe "normal g`\"" |
     \ endif
 
-  " auto start in root repository folder
-  let root = systemlist('git rev-parse --show-toplevel')[0]
-  if !v:shell_error
-    execute 'lcd' root
-  endif
+  " lcd to project root on buffer enter
+  autocmd Filetype,BufEnter * :call Root()
 
   autocmd FileType python setlocal sw=4 ts=4 et
   autocmd FileType ruby setlocal sw=2 ts=2 et
