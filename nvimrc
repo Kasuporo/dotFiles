@@ -31,6 +31,9 @@ endif
 " Add plugins here
 call plug#begin('~/.config/nvim/plugged')
 
+" My plugins
+Plug 'beanpuppy/vimroot'
+
 " tools
 Plug 'scrooloose/nerdtree'
 Plug 'jlanzarotta/bufexplorer'
@@ -328,18 +331,6 @@ command! EditRC :e ~/dotfiles/nvimrc
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " FUNCTIONS {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-function! Root()
-  " cd to current path of file
-  let path = expand('%:p:h')
-  silent! execute 'lcd' path
-  " cd to git repo root
-  let root = systemlist('git rev-parse --show-toplevel')[0]
-  if !v:shell_error
-    execute 'lcd' root
-  endif
-endfunction
-command! Root call Root()
 
 " Append modeline after last line in buffer.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -842,6 +833,10 @@ let g:gutentags_cache_dir = expand('~/.cache/tags')
 " change focus to quickfix window after search (optional).
 let g:gutentags_plus_switch = 1
 
+" vimroot
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:enablevimroot = 1
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " AUTOCMD {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -851,9 +846,6 @@ augroup vimrc
     \ if line("'\"") > 0 && line("'\"") <= line("$") |
     \   exe "normal g`\"" |
     \ endif
-
-  " lcd to project root on buffer enter
-  autocmd Filetype,BufEnter * :call Root()
 
   autocmd FileType python setlocal sw=4 ts=4 et
   autocmd FileType ruby setlocal sw=2 ts=2 et
