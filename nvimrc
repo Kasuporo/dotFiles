@@ -835,7 +835,7 @@ let g:gutentags_plus_switch = 1
 
 " vimroot
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:enablevimroot = 1
+let g:vimroot_enable = 1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " AUTOCMD {{{1
@@ -854,24 +854,27 @@ augroup vimrc
   autocmd FileType javascript.jsx setlocal ts=2 sts=2 sw=2
 
   " File types
-  au BufNewFile,BufRead *.icc set filetype=cpp
-  au BufNewFile,BufRead *.pde set filetype=java
-  au BufNewFile,BufRead *.coffee-processing set filetype=coffee
-  au BufNewFile,BufRead Dockerfile* set filetype=dockerfile
+  autocmd BufNewFile,BufRead *.icc set filetype=cpp
+  autocmd BufNewFile,BufRead *.pde set filetype=java
+  autocmd BufNewFile,BufRead *.coffee-processing set filetype=coffee
+  autocmd BufNewFile,BufRead Dockerfile* set filetype=dockerfile
 
   " Included syntax
-  au FileType,ColorScheme * call <SID>file_type_handler()
+  autocmd FileType,ColorScheme * call <SID>file_type_handler()
 
   " Fugitive
-  au FileType gitcommit setlocal completefunc=emoji#complete
-  au FileType gitcommit nnoremap <buffer> <silent> cd :<C-U>Gcommit --amend --date="$(date)"<CR>
+  autocmd FileType gitcommit setlocal completefunc=emoji#complete
+  autocmd FileType gitcommit nnoremap <buffer> <silent> cd :<C-U>Gcommit --amend --date="$(date)"<CR>
 
   " http://vim.wikia.com/wiki/Highlight_unwanted_spaces
-  au BufNewFile,BufRead,InsertLeave * silent! match ExtraWhitespace /\s\+$/
-  au InsertEnter * silent! match ExtraWhitespace /\s\+\%#\@<!$/
+  autocmd BufNewFile,BufRead,InsertLeave * silent! match ExtraWhitespace /\s\+$/
+  autocmd InsertEnter * silent! match ExtraWhitespace /\s\+\%#\@<!$/
 
   " Unset paste on InsertLeave
-  au InsertLeave * silent! set nopaste
+  autocmd InsertLeave * silent! set nopaste
+
+  " Overwrite quickfix CR to close after selected
+  autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose<CR>
 
   " Leave the return key alone when in command line windows, since it's used
   " to run commands there.
