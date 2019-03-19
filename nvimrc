@@ -776,6 +776,7 @@ let g:ale_linters = {
 \ 'javascript': ['eslint'],
 \ 'python': ['flake8'],
 \ 'sh': ['shellcheck'],
+\ 'markdown': ['vale'],
 \}
 
 let g:ale_python_flake8_options = '--ignore=E201,E202,E221,E241,E303,E501,E701'
@@ -861,6 +862,9 @@ augroup vimrc
 
   " Included syntax
   autocmd FileType,ColorScheme * call <SID>file_type_handler()
+
+  " Spelling for markdown
+  autocmd FileType markdown syntax spell toplevel | set spell spelllang=en_au
 
   " Fugitive
   autocmd FileType gitcommit setlocal completefunc=emoji#complete
