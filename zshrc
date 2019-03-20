@@ -74,7 +74,7 @@ source $ZSH/oh-my-zsh.sh
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
-export DEVBOX='dev'
+export DEVBOX='0xc0ff33'
 export EDITOR='nvim'
 export DOCKERID='beanpupper'
 export DOTFILES="$HOME/dotfiles"

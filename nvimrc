@@ -273,8 +273,8 @@ nnoremap <Leader>d :Gdiff<CR>
 " show weather report
 nnoremap <silent> <Leader>we :! curl -s wttr.in/Sydney \| sed -r "s/\x1B\[[0-9;]*[JKmsu]//g"<CR>
 
-" qq to record, Q to replay
-nnoremap Q @q
+" qq to record, leader-q to replay
+nnoremap <Leader>q @q
 
 " The Silver Searcher, if available
 "  1. bind to :grep syntax
@@ -776,7 +776,8 @@ let g:ale_linters = {
 \ 'javascript': ['eslint'],
 \ 'python': ['flake8'],
 \ 'sh': ['shellcheck'],
-\ 'markdown': ['vale'],
+\ 'markdown': ['vale', 'alex'],
+\ 'html': ['htmlhint'],
 \}
 
 let g:ale_python_flake8_options = '--ignore=E201,E202,E221,E241,E303,E501,E701'
@@ -880,17 +881,12 @@ augroup vimrc
   " Overwrite quickfix CR to close after selected
   autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose<CR>
 
-  " Leave the return key alone when in command line windows, since it's used
-  " to run commands there.
-  autocmd! CmdwinEnter * :unmap <cr>
-  autocmd! CmdwinLeave * :call MapCR()
+  " close quickfix if only window
+  autocmd WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"| q | endif
 
   " If in particular window, just tab to main
   autocmd FileType nerdtree noremap <buffer> <Tab> <c-w>l
   autocmd FileType tagbar noremap <buffer> <Tab> <c-w>h
-
-  " close quickfix if only window
-  autocmd WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"| q | endif
 
   " Automatic rename of tmux window
   if exists('$TMUX') && !exists('$NORENAME')
