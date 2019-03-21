@@ -258,12 +258,10 @@ nnoremap <silent> <C-h> <<
 nnoremap <silent> <C-l> >>
 
 " easyalign
-xnoremap ga <Plug>(EasyAlign)
-nnoremap ga <Plug>(EasyAlign)
+xnoremap ga :EasyAlign<CR>
+nnoremap ga :EasyAlign<CR>
 
 " Fzf
-nnoremap <leader>f :FZF<CR>
-" Also use ctrl-p because I am wayyyyy too used to it.
 nnoremap <C-p> :FZF<CR>
 
 " Fugitive
@@ -383,7 +381,7 @@ function! Replace(find, ...)
 endfunction
 command! -bang -nargs=* R call Replace(<f-args>)
 
-" <F5> / <F6> | Run script
+" :Run / :RunI | Run script
 " ----------------------------------------------------------------------------
 function! s:run_this_script(output)
   let head   = getline(1)
@@ -430,8 +428,9 @@ function! s:run_this_script(output)
   normal! gg"_dd
   execute win.'wincmd w'
 endfunction
-nnoremap <silent> <F5> :call <SID>run_this_script(0)<cr>
-nnoremap <silent> <F6> :call <SID>run_this_script(1)<cr>
+
+command! Run :call <SID>run_this_script(0)<cr>
+command! RunI :call <SID>run_this_script(1)<cr>
 
 " Syntax highlighting in code snippets
 " ----------------------------------------------------------------------------
@@ -643,31 +642,31 @@ onoremap <silent> a~ :<C-U>execute "normal va~"<cr>
 let g:startify_session_dir ='~/.vim/session' " share sessions with normal vim
 
 let g:startify_list_order = [
-  \ ['   My sessions:'],
-  \ 'sessions',
-  \ ['   My most recently used files in the current directory:'],
-  \ 'dir',
-  \ ['   My most recently used files'],
-  \ 'files',
-  \ ['   My bookmarks:'],
-  \ 'bookmarks',
-  \ ['   My commands:'],
-  \ 'commands',
-\ ]
+\ ['   My sessions:'],
+\ 'sessions',
+\ ['   My most recently used files in the current directory:'],
+\ 'dir',
+\ ['   My most recently used files'],
+\ 'files',
+\ ['   My bookmarks:'],
+\ 'bookmarks',
+\ ['   My commands:'],
+\ 'commands',
+\]
 
 " Close Cleanup
 let g:startify_session_before_save = [
-  \ 'echo "Cleaning up before saving.."',
-  \ 'silent! NERDTreeClose',
-  \ 'silent! TagbarClose',
-\ ]
+\ 'echo "Cleaning up before saving.."',
+\ 'silent! NERDTreeClose',
+\ 'silent! TagbarClose',
+\]
 
 let g:startify_bookmarks = [
-  \ { 'v': '~/dotfiles/vimrc' },
-  \ { 'n': '~/dotfiles/nvimrc' },
-  \ { 'z': '~/dotfiles/zshrc' },
-  \ { 'h': '~/dotfiles/hyper.js' },
-\ ]
+\ { 'v': '~/dotfiles/vimrc' },
+\ { 'n': '~/dotfiles/nvimrc' },
+\ { 'z': '~/dotfiles/zshrc' },
+\ { 'h': '~/dotfiles/hyper.js' },
+\]
 
 " Deoplete/Neosnippets
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -861,6 +860,9 @@ augroup vimrc
   autocmd BufNewFile,BufRead *.coffee-processing set filetype=coffee
   autocmd BufNewFile,BufRead Dockerfile* set filetype=dockerfile
 
+  " Auto save session as '__previous__' so we can go back
+  autocmd VimLeave * SSave! __previous__
+
   " Included syntax
   autocmd FileType,ColorScheme * call <SID>file_type_handler()
 
@@ -883,6 +885,7 @@ augroup vimrc
 
   " close quickfix if only window
   autocmd WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"| q | endif
+  autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
   " If in particular window, just tab to main
   autocmd FileType nerdtree noremap <buffer> <Tab> <c-w>l
@@ -890,8 +893,8 @@ augroup vimrc
 
   " Automatic rename of tmux window
   if exists('$TMUX') && !exists('$NORENAME')
-    au BufEnter * if empty(&buftype) | call system('tmux rename-window '.expand('%:t:S')) | endif
-    au VimLeave * call system('tmux set-window automatic-rename on')
+    autocmd BufEnter * if empty(&buftype) | call system('tmux rename-window '.expand('%:t:S')) | endif
+    autocmd VimLeave * call system('tmux set-window automatic-rename on')
   endif
 augroup END
 
