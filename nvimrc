@@ -836,6 +836,8 @@ let g:gutentags_cache_dir = expand('~/.cache/tags')
 " change focus to quickfix window after search (optional).
 let g:gutentags_plus_switch = 1
 
+let g:airline#extensions#gutentags#enabled = 1
+
 " vimroot
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:vimroot_enable = 1
@@ -886,7 +888,7 @@ augroup vimrc
   autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose<CR>
 
   " close quickfix if only window
-  autocmd WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"| q | endif
+  autocmd WinEnter * if (winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix") | q | endif
   autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
   " If in particular window, just tab to main
