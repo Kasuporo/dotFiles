@@ -10,6 +10,8 @@ call system('mkdir -p ~/.config/nvim/swap/' )      " swap files
 call system('mkdir -p ~/.config/nvim/autoload/' )  " autoload folder
 call system('mkdir -p ~/.config/nvim/plugged/')    " plugin folder
 
+call system('mkdir -p ~/.cache/tags/')
+
 " Figure out the system python for neovim - we assume that the neovim python
 " server has been installed globally.
 let py3 = systemlist("which -a python3")[0]
@@ -33,6 +35,7 @@ call plug#begin('~/.config/nvim/plugged')
 
 " My plugins
 Plug 'beanpuppy/vimroot'
+Plug 'beanpuppy/gutentags_plus' " Fork of 'skywind3000/gutentags_plus'
 
 " tools
 Plug 'scrooloose/nerdtree'
@@ -48,7 +51,6 @@ Plug 'vimwiki/vimwiki'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
-Plug 'skywind3000/gutentags_plus'
 Plug 'skywind3000/asyncrun.vim'
 
 " editing
@@ -227,9 +229,6 @@ cnoremap w!! w !sudo tee > /dev/null %
 " quick quit all
 cnoremap qq qall
 
-" load current file in firefox
-nnoremap <Leader>ff :!firefox %<CR>
-
 " undotree
 nnoremap <silent> U :UndotreeToggle <BAR> :UndotreeFocus<CR>
 
@@ -276,25 +275,8 @@ nnoremap <silent> <Leader>we :! curl -s wttr.in/Sydney \| sed -r "s/\x1B\[[0-9;]
 " qq to record, leader-q to replay
 nnoremap <Leader>q @q
 
-" The Silver Searcher, if available
-"  1. bind to :grep syntax
-"  2. create new :Ag syntax
-if executable('ag')
-  set grepprg=ag\ --nogroup\ --nocolor\ --vimgrep
-  set grepformat^=%f:%l:%c:%m   " file:line:column:message
-endif
-
-" Create Ag command
-command! -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
-
-" bind mm to grep word under cursor - useful even if Ag not installed
-nnoremap mm :silent! grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
-
-" find todos and fixmes
-nnoremap <leader>t :Ag '(FIXME)\\\|(TODO)'<cr>
-
 " Helper to replace words under cursor
-nnoremap <Leader>fr :%s/\<<C-r><C-w>\>//g<Left><Left>
+nnoremap <Leader>r :%s/\<<C-r><C-w>\>//g<Left><Left>
 
 " YankRing show
 nnoremap <silent>yr :YRShow<CR>
@@ -343,6 +325,15 @@ function! AppendModeline()
   call append(line("$"), l:modeline)
 endfunction
 nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
+
+" Clear swap
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! ClearSwap()
+  let l:nvimopen = systemlist("ps aux | grep 'nvim\s'")
+  if len(l:nvimopen) <= 1
+    call system('rm -f ~/.config/nvim/swap/*')
+  endif
+endfunction
 
 " Folds
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -792,20 +783,54 @@ let g:yankring_replace_n_nkey = '<m-n>'
 " FZF
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Customize fzf colors to match color scheme
-let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'Comment'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':     ['fg', 'Statement'],
-  \ 'info':    ['fg', 'PreProc'],
-  \ 'border':  ['fg', 'Ignore'],
-  \ 'prompt':  ['fg', 'Conditional'],
-  \ 'pointer': ['fg', 'Exception'],
-  \ 'marker':  ['fg', 'Keyword'],
-  \ 'spinner': ['fg', 'Label'],
-  \ 'header':  ['fg', 'Comment'] }
+let g:fzf_colors = {
+\ 'fg':      ['fg', 'Normal'],
+\ 'bg':      ['bg', 'Normal'],
+\ 'hl':      ['fg', 'Comment'],
+\ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+\ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+\ 'hl+':     ['fg', 'Statement'],
+\ 'info':    ['fg', 'PreProc'],
+\ 'border':  ['fg', 'Ignore'],
+\ 'prompt':  ['fg', 'Conditional'],
+\ 'pointer': ['fg', 'Exception'],
+\ 'marker':  ['fg', 'Keyword'],
+\ 'spinner': ['fg', 'Label'],
+\ 'header':  ['fg', 'Comment']
+\}
+
+" Files command with preview window
+command! -bang -nargs=? -complete=dir Files call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+nnoremap <leader>f :Files<CR>
+
+if executable('ag')
+  " Augmenting Ag command using fzf#vim#with_preview function
+  "   * fzf#vim#with_preview([[options], [preview window], [toggle keys...]])
+  "     * For syntax-highlighting, Ruby and any of the following tools are required:
+  "       - Bat: https://github.com/sharkdp/bat
+  "       - Highlight: http://www.andre-simon.de/doku/highlight/en/highlight.php
+  "       - CodeRay: http://coderay.rubychan.de/
+  "       - Rouge: https://github.com/jneen/rouge
+  "
+  "   :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
+  "   :Ag! - Start fzf in fullscreen and display the preview window above
+  command! -bang -nargs=* Ag
+    \ call fzf#vim#ag(<q-args>,
+    \                 <bang>0 ? fzf#vim#with_preview('up:60%')
+    \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
+    \                 <bang>0)
+
+  " bind mm to search word under cursor
+  nnoremap mm :Ag <C-R><C-W><CR>
+  vnoremap mm y :Ag <C-R>"<CR>
+
+  nnoremap MM :Ag! <C-R><C-W><CR>
+  vnoremap MM y :Ag! <C-R>"<CR>
+else
+  " bind mm to grep word under cursor - useful even if Ag not installed
+  nnoremap mm :silent! grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+  vnoremap mm y :silent! grep! <C-R>"<CR>:cw<CR>
+endif
 
 " vim-illuminate
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -830,7 +855,7 @@ let g:gutentags_modules = ['ctags', 'gtags_cscope']
 " config project root markers.
 let g:gutentags_project_root = ['.git']
 
-" generate datebases in my cache directory, prevent gtags files polluting my project
+" generate databases in my cache directory, prevent gtags files polluting my project
 let g:gutentags_cache_dir = expand('~/.cache/tags')
 
 " change focus to quickfix window after search (optional).
@@ -867,11 +892,17 @@ augroup vimrc
   " Auto save session as '__previous__' so we can go back
   autocmd VimLeave * SSave! __previous__
 
+  " Remove all swap files on exit, if no nvims are open
+  autocmd VimLeave * call ClearSwap()
+
   " Included syntax
   autocmd FileType,ColorScheme * call <SID>file_type_handler()
 
   " Spelling for markdown
   autocmd FileType markdown syntax spell toplevel | set spell spelllang=en_au
+
+  " No indent lines for fzf please
+  autocmd FileType fzf :IndentLinesDisable
 
   " Fugitive
   autocmd FileType gitcommit setlocal completefunc=emoji#complete
@@ -886,6 +917,8 @@ augroup vimrc
 
   " Overwrite quickfix CR to close after selected
   autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose<CR>
+  " Esc to close quickfix
+  autocmd FileType qf nnoremap <buffer> <ESC> :cclose<CR>
 
   " close quickfix if only window
   autocmd WinEnter * if (winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix") | q | endif
