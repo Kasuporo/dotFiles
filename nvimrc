@@ -181,6 +181,10 @@ set wildignore+=CVS/*
 set wildignore+=*.mod
 " Keep the cursor on the same column
 set nostartofline
+" Replace live preview
+set inccommand=nosplit
+" Set global replace as default
+set gdefault
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MISC KEY MAPS {{{1
@@ -269,14 +273,8 @@ nnoremap <C-p> :FZF<CR>
 nnoremap <Leader>g :Gstatus<CR>gg<c-n>
 nnoremap <Leader>d :Gdiff<CR>
 
-" show weather report
-nnoremap <silent> <Leader>we :! curl -s wttr.in/Sydney \| sed -r "s/\x1B\[[0-9;]*[JKmsu]//g"<CR>
-
 " qq to record, leader-q to replay
 nnoremap <Leader>q @q
-
-" Helper to replace words under cursor
-nnoremap <Leader>r :%s/\<<C-r><C-w>\>//g<Left><Left>
 
 " YankRing show
 nnoremap <silent>yr :YRShow<CR>
@@ -286,6 +284,21 @@ nnoremap <C-\> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 
 " Blame line
 nnoremap <expr> <leader>b ToggleBlameLine()
+
+" Helper to replace words under cursor
+nnoremap <Leader>r :%s/\<<C-R><C-W>\>//<Left>
+nnoremap <Leader>R :%s/\<<C-R><C-W>\>//c<Left><Left>
+xnoremap <Leader>r y :%s/\<<C-R>"\>//<Left>
+xnoremap <Leader>R y :%s/\<<C-R>"\>//c<Left><Left>
+
+" Nearby find and replace
+nnoremap <silent> <Leader>c :let @/='\<'.expand('<cword>').'\>'<CR>cgn
+xnoremap <silent> <Leader>c "sy:let @/=@s<CR>cgn
+xnoremap <CR> <Esc>.
+nnoremap <CR> gnzz
+nnoremap ! ungnzz
+" NOTE: make sure to overwrite <CR> in guickfix back to normal
+" autocmd FileType qf nnoremap <CR> <CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COMMANDS {{{1
@@ -309,6 +322,9 @@ command! EX
 
 " edit nvimrc
 command! EditRC :e ~/dotfiles/nvimrc
+
+" show weather report
+command! Weather :! curl -s wttr.in/Sydney \| sed -r "s/\x1B\[[0-9;]*[JKmsu]//g"<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " FUNCTIONS {{{1
@@ -844,8 +860,6 @@ let g:asyncrun_status = ''
 let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status}'])
 
 command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
-
-nnoremap <silent> <leader>c :AsyncRun gcc -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <CR>
 
 " Gutentags
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
