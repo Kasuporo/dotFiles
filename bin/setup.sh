@@ -54,11 +54,11 @@ newline
 
 
 # Setup Vim
-printgarr "Setting up$grn vimrc"
-backup_file '.vimrc'
-ln -sFf $DIR/vimrc ~/.vimrc
-mkdir -p ~/.vim/backup ~/.vim/swap ~/.vim/undo
-newline
+# printgarr "Setting up$grn vimrc"
+# backup_file '.vimrc'
+# ln -sFf $DIR/vimrc ~/.vimrc
+# mkdir -p ~/.vim/backup ~/.vim/swap ~/.vim/undo
+# newline
 
 
 # Setup ZSH

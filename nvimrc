@@ -297,7 +297,7 @@ xnoremap <silent> <Leader>c "sy:let @/=@s<CR>cgn
 xnoremap <CR> <Esc>.
 nnoremap <CR> gnzz
 nnoremap ! ungnzz
-" NOTE: make sure to overwrite <CR> in guickfix back to normal
+" NOTE: make sure to overwrite <CR> in quickfix back to normal
 " autocmd FileType qf nnoremap <CR> <CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
