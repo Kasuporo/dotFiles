@@ -75,8 +75,7 @@ Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 
 " display
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'lervag/vimtex'
 Plug 'Yggdroot/indentline'
@@ -87,6 +86,7 @@ Plug 'junegunn/limelight.vim'
 Plug 'gabrielelana/vim-markdown'
 Plug 'TaDaa/vimade'
 Plug 'ryanoasis/vim-devicons'
+Plug 'kristijanhusak/defx-icons'
 Plug 'RRethy/vim-illuminate'
 Plug 'tveskag/nvim-blame-line'
 " themes
@@ -185,6 +185,8 @@ set nostartofline
 set inccommand=nosplit
 " Set global replace as default
 set gdefault
+" Hide `-- INSERT --` at bottom
+set noshowmode
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MISC KEY MAPS {{{1
@@ -193,7 +195,7 @@ set gdefault
 nnoremap <silent> == gt
 nnoremap <silent> -- gT
 
-nnoremap <silent>tt :Defx -toggle -split=vertical -winwidth=30 -direction=topleft<CR>
+nnoremap <silent>tt :Defx -toggle -split=vertical -winwidth=30 -direction=topleft -columns=icons:filename:type<CR>
 nnoremap <leader>tt :Vista!!<CR>
 
 " Split vertical
@@ -208,18 +210,17 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
 " buffer traverse
-nnoremap <Tab>j :bnext<CR>
-nnoremap <Tab>k :bprevious<CR>
+nmap <Tab>j <Plug>vem_next_buffer-
+nmap <Tab>k <Plug>vem_prev_buffer-
+" vem-tabline
+nmap <Tab>h <Plug>vem_move_buffer_left-
+nmap <Tab>l <Plug>vem_move_buffer_right-
 " close current buffer and move to previous one
 nnoremap <Tab>q :bp <BAR> bd #<CR>
 
 " bufexplorer
 nnoremap <silent> <Leader>bl :BufExplorerVerticalSplit<CR>
 let g:bufExplorerDisableDefaultKeyMapping=1
-
-" vem-tabline
-noremap <Tab>h <Plug>vem_move_buffer_left-
-noremap <Tab>l <Plug>vem_move_buffer_right-
 
 " move 'correctly' on wrapped lines
 nnoremap j gj
@@ -239,7 +240,7 @@ nnoremap <space> za
 nnoremap <leader><space> zR
 
 " no highlight
-nnoremap // :noh<CR>
+nnoremap // :let@/=""<CR>
 
 " Reference current file's path
 cnoremap <expr> %% expand('%:h').'/'
@@ -702,7 +703,7 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 imap <expr><silent><CR> pumvisible() ? deoplete#mappings#close_popup() .
   \ "\<Plug>(neosnippet_jump_or_expand)" : "\<CR>"
 
-smap <silent><CR> <Plug>(neosnippet_jump_or_expand
+smap <silent><CR> <Plug>(neosnippet_jump_or_expand)
 
 " Limelight
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -758,15 +759,26 @@ let g:indentLine_char = "┆" " requires utf-8 in file/terminal
 
 " Ale
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! LinterStatus() abort
+  let l:counts = ale#statusline#Count(bufnr(''))
+
+  let l:all_errors = l:counts.error + l:counts.style_error
+  let l:all_non_errors = l:counts.total - l:all_errors
+
+  return l:counts.total == 0 ? 'OK' : printf(
+  \ '%dW %dE',
+  \ all_non_errors,
+  \ all_errors
+  \)
+endfunction
+
 let g:ale_sign_error = '●' " Less aggressive than the default '>>'
 let g:ale_sign_warning = '.'
 let g:ale_lint_on_enter = 0 " Less distracting when opening a new file
-let g:airline#extensions#ale#enabled = 1 " enable with airline
 
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] %code%: %s [%severity%]'
-
 let g:ale_fixers = {
 \ '*': ['remove_trailing_lines', 'trim_whitespace'],
 \}
@@ -848,7 +860,6 @@ let g:Illuminate_delay = 0
 let g:asyncrun_open = 12
 
 let g:asyncrun_status = ''
-let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status}'])
 
 command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
 
@@ -866,13 +877,15 @@ let g:gutentags_cache_dir = expand('~/.cache/tags')
 " change focus to quickfix window after search (optional).
 let g:gutentags_plus_switch = 1
 
-let g:airline#extensions#gutentags#enabled = 1
-
 " Defx
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! s:defx_my_settings() abort
   " Define mappings
   nnoremap <silent><buffer><expr> <CR>
+  \ defx#do_action('drop')
+  nnoremap <silent><buffer><expr> l
+  \ defx#is_directory() ?
+  \ defx#do_action('open') :
   \ defx#do_action('drop')
   nnoremap <silent><buffer><expr> c
   \ defx#do_action('copy')
@@ -880,8 +893,6 @@ function! s:defx_my_settings() abort
   \ defx#do_action('move')
   nnoremap <silent><buffer><expr> p
   \ defx#do_action('paste')
-  nnoremap <silent><buffer><expr> l
-  \ defx#do_action('open')
   nnoremap <silent><buffer><expr> E
   \ defx#do_action('open', 'vsplit')
   nnoremap <silent><buffer><expr> P
@@ -936,6 +947,40 @@ function! s:defx_my_settings() abort
 endfunction
 
 autocmd FileType defx call s:defx_my_settings()
+
+" lightline.vim
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! LightlineFilename()
+  let filename = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
+  let modified = &modified ? ' +' : ''
+  return filename . modified
+endfunction
+
+let g:lightline = {
+\ 'colorscheme': 'seoul256',
+\ 'enable': { 'tabline': 0 },
+\ 'active': {
+\   'left': [
+\     [ 'mode', 'paste' ],
+\     [ 'gitbranch', 'readonly', 'filename' ],
+\     [ 'charvaluehex' ],
+\   ],
+\   'right': [
+\     [ 'linterstatus' ],
+\     [ 'lineinfo' ],
+\     [ 'percent' ],
+\     [ 'fileformat', 'fileencoding', 'filetype', ]
+\   ]
+\ },
+\ 'component': {
+\   'charvaluehex': '0x%B',
+\ },
+\ 'component_function': {
+\   'filename': 'LightlineFilename',
+\   'gitbranch': 'fugitive#head',
+\   'linterstatus': 'LinterStatus',
+\ },
+\}
 
 " vimroot
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -1023,8 +1068,18 @@ colorscheme hybrid_material
 hi Normal ctermbg=none
 highlight NonText ctermbg=none
 
-" airline
-let g:airline_theme='monochrome'
-let g:airline_powerline_fonts=0
+" vem-tabline
+highlight TabLine                    cterm=none ctermfg=255 ctermbg=240 guifg=#242424 guibg=#cdcdcd gui=none
+highlight TabLineSel                 cterm=bold ctermfg=235 ctermbg=255 guifg=#242424 guibg=#ffffff gui=bold
+highlight TabLineFill                cterm=none ctermfg=255 ctermbg=240 guifg=#e6e3d8 guibg=#404040 gui=italic
+" highlight VemTablineNormal           cterm=none ctermfg=255 ctermbg=240 guifg=#242424 guibg=#cdcdcd gui=none
+highlight VemTablineLocation         cterm=none ctermfg=255 ctermbg=240 guifg=#666666 guibg=#cdcdcd gui=none
+highlight VemTablineSelected         cterm=bold ctermfg=255 ctermbg=0 guifg=#242424 guibg=#ffffff gui=bold
+highlight VemTablineLocationSelected cterm=bold ctermfg=235 ctermbg=255 guifg=#666666 guibg=#ffffff gui=bold
+highlight VemTablineShown            cterm=none ctermfg=255 ctermbg=240 guifg=#242424 guibg=#cdcdcd gui=none
+highlight VemTablineLocationShown    cterm=none ctermfg=255 ctermbg=240 guifg=#666666 guibg=#cdcdcd gui=none
+highlight VemTablineSeparator        cterm=none ctermfg=246 ctermbg=240 guifg=#e6e3d8 guibg=#404040 gui=italic
+highlight VemTablineTabNormal        cterm=none ctermfg=255 ctermbg=240 guifg=#242424 guibg=#cdcdcd gui=none
+highlight VemTablineTabSelected      cterm=bold ctermfg=235 ctermbg=255 guifg=#242424 guibg=#ffffff gui=bold
 
 " vim: set ts=2 sw=2 tw=78 fdm=marker et :
