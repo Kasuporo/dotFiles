@@ -663,9 +663,8 @@ let g:startify_list_order = [
 
 " Close Cleanup
 let g:startify_session_before_save = [
-\ 'echo "Cleaning up before saving.."',
-\ 'silent! NERDTreeClose',
-\ 'silent! TagbarClose',
+\ 'silent! defx#do_action("close")',
+\ 'silent! Vista!',
 \]
 
 let g:startify_bookmarks = [
@@ -704,12 +703,6 @@ imap <expr><silent><CR> pumvisible() ? deoplete#mappings#close_popup() .
   \ "\<Plug>(neosnippet_jump_or_expand)" : "\<CR>"
 
 smap <silent><CR> <Plug>(neosnippet_jump_or_expand
-
-" Nerdtree
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
-let NERDTreeStatusline = '(~˘▾˘)~'
 
 " Limelight
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
