@@ -42,7 +42,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'tpope/vim-fugitive'
 Plug 'mbbill/undotree'
-Plug 'majutsushi/tagbar'
+Plug 'liuchengxu/vista.vim'
 Plug 'mhinz/vim-startify'
 Plug 'metakirby5/codi.vim'
 Plug 'moll/vim-node'
@@ -194,9 +194,8 @@ nnoremap <silent> == gt
 nnoremap <silent> -- gT
 
 nnoremap <silent>tt :NERDTreeToggle<CR>
-nnoremap <leader>tt :TagbarToggle<CR>
-" nerd tree + tagbar
-nnoremap <Tab><Tab> :NERDTreeToggle<CR>:TagbarToggle<CR>
+nnoremap <leader>tt :Vista!!<CR>
+nnoremap <Tab><Tab> :Vista!!<CR>:NERDTreeToggle
 
 " Split vertical
 nnoremap <silent> vv <C-w>v
@@ -903,8 +902,10 @@ augroup vimrc
   autocmd BufNewFile,BufRead *.coffee-processing set filetype=coffee
   autocmd BufNewFile,BufRead Dockerfile* set filetype=dockerfile
 
+  autocmd FileType crontab setlocal bkc=yes
+
   " Auto save session as '__previous__' so we can go back
-  autocmd VimLeave * SSave! __previous__
+  autocmd VimLeave * if !empty(expand('%')) | SSave! __previous__ | endif
 
   " Remove all swap files on exit, if no nvims are open
   autocmd VimLeave * call ClearSwap()
@@ -936,11 +937,11 @@ augroup vimrc
 
   " close quickfix if only window
   autocmd WinEnter * if (winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix") | q | endif
-  autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+  autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
   " If in particular window, just tab to main
   autocmd FileType nerdtree noremap <buffer> <Tab> <c-w>l
-  autocmd FileType tagbar noremap <buffer> <Tab> <c-w>h
+  autocmd FileType vista noremap <buffer> <Tab> <c-w>h
 
   " Automatic rename of tmux window
   if exists('$TMUX') && !exists('$NORENAME')
