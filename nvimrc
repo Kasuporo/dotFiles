@@ -858,7 +858,6 @@ let g:Illuminate_delay = 0
 " AsyncRun
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:asyncrun_open = 12
-
 let g:asyncrun_status = ''
 
 command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
@@ -1093,7 +1092,7 @@ highlight VemTablineLocationSelected cterm=bold ctermfg=235 ctermbg=255 guifg=#6
 highlight VemTablineShown            cterm=none ctermfg=255 ctermbg=240 guifg=#242424 guibg=#cdcdcd gui=none
 highlight VemTablineLocationShown    cterm=none ctermfg=255 ctermbg=240 guifg=#666666 guibg=#cdcdcd gui=none
 highlight VemTablineSeparator        cterm=none ctermfg=246 ctermbg=240 guifg=#e6e3d8 guibg=#404040 gui=italic
-highlight VemTablineTabNormal        cterm=none ctermfg=255 ctermbg=240 guifg=#242424 guibg=#cdcdcd gui=none
-highlight VemTablineTabSelected      cterm=bold ctermfg=235 ctermbg=255 guifg=#242424 guibg=#ffffff gui=bold
+highlight VemTablineTabNormal        cterm=none ctermfg=246 ctermbg=0   guifg=#262626 guibg=#000000 gui=none
+highlight VemTablineTabSelected      cterm=bold ctermfg=255 ctermbg=0   guifg=#242424 guibg=#ffffff gui=bold
 
 " vim: set ts=2 sw=2 tw=78 fdm=marker et :
