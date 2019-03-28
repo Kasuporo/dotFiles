@@ -111,7 +111,7 @@ set nocompatible
 let mapleader=","
 
 " faster gitgutter
-set updatetime=250
+set updatetime=100
 " remember more commands and search history
 set history=1000
 set tabstop=4
@@ -950,20 +950,31 @@ autocmd FileType defx call s:defx_my_settings()
 
 " lightline.vim
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! GetHunks()
+  let hunks = GitGutterGetHunkSummary()
+  let string = ''
+  if !empty(hunks)
+    let string .= printf('+%s ', hunks[0])
+    let string .= printf('~%s ', hunks[1])
+    let string .= printf('-%s', hunks[2])
+  endif
+  return string
+endfunction
+
 function! LightlineFilename()
   let filename = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
-  let modified = &modified ? ' +' : ''
+  let modified = &modified ? '[+]' : ''
   return filename . modified
 endfunction
 
 let g:lightline = {
-\ 'colorscheme': 'seoul256',
+\ 'colorscheme': 'jellybeans',
 \ 'enable': { 'tabline': 0 },
 \ 'active': {
 \   'left': [
 \     [ 'mode', 'paste' ],
-\     [ 'gitbranch', 'readonly', 'filename' ],
-\     [ 'charvaluehex' ],
+\     [ 'githunks', 'gitbranch', 'readonly' ],
+\     [ 'filename', 'charvaluehex' ],
 \   ],
 \   'right': [
 \     [ 'linterstatus' ],
@@ -977,6 +988,7 @@ let g:lightline = {
 \ },
 \ 'component_function': {
 \   'filename': 'LightlineFilename',
+\   'githunks': 'GetHunks',
 \   'gitbranch': 'fugitive#head',
 \   'linterstatus': 'LinterStatus',
 \ },
@@ -1036,6 +1048,8 @@ augroup vimrc
   " Unset paste on InsertLeave
   autocmd InsertLeave * silent! set nopaste
 
+  autocmd BufWritePost * GitGutter
+
   " Overwrite quickfix CR to close after selected
   autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose<CR>
   " Esc to close quickfix
@@ -1072,9 +1086,9 @@ highlight NonText ctermbg=none
 highlight TabLine                    cterm=none ctermfg=255 ctermbg=240 guifg=#242424 guibg=#cdcdcd gui=none
 highlight TabLineSel                 cterm=bold ctermfg=235 ctermbg=255 guifg=#242424 guibg=#ffffff gui=bold
 highlight TabLineFill                cterm=none ctermfg=255 ctermbg=240 guifg=#e6e3d8 guibg=#404040 gui=italic
-" highlight VemTablineNormal           cterm=none ctermfg=255 ctermbg=240 guifg=#242424 guibg=#cdcdcd gui=none
+highlight VemTablineNormal           cterm=none ctermfg=246 ctermbg=0   guifg=#262626 guibg=#000000 gui=none
 highlight VemTablineLocation         cterm=none ctermfg=255 ctermbg=240 guifg=#666666 guibg=#cdcdcd gui=none
-highlight VemTablineSelected         cterm=bold ctermfg=255 ctermbg=0 guifg=#242424 guibg=#ffffff gui=bold
+highlight VemTablineSelected         cterm=bold ctermfg=255 ctermbg=0   guifg=#242424 guibg=#ffffff gui=bold
 highlight VemTablineLocationSelected cterm=bold ctermfg=235 ctermbg=255 guifg=#666666 guibg=#ffffff gui=bold
 highlight VemTablineShown            cterm=none ctermfg=255 ctermbg=240 guifg=#242424 guibg=#cdcdcd gui=none
 highlight VemTablineLocationShown    cterm=none ctermfg=255 ctermbg=240 guifg=#666666 guibg=#cdcdcd gui=none
