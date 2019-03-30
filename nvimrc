@@ -88,7 +88,6 @@ Plug 'TaDaa/vimade'
 Plug 'ryanoasis/vim-devicons'
 Plug 'kristijanhusak/defx-icons'
 Plug 'RRethy/vim-illuminate'
-Plug 'tveskag/nvim-blame-line'
 " themes
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'pbrisbin/vim-colors-off'
@@ -195,7 +194,7 @@ set noshowmode
 nnoremap <silent> == gt
 nnoremap <silent> -- gT
 
-nnoremap <silent>tt :Defx -toggle -split=vertical -winwidth=30 -direction=topleft -columns=icons:filename:type<CR>
+nnoremap <silent>tt :Defx -toggle -split=vertical -winwidth=40 -direction=topleft -columns=icons:filename:type<CR>
 nnoremap <leader>tt :Vista!!<CR>
 
 " Split vertical
@@ -280,9 +279,6 @@ nnoremap <silent>yr :YRShow<CR>
 
 " Ctags open in split
 nnoremap <C-\> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
-
-" Blame line
-nnoremap <expr> <leader>b ToggleBlameLine()
 
 " Helper to replace words under cursor
 nnoremap <Leader>r :%s/\<<C-R><C-W>\>//<Left>
@@ -766,7 +762,7 @@ function! LinterStatus() abort
   let l:all_non_errors = l:counts.total - l:all_errors
 
   return l:counts.total == 0 ? 'OK' : printf(
-  \ '%dW %dE',
+  \ 'W:%d E:%d',
   \ all_non_errors,
   \ all_errors
   \)
@@ -1047,7 +1043,9 @@ augroup vimrc
   " Unset paste on InsertLeave
   autocmd InsertLeave * silent! set nopaste
 
-  autocmd BufWritePost * GitGutter
+  " Auto save
+  autocmd TextChanged,InsertLeave * if &modified && !empty(expand('%')) | silent! w | endif
+  autocmd TextChanged,InsertLeave * silent! GitGutter
 
   " Overwrite quickfix CR to close after selected
   autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose<CR>
