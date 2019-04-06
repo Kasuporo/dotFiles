@@ -40,6 +40,8 @@ Plug 'beanpuppy/gutentags_plus' " Fork of 'skywind3000/gutentags_plus'
 " tools
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+Plug 'idanarye/vim-vebugger'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'tpope/vim-fugitive'
 Plug 'mbbill/undotree'
@@ -52,13 +54,9 @@ Plug 'vimwiki/vimwiki'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
-Plug 'skywind3000/asyncrun.vim'
 
 " editing
-Plug 'terryma/vim-multiple-cursors'
-Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
-Plug 'thirtythreeforty/lessspace.vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'junegunn/vim-easy-align'
@@ -295,11 +293,12 @@ nnoremap ! ungnzz
 " NOTE: make sure to overwrite <CR> in quickfix back to normal
 " autocmd FileType qf nnoremap <CR> <CR>
 
+" vim-emoji
+nnoremap <leader>e :%s/:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/c<CR>
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COMMANDS {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-command! Trim :%s/\s*$//g | nohlsearch | exe "normal! g'\""
-
 " Change colorscheme
 command! Mono :colorscheme off | hi Normal ctermbg=none
 
@@ -320,6 +319,8 @@ command! EditRC :e ~/dotfiles/nvimrc
 
 " show weather report
 command! Weather :! curl -s wttr.in/Sydney \| sed -r "s/\x1B\[[0-9;]*[JKmsu]//g"<CR>
+
+command! STemp :SSave! __temp__
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " FUNCTIONS {{{1
@@ -790,6 +791,8 @@ let g:ale_linters = {
 let g:ale_python_flake8_options = '--ignore=E201,E202,E221,E241,E303,E501,E701'
 let g:ale_nasm_nasm_options = '-f elf64'
 
+let g:ale_fix_on_save = 1
+
 " YankRing
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:yankring_replace_n_pkey = '<m-p>'
@@ -850,13 +853,6 @@ endif
 " vim-illuminate
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:Illuminate_delay = 0
-
-" AsyncRun
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:asyncrun_open = 12
-let g:asyncrun_status = ''
-
-command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
 
 " Gutentags
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -1019,7 +1015,6 @@ augroup vimrc
 
   " Auto save session as '__previous__' so we can go back
   autocmd VimLeave * if !empty(expand('%')) | SSave! __previous__ | endif
-
   " Remove all swap files on exit, if no nvims are open
   autocmd VimLeave * call ClearSwap()
 
