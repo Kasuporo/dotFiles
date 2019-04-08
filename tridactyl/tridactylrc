@@ -1,0 +1,69 @@
+" Move this to $XDG_CONFIG_DIR/tridactyl/tridactylrc (that's
+" ~/.config/tridactyl/tridactylrc to mere mortals) or ~/.tridactylrc and
+" install the native messenger (:installnative in Tridactyl). Run :source to
+" get it in the browser, or just restart.
+
+" NB: If you want "vim-like" behaviour where removing a line from
+" here makes the setting disappear, uncomment the line below.
+
+"sanitise tridactyllocal tridactylsync
+
+"
+" Binds
+"
+
+" Bind tab movement to something I don't hate
+bind <Tab>j tabnext
+bind <Tab>k tabprev
+
+" Comment toggler for Reddit and Hacker News
+bind ;c hint -c [class*="expand"],[class="togg"]
+
+" Git{Hub,Lab} git clone via SSH yank
+bind yg composite js "git clone " + document.location.href.replace(/https?:\/\//,"git@").replace("/",":").replace(/$/,".git") | clipboard yank
+
+" Make gu take you back to subreddit from comments
+bindurl reddit.com gu urlparent 4
+
+" Only hint search results on Google
+bindurl www.google.com f hint -Jc .rc > .r > a
+bindurl www.google.com F hint -Jtc .rc>.r>a
+
+" Allow Ctrl-a to select all in the commandline
+unbind --mode=ex <C-a>
+
+" Handy multiwindow/multitasking binds
+bind gd tabdetach
+bind gD composite tabduplicate | tabdetach
+
+" tabclose
+unbind d
+bind <Tab>q tabclose
+
+"
+" Misc settings
+"
+
+" set editorcmd to suckless terminal, or use the defaults on other platforms
+js tri.browserBg.runtime.getPlatformInfo().then(os=>{const editorcmd = os.os=="linux" ? "st vim" : "auto"; tri.config.set("editorcmd", editorcmd)})
+
+" Sane hinting mode
+set hintfiltermode vimperator-reflow
+set hintnames numeric
+
+" Make Tridactyl work on more sites at the expense of some security
+set csp clobber
+fixamo_quiet
+
+" Make quickmarks for the sane Tridactyl issue view
+quickmark t https://github.com/tridactyl/tridactyl/issues?utf8=%E2%9C%93&q=sort%3Aupdated-desc+
+
+"
+" URL redirects
+"
+
+" New reddit is bad
+autocmd DocStart www.reddit.com js tri.excmds.urlmodify("-t", "www", "old")
+
+" This will have to do until someone writes us a nice syntax file :)
+" vim: set filetype=vim:
