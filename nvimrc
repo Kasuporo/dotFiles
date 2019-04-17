@@ -821,31 +821,32 @@ let g:fzf_colors = {
 command! -bang -nargs=? -complete=dir Files call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 nnoremap <leader>f :Files<CR>
 
-if executable('ag')
-  " Augmenting Ag command using fzf#vim#with_preview function
-  "   * fzf#vim#with_preview([[options], [preview window], [toggle keys...]])
-  "     * For syntax-highlighting, Ruby and any of the following tools are required:
-  "       - Bat: https://github.com/sharkdp/bat
-  "       - Highlight: http://www.andre-simon.de/doku/highlight/en/highlight.php
-  "       - CodeRay: http://coderay.rubychan.de/
-  "       - Rouge: https://github.com/jneen/rouge
-  "
-  "   :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
-  "   :Ag! - Start fzf in fullscreen and display the preview window above
-  command! -bang -nargs=* Ag
-    \ call fzf#vim#ag(<q-args>,
-    \                 <bang>0 ? fzf#vim#with_preview('up:60%')
-    \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
-    \                 <bang>0)
-
+if executable('rg')
+  command! -bang -nargs=* Rg
+  \ call fzf#vim#grep('rg --column --no-heading --line-number --color=always '.shellescape(<q-args>),
+  \ 1,
+  \ fzf#vim#with_preview(),
+  \ <bang>0)
   " bind mm to search word under cursor
+  nnoremap mm :Rg <C-R><C-W><CR>
+  vnoremap mm y :Rg <C-R>"<CR>
+
+  nnoremap MM :Rg! <C-R><C-W><CR>
+  vnoremap MM y :Rg! <C-R>"<CR>
+
+elseif executable('ag')
+  command! -bang -nargs=* Ag
+  \ call fzf#vim#ag(<q-args>,
+  \                 <bang>0 ? fzf#vim#with_preview('up:60%')
+  \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \                 <bang>0)
   nnoremap mm :Ag <C-R><C-W><CR>
   vnoremap mm y :Ag <C-R>"<CR>
 
   nnoremap MM :Ag! <C-R><C-W><CR>
   vnoremap MM y :Ag! <C-R>"<CR>
 else
-  " bind mm to grep word under cursor - useful even if Ag not installed
+  " bind mm to grep word under cursor - useful even if rg/ag not installed
   nnoremap mm :silent! grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
   vnoremap mm y :silent! grep! <C-R>"<CR>:cw<CR>
 endif
@@ -1004,6 +1005,9 @@ augroup vimrc
   autocmd FileType yaml setlocal sw=2 ts=2 et
   autocmd FileType javascript setlocal sw=2 ts=2 et
   autocmd FileType javascript.jsx setlocal ts=2 sts=2 sw=2
+
+  " jedi-vim no docstrings
+  autocmd FileType python setlocal completeopt-=preview
 
   " File types
   autocmd BufNewFile,BufRead *.icc set filetype=cpp

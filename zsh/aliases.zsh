@@ -25,8 +25,8 @@ function mkenv()
         # Because I don't like that annoying message
         pip install --upgrade pip
 
-        printgarr "Found \`requirements.txt\`. Installing."
-        if [[ -f "requirements.txt" ]]; then
+        if [ -f "requirements.txt" ]; then
+           printgarr "Found \`requirements.txt\`. Installing."
            pip install -r requirements.txt
         fi
 
