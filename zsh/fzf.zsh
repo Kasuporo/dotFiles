@@ -41,6 +41,16 @@ function ds() {
 # Bitwarden helper
 function bwc() {
     if hash bw 2>/dev/null; then
-        bw get item "$(bw list items | jq '.[] | "\(.name) | username: \(.login.username) | id: \(.id)" ' | fzf-tmux | awk '{print $(NF -0)}' | sed 's/\"//g')" | jq '.login.password' | sed 's/\"//g' | pbcopy
+        bw get item \
+            "$(bw list items \
+              | jq '.[] | "\(.name) | username: \(.login.username) | id: \(.id)" ' \
+              | fzf-tmux \
+              | awk '{print $(NF -0)}' \
+              | sed 's/\"//g'
+            )" \
+              | jq '.login.password' \
+              | sed 's/\"//g' \
+              | perl -pe 'chomp' \
+              | pbcopy
     fi
 }
