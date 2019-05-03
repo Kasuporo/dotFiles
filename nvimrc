@@ -192,7 +192,7 @@ set noshowmode
 nnoremap <silent> == gt
 nnoremap <silent> -- gT
 
-nnoremap <silent>tt :Defx -toggle -split=vertical -winwidth=40 -direction=topleft -columns=icons:filename:type<CR>
+nnoremap <silent>tt :Defx -toggle -split=vertical -winwidth=40 -direction=topleft -columns=indent:icons:filename:type<CR>
 nnoremap <leader>tt :Vista!!<CR>
 
 " Split vertical
