@@ -1,0 +1,13 @@
+{
+  "id": "exist",
+  "name": "Exist",
+  "version": "1.0.0",
+  "description": "Exist",
+  "main": "index.js",
+  "author": "Justin Duch <justin@justinduch.com>",
+  "license": "MIT",
+  "config": {
+    "serviceURL": "https://exist.io/dashboard",
+    "hasNotificationSound": true
+  }
+}

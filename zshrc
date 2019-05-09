@@ -7,7 +7,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="hyperzsh"
+ZSH_THEME="nanotech"
 
 # Set list of themes to load
 # Setting this variable when ZSH_THEME=random
@@ -115,3 +115,6 @@ source $DOTFILES/zsh/base16.zsh
 [ -f ~/.fzf.zsh ] \
   && source ~/.fzf.zsh \
   && source $DOTFILES/zsh/fzf.zsh
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" \
+  && source "${HOME}/.iterm2_shell_integration.zsh"

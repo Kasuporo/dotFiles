@@ -1088,16 +1088,16 @@ augroup END
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 let g:PaperColor_Theme_Options = {
-  \   'theme': {
-  \     'default': {
-  \       'transparent_background': 1
-  \     }
-  \   }
-  \ }
+\  'theme': {
+\    'default': {
+\      'transparent_background': 1
+\    }
+\  }
+\}
 
 " colourscheme
 set background=dark
-colorscheme PaperColor
+colorscheme hybrid_material
 
 " Use terminal background
 hi Normal ctermbg=none
