@@ -74,11 +74,8 @@ function gitme()
 alias recover_mfa="$DOTFILES/bin/recover.sh"
 
 #
-# Quick cd into ~/dev directory
+# Quick cds
 #
 
-# Create a static named directory '~d'
-# I know it's only 3 less characters, I'm just lazy okay?!
-hash -d d=~/dev
-# Swtich to ~/dev using '~d' without 'cd'
-setopt AUTO_CD
+alias cdev="cd ~/dev"
+alias ncdev="cd ~/Nextcloud/code"

@@ -1060,7 +1060,7 @@ augroup vimrc
   autocmd InsertLeave * silent! set nopaste
 
   " Auto save
-  autocmd TextChanged,InsertLeave * if &modified && !empty(expand('%')) | silent! w | endif
+  " autocmd TextChanged,InsertLeave * if &modified && !empty(expand('%')) | silent! w | endif
   autocmd TextChanged,InsertLeave * silent! GitGutter
 
   " Overwrite quickfix CR to close after selected
