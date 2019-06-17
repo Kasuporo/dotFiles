@@ -61,6 +61,7 @@ Plug 'tomtom/tcomment_vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'junegunn/vim-easy-align'
 Plug 'rust-lang/rust.vim'
+Plug 'dart-lang/dart-vim-plugin'
 Plug 'junegunn/goyo.vim'
 Plug 'tpope/vim-sleuth'
 Plug 'vim-scripts/YankRing.vim'
@@ -771,7 +772,6 @@ endfunction
 
 let g:ale_sign_error = '●' " Less aggressive than the default '>>'
 let g:ale_sign_warning = '.'
-let g:ale_lint_on_enter = 0 " Less distracting when opening a new file
 
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
@@ -788,7 +788,7 @@ let g:ale_linters = {
 \ 'html': ['htmlhint'],
 \}
 
-let g:ale_python_flake8_options = '--ignore=E201,E202,E221,E241,E303,E501,E701'
+let g:ale_python_flake8_options = '--ignore=E201,E202,E221,E241,E303,E501,E701,W503,W504'
 let g:ale_nasm_nasm_options = '-f elf64'
 
 let g:ale_fix_on_save = 1

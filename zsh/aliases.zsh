@@ -74,6 +74,12 @@ function gitme()
 alias recover_mfa="$DOTFILES/bin/recover.sh"
 
 #
+# Kitty
+#
+
+alias icat="kitty +kitten icat"
+
+#
 # Quick cds
 #
 

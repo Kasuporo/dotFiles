@@ -113,9 +113,19 @@ source $DOTFILES/zsh/transfer.zsh
 source $DOTFILES/zsh/aliases.zsh
 source $DOTFILES/zsh/base16.zsh
 
+[ -x "$(command -v fuck)" ] && eval $(thefuck --alias)
+
+# Fzf things
 [ -f ~/.fzf.zsh ] \
   && source ~/.fzf.zsh \
   && source $DOTFILES/zsh/fzf.zsh
 
+# Iterm2 shell intergration
 test -e "${HOME}/.iterm2_shell_integration.zsh" \
   && source "${HOME}/.iterm2_shell_integration.zsh"
+
+# Completion for kitty
+[ -x "$(command -v kitty)" ] \
+  && autoload -Uz compinit \
+  && compinit \
+  && kitty + complete setup zsh | source /dev/stdin
