@@ -80,6 +80,12 @@ alias recover_mfa="$DOTFILES/bin/recover.sh"
 alias icat="kitty +kitten icat"
 
 #
+# Misc
+#
+
+alias minetest="open /usr/local/Cellar/minetest/5.0.1/minetest.app"
+
+#
 # Quick cds
 #
 
