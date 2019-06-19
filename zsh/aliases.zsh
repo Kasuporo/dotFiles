@@ -67,23 +67,19 @@ function gitme()
     git push
 }
 
-#
-# 2FA recovery script
-#
-
-alias recover_mfa="$DOTFILES/bin/recover.sh"
-
-#
-# Kitty
-#
-
-alias icat="kitty +kitten icat"
 
 #
 # Misc
 #
 
+# Kitty
+alias icat="kitty +kitten icat"
+# 2FA recovery script
+alias recover_mfa="$DOTFILES/bin/recover.sh"
+# minetest
 alias minetest="open /usr/local/Cellar/minetest/5.0.1/minetest.app"
+# bw unlock
+alias bwu="source $DOTFILES/bin/bwunlock.sh"
 
 #
 # Quick cds
