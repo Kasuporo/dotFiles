@@ -75,7 +75,7 @@ function gitme()
 # Kitty
 alias icat="kitty +kitten icat"
 # 2FA recovery script
-alias recover_mfa="$DOTFILES/bin/recover.sh"
+alias recover_mfa="cd ~/Nextcloud/documents/recovery && $DOTFILES/bin/enc.sh codes.txt && cd -"
 # minetest
 alias minetest="open /usr/local/Cellar/minetest/5.0.1/minetest.app"
 # bw unlock
