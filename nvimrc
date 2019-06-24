@@ -781,14 +781,13 @@ let g:ale_fixers = {
 \}
 
 let g:ale_linters = {
-\ 'javascript': ['eslint'],
-\ 'python': ['flake8'],
+\ 'javascript': ['eslint', 'flow'],
+\ 'python': ['flake8', 'mypy'],
 \ 'sh': ['shellcheck'],
 \ 'markdown': ['vale', 'alex'],
 \ 'html': ['htmlhint'],
 \}
 
-let g:ale_python_flake8_options = '--ignore=E201,E202,E221,E241,E303,E501,E701,W503,W504'
 let g:ale_nasm_nasm_options = '-f elf64'
 
 let g:ale_fix_on_save = 1

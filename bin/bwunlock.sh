@@ -1,7 +1,7 @@
-#!/usr/bin/env sh
+#!/bin/bash
 
 echo "Enter password:"
-read -r -s -p "> " p;
+read -r -s p;
 
 b="$(echo "$p" | bw unlock | rg 'export' | rg -o 'BW_SESSION.+')"
 
