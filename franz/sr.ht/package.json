@@ -7,7 +7,7 @@
   "author": "Justin Duch <justin@justinduch.com>",
   "license": "MIT",
   "config": {
-    "serviceURL": "https://meta.sr.ht",
+    "serviceURL": "https://git.sr.ht",
     "hasNotificationSound": true
   }
 }
