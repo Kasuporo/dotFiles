@@ -668,10 +668,8 @@ let g:startify_session_before_save = [
 \]
 
 let g:startify_bookmarks = [
-\ { 'v': '~/dotfiles/vimrc' },
 \ { 'n': '~/dotfiles/nvimrc' },
 \ { 'z': '~/dotfiles/zshrc' },
-\ { 'h': '~/dotfiles/hyper.js' },
 \]
 
 " Deoplete/Neosnippets

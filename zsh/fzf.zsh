@@ -44,7 +44,7 @@ function bwc() {
         bw get item \
             "$(bw list items \
               | jq '.[] | "\(.name) | username: \(.login.username) | id: \(.id)" ' \
-              | fzf-tmux \
+              | fzf \
               | awk '{print $(NF -0)}' \
               | sed 's/\"//g'
             )" \
