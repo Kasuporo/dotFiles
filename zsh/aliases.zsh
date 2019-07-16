@@ -80,6 +80,8 @@ alias recover_mfa="cd ~/Nextcloud/documents/recovery && $DOTFILES/bin/enc.sh cod
 alias minetest="open /usr/local/Cellar/minetest/5.0.1/minetest.app"
 # bw unlock
 alias bwu="source $DOTFILES/bin/bwunlock.sh"
+# bw generate
+alias bwg="bw generate -lusn --length 24 | pbcopy"
 
 #
 # Quick cds

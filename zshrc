@@ -71,7 +71,8 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
-
+#
+fpath+=('${HOME}/dotfiles/zsh/zfunc')
 PATH="$PATH:${HOME}/dev/flutter/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -123,9 +124,3 @@ source $DOTFILES/zsh/base16.zsh
 # Iterm2 shell intergration
 test -e "${HOME}/.iterm2_shell_integration.zsh" \
   && source "${HOME}/.iterm2_shell_integration.zsh"
-
-# Completion for kitty
-[ -x "$(command -v kitty)" ] \
-  && autoload -Uz compinit \
-  && compinit \
-  && kitty + complete setup zsh | source /dev/stdin
