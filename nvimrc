@@ -35,7 +35,7 @@ call plug#begin('~/.config/nvim/plugged')
 
 " My plugins
 Plug 'beanpuppy/vimroot'
-Plug 'beanpuppy/gutentags_plus' " Fork of 'skywind3000/gutentags_plus'
+Plug 'beanpuppy/gutentags_plus'
 
 " tools
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -48,21 +48,28 @@ Plug 'mbbill/undotree'
 Plug 'liuchengxu/vista.vim'
 Plug 'mhinz/vim-startify'
 Plug 'metakirby5/codi.vim'
-Plug 'moll/vim-node'
 Plug 'w0rp/ale'
 Plug 'vimwiki/vimwiki'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
+
+" languages
+Plug 'rust-lang/rust.vim'
+Plug 'dart-lang/dart-vim-plugin'
+Plug 'jalvesaq/Nvim-R'
+Plug 'moll/vim-node'
 Plug 'leafgarland/typescript-vim'
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+Plug 'gabrielelana/vim-markdown'
+Plug 'lervag/vimtex'
 
 " editing
 Plug 'tpope/vim-surround'
 Plug 'tomtom/tcomment_vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'junegunn/vim-easy-align'
-Plug 'rust-lang/rust.vim'
-Plug 'dart-lang/dart-vim-plugin'
 Plug 'junegunn/goyo.vim'
 Plug 'tpope/vim-sleuth'
 Plug 'vim-scripts/YankRing.vim'
@@ -77,20 +84,18 @@ Plug 'Shougo/neosnippet-snippets'
 " display
 Plug 'itchyny/lightline.vim'
 Plug 'airblade/vim-gitgutter'
-Plug 'lervag/vimtex'
 Plug 'Yggdroot/indentline'
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
 Plug 'pacha/vem-tabline'
 Plug 'junegunn/limelight.vim'
-Plug 'gabrielelana/vim-markdown'
 Plug 'TaDaa/vimade'
 Plug 'ryanoasis/vim-devicons'
 Plug 'kristijanhusak/defx-icons'
 Plug 'RRethy/vim-illuminate'
+
 " themes
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'pbrisbin/vim-colors-off'
+
 " ?
 Plug 'junegunn/vim-emoji'
 

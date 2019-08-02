@@ -72,6 +72,7 @@ function gitme()
 # Misc
 #
 
+alias ptpy="ptpython"
 # Kitty
 alias icat="kitty +kitten icat"
 # 2FA recovery script
