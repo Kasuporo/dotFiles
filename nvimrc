@@ -40,44 +40,44 @@ Plug 'beanpuppy/gutentags_plus'
 " tools
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-Plug 'idanarye/vim-vebugger'
-Plug 'jlanzarotta/bufexplorer'
+" Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+" Plug 'idanarye/vim-vebugger'
+" Plug 'jlanzarotta/bufexplorer'
 Plug 'tpope/vim-fugitive'
 Plug 'mbbill/undotree'
-Plug 'liuchengxu/vista.vim'
+" Plug 'liuchengxu/vista.vim'
 Plug 'mhinz/vim-startify'
-Plug 'metakirby5/codi.vim'
+" Plug 'metakirby5/codi.vim'
 Plug 'w0rp/ale'
-Plug 'vimwiki/vimwiki'
+" Plug 'vimwiki/vimwiki'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
 
 " languages
 Plug 'rust-lang/rust.vim'
-Plug 'dart-lang/dart-vim-plugin'
-Plug 'jalvesaq/Nvim-R'
-Plug 'moll/vim-node'
-Plug 'leafgarland/typescript-vim'
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
+" Plug 'dart-lang/dart-vim-plugin'
+" Plug 'jalvesaq/Nvim-R'
+" Plug 'moll/vim-node'
+" Plug 'leafgarland/typescript-vim'
+" Plug 'pangloss/vim-javascript'
+" Plug 'mxw/vim-jsx'
 Plug 'gabrielelana/vim-markdown'
-Plug 'lervag/vimtex'
+" Plug 'lervag/vimtex'
 
 " editing
 Plug 'tpope/vim-surround'
 Plug 'tomtom/tcomment_vim'
-Plug 'easymotion/vim-easymotion'
+" Plug 'easymotion/vim-easymotion'
 Plug 'junegunn/vim-easy-align'
-Plug 'junegunn/goyo.vim'
+" Plug 'junegunn/goyo.vim'
 Plug 'tpope/vim-sleuth'
 Plug 'vim-scripts/YankRing.vim'
 " code completion
 Plug 'davidhalter/jedi-vim'
 Plug 'zchee/deoplete-jedi'
-Plug 'carlitux/deoplete-ternjs'
-Plug 'ternjs/tern_for_vim', { 'do': 'npm install && npm install -g tern' }
+" Plug 'carlitux/deoplete-ternjs'
+" Plug 'ternjs/tern_for_vim', { 'do': 'npm install && npm install -g tern' }
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 
@@ -86,7 +86,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'Yggdroot/indentline'
 Plug 'pacha/vem-tabline'
-Plug 'junegunn/limelight.vim'
+" Plug 'junegunn/limelight.vim'
 Plug 'TaDaa/vimade'
 Plug 'ryanoasis/vim-devicons'
 Plug 'kristijanhusak/defx-icons'
@@ -97,7 +97,7 @@ Plug 'rafi/awesome-vim-colorschemes'
 Plug 'pbrisbin/vim-colors-off'
 
 " ?
-Plug 'junegunn/vim-emoji'
+" Plug 'junegunn/vim-emoji'
 
 " Initialise plugin system
 call plug#end()
