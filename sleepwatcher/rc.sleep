@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Sleep script for sleepwatcher
+
+/usr/local/bin/bw lock
+echo "sleep"
