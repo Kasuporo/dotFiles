@@ -2,4 +2,4 @@
 
 # Sleepwatcher wakeup script
 
-echo "wakeup"
+exit
