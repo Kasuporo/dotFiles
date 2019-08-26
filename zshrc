@@ -107,12 +107,8 @@ export SSH_KEY_PATH="~/.ssh/rsa_id"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 source $DOTFILES/bin/utils.sh
-
 source $DOTFILES/zsh/auto-load.zsh
-source $DOTFILES/zsh/codi.zsh
-source $DOTFILES/zsh/transfer.zsh
 source $DOTFILES/zsh/aliases.zsh
-source $DOTFILES/zsh/base16.zsh
 
 [ -x "$(command -v fuck)" ] && eval $(thefuck --alias)
 

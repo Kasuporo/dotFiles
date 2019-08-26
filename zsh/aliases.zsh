@@ -73,8 +73,6 @@ function gitme()
 #
 
 alias ptpy="ptpython"
-# Kitty
-alias icat="kitty +kitten icat"
 # 2FA recovery script
 alias recover_mfa="cd ~/Nextcloud/documents/recovery && $DOTFILES/bin/enc.sh codes.txt && cd -"
 # minetest
@@ -83,10 +81,3 @@ alias minetest="open /usr/local/Cellar/minetest/5.0.1/minetest.app"
 alias bwu="source $DOTFILES/bin/bwunlock.sh"
 # bw generate
 alias bwg="bw generate -lusn --length 24 | pbcopy"
-
-#
-# Quick cds
-#
-
-alias cdev="cd ~/dev"
-alias ncdev="cd ~/Nextcloud/code"
