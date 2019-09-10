@@ -14,14 +14,9 @@ call system('mkdir -p ~/.cache/tags/')
 
 " Figure out the system python for neovim - we assume that the neovim python
 " server has been installed globally.
-let py3 = systemlist("which -a python3")[0]
-" on some machines python3 is python3.6
-if !v:shell_error
-  let g:python3_host_prog=substitute(system("which -a python3 | head -n2 | tail -n1"), "\n", '', 'g')
-else
-  let g:python3_host_prog=substitute(system("which -a python3.6 | head -n2 | tail -n1"), "\n", '', 'g')
-endif
-let g:python_host_prog=substitute(system("which -a python2 | head -n2 | tail -n1"), "\n", '', 'g')
+let g:python3_host_prog="/usr/local/bin/python3"
+let g:python_host_prog="/usr/local/bin/python"
+
 
 " Install vim plug if not already
 if glob("~/.config/nvim/autoload/plug.vim") ==# ""
@@ -53,6 +48,7 @@ Plug 'w0rp/ale'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
+Plug 'Shougo/context_filetype.vim'
 
 " languages
 Plug 'rust-lang/rust.vim'
@@ -64,6 +60,7 @@ Plug 'pangloss/vim-javascript'
 " Plug 'mxw/vim-jsx'
 Plug 'gabrielelana/vim-markdown'
 " Plug 'lervag/vimtex'
+Plug 'evanleck/vim-svelte'
 
 " editing
 Plug 'tpope/vim-surround'
@@ -702,10 +699,14 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
  \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 " Expands or completes the selected snippet/item in the popup menu
-imap <expr><silent><CR> pumvisible() ? deoplete#mappings#close_popup() .
-  \ "\<Plug>(neosnippet_jump_or_expand)" : "\<CR>"
+" imap <expr><silent><CR> pumvisible() ? deoplete#mappings#close_popup() .
+"   \ "\<Plug>(neosnippet_jump_or_expand)" : "\<CR>"
 
 smap <silent><CR> <Plug>(neosnippet_jump_or_expand)
+
+call deoplete#custom#var('omni', 'functions', {
+\ 'css': ['csscomplete#CompleteCSS']
+\})
 
 " Limelight
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -782,19 +783,34 @@ let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] %code%: %s [%severity%]'
 let g:ale_fixers = {
 \ '*': ['remove_trailing_lines', 'trim_whitespace'],
+\ 'svelte': ['prettier', 'eslint'],
 \}
+
+let g:ale_linter_aliases = {'svelte': ['css', 'javascript']}
 
 let g:ale_linters = {
 \ 'javascript': ['eslint', 'flow'],
 \ 'python': ['flake8', 'mypy'],
 \ 'sh': ['shellcheck'],
 \ 'markdown': ['vale', 'alex'],
+\ 'svelte': ['eslint'],
 \ 'html': ['htmlhint'],
 \}
 
 let g:ale_nasm_nasm_options = '-f elf64'
 
 let g:ale_fix_on_save = 1
+
+" Context filetype
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if !exists('g:context_filetype#same_filetypes')
+  let g:context_filetype#filetypes = {}
+endif
+let g:context_filetype#filetypes.svelte =
+\ [
+\    {'filetype' : 'javascript', 'start' : '<script>', 'end' : '</script>'},
+\    {'filetype' : 'css', 'start' : '<style>', 'end' : '</style>'},
+\ ]
 
 " YankRing
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -1046,6 +1062,7 @@ augroup vimrc
   autocmd FileType,ColorScheme * call <SID>file_type_handler()
 
   " Spelling for markdown
+  autocmd FileType * set nospell
   autocmd FileType markdown syntax spell toplevel | set spell spelllang=en_au
 
   " No indent lines for fzf please
@@ -1088,8 +1105,6 @@ augroup END
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLOUR {{{1
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 let g:PaperColor_Theme_Options = {
 \  'theme': {
 \    'default': {

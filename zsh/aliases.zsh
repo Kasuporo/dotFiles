@@ -72,6 +72,7 @@ function gitme()
 # Misc
 #
 
+alias ls="lsd"
 alias ptpy="ptpython"
 # 2FA recovery script
 alias recover_mfa="cd ~/Nextcloud/documents/recovery && $DOTFILES/bin/enc.sh codes.txt && cd -"
