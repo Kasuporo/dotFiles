@@ -61,6 +61,10 @@ Plug 'pangloss/vim-javascript'
 Plug 'gabrielelana/vim-markdown'
 " Plug 'lervag/vimtex'
 Plug 'evanleck/vim-svelte'
+Plug 'autozimu/LanguageClient-neovim', {
+  \ 'branch': 'next',
+  \ 'do': 'bash install.sh',
+  \ }
 
 " editing
 Plug 'tpope/vim-surround'
@@ -801,6 +805,23 @@ let g:ale_nasm_nasm_options = '-f elf64'
 
 let g:ale_fix_on_save = 1
 
+" LanguageClient
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:LanguageClient_serverCommands = {
+  \ 'rust': ['~/.cargo/bin/rustup', 'run', 'nightly', 'rls'],
+  \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
+  \ 'python': ['/usr/local/bin/pyls'],
+  \ }
+
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+
+" <leader>ld to go to definition
+nnoremap <leader>ld :call LanguageClient_textDocument_definition()<cr>
+" <leader>lh for type info under cursor
+nnoremap <leader>lh :call LanguageClient_textDocument_hover()<cr>
+" <leader>lr to rename variable under cursor
+nnoremap <leader>lr :call LanguageClient_textDocument_rename()<cr>
+
 " Context filetype
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if !exists('g:context_filetype#same_filetypes')
@@ -904,6 +925,12 @@ let g:gutentags_cache_dir = expand('~/.cache/tags')
 
 " change focus to quickfix window after search (optional).
 let g:gutentags_plus_switch = 1
+
+let g:gutentags_enabled = 0
+
+augroup auto_gutentags
+  au FileType python,typescript,javascript,elixr,rust,sh,r let g:gutentags_enabled=1
+augroup end
 
 " Defx
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

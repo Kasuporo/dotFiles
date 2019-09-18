@@ -1,0 +1,14 @@
+{
+  "id": "newslettrs",
+  "name": "Newslettrs",
+  "version": "0.1.0",
+  "description": "newslettrs.app",
+  "main": "index.js",
+  "author": "Justin Duch <justin@justinduch.com>",
+  "license": "MIT",
+  "repository": "https://github.com/beanpuppy/dotfiles",
+  "config": {
+    "serviceURL": "https://newslettrs.app/inbox",
+    "hasNotificationSound": true
+  }
+}

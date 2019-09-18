@@ -120,3 +120,5 @@ source $DOTFILES/zsh/aliases.zsh
 # Iterm2 shell intergration
 test -e "${HOME}/.iterm2_shell_integration.zsh" \
   && source "${HOME}/.iterm2_shell_integration.zsh"
+
+eval "$(starship init zsh)"
