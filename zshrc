@@ -73,7 +73,7 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 #
 fpath+=('${HOME}/dotfiles/zsh/zfunc')
-PATH="$PATH:${HOME}/dev/flutter/bin"
+PATH="$PATH:${HOME}/src/flutter/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 export DEVBOX='0xc0ff33'

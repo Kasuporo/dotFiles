@@ -61,6 +61,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'gabrielelana/vim-markdown'
 " Plug 'lervag/vimtex'
 Plug 'evanleck/vim-svelte'
+Plug 'elixir-editors/vim-elixir'
 Plug 'autozimu/LanguageClient-neovim', {
   \ 'branch': 'next',
   \ 'do': 'bash install.sh',
@@ -92,6 +93,8 @@ Plug 'TaDaa/vimade'
 Plug 'ryanoasis/vim-devicons'
 Plug 'kristijanhusak/defx-icons'
 Plug 'RRethy/vim-illuminate'
+Plug 'luochen1990/rainbow'
+Plug 'norcalli/nvim-colorizer.lua'
 
 " themes
 Plug 'rafi/awesome-vim-colorschemes'
@@ -1139,6 +1142,8 @@ let g:PaperColor_Theme_Options = {
 \    }
 \  }
 \}
+
+let g:rainbow_active = 1
 
 " colourscheme
 set background=dark
