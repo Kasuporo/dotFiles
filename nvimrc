@@ -35,60 +35,35 @@ Plug 'beanpuppy/gutentags_plus'
 " tools
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
-" Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-" Plug 'idanarye/vim-vebugger'
-" Plug 'jlanzarotta/bufexplorer'
 Plug 'tpope/vim-fugitive'
 Plug 'mbbill/undotree'
-" Plug 'liuchengxu/vista.vim'
 Plug 'mhinz/vim-startify'
-" Plug 'metakirby5/codi.vim'
 Plug 'w0rp/ale'
-" Plug 'vimwiki/vimwiki'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'Shougo/context_filetype.vim'
+Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
 
 " languages
 Plug 'rust-lang/rust.vim'
-" Plug 'dart-lang/dart-vim-plugin'
-" Plug 'jalvesaq/Nvim-R'
-" Plug 'moll/vim-node'
-" Plug 'leafgarland/typescript-vim'
 Plug 'pangloss/vim-javascript'
-" Plug 'mxw/vim-jsx'
 Plug 'gabrielelana/vim-markdown'
-" Plug 'lervag/vimtex'
 Plug 'evanleck/vim-svelte'
 Plug 'elixir-editors/vim-elixir'
-Plug 'autozimu/LanguageClient-neovim', {
-  \ 'branch': 'next',
-  \ 'do': 'bash install.sh',
-  \ }
 
 " editing
 Plug 'tpope/vim-surround'
 Plug 'tomtom/tcomment_vim'
-" Plug 'easymotion/vim-easymotion'
 Plug 'junegunn/vim-easy-align'
-" Plug 'junegunn/goyo.vim'
 Plug 'tpope/vim-sleuth'
 Plug 'vim-scripts/YankRing.vim'
-" code completion
-Plug 'davidhalter/jedi-vim'
-Plug 'zchee/deoplete-jedi'
-" Plug 'carlitux/deoplete-ternjs'
-" Plug 'ternjs/tern_for_vim', { 'do': 'npm install && npm install -g tern' }
-Plug 'Shougo/neosnippet.vim'
-Plug 'Shougo/neosnippet-snippets'
 
 " display
 Plug 'itchyny/lightline.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'Yggdroot/indentline'
 Plug 'pacha/vem-tabline'
-" Plug 'junegunn/limelight.vim'
 Plug 'TaDaa/vimade'
 Plug 'ryanoasis/vim-devicons'
 Plug 'kristijanhusak/defx-icons'
@@ -301,8 +276,6 @@ xnoremap <silent> <Leader>c "sy:let @/=@s<CR>cgn
 xnoremap <CR> <Esc>.
 nnoremap <CR> gnzz
 nnoremap ! ungnzz
-" NOTE: make sure to overwrite <CR> in quickfix back to normal
-" autocmd FileType qf nnoremap <CR> <CR>
 
 " vim-emoji
 nnoremap <leader>e :%s/:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/c<CR>
@@ -327,9 +300,6 @@ command! EX
 
 " edit nvimrc
 command! EditRC :e ~/dotfiles/nvimrc
-
-" show weather report
-command! Weather :! curl -s wttr.in/Sydney \| sed -r "s/\x1B\[[0-9;]*[JKmsu]//g"<CR>
 
 command! STemp :SSave! __temp__
 
@@ -372,81 +342,6 @@ function! NeatFoldText()
   return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
 endfunction
 set foldtext=NeatFoldText()
-
-" Operate on word (line) in all buffers
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! OperateBuffers(find, ...)
-  let operation=join(a:000, ' ')
-  execute 'bufdo g/' . a:find . '/exe "norm /' . a:find . '\<cr>\' . operation . '" | update'
-endfunction
-command! -bang -nargs=* OB call OperateBuffers(<f-args>)
-
-" Operate on word (line)
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! Operate(find, ...)
-  let operation=join(a:000, ' ')
-  execute 'g/' . a:find . '/exe "norm /' . a:find . '\<cr>\' . operation . '" | update'
-endfunction
-command! -bang -nargs=* O call Operate(<f-args>)
-
-" Find and replace in all buffers
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! Replace(find, ...)
-  let replace=join(a:000, ' ')
-  execute 'bufdo %s/'. a:find . '/'. replace . '/gc | update'
-endfunction
-command! -bang -nargs=* R call Replace(<f-args>)
-
-" :Run / :RunI | Run script
-" ----------------------------------------------------------------------------
-function! s:run_this_script(output)
-  let head   = getline(1)
-  let pos    = stridx(head, '#!')
-  let file   = expand('%:p')
-  let ofile  = tempname()
-  let rdr    = " 2>&1 | tee ".ofile
-  let win    = winnr()
-  let prefix = a:output ? 'silent !' : '!'
-  " Shebang found
-  if pos != -1
-    execute prefix.strpart(head, pos + 2).' '.file.rdr
-  " Shebang not found but executable
-  elseif executable(file)
-    execute prefix.file.rdr
-  elseif &filetype == 'ruby'
-    execute prefix.'/usr/bin/env ruby '.file.rdr
-  elseif &filetype == 'tex'
-    execute prefix.'latex '.file. '; [ $? -eq 0 ] && xdvi '. expand('%:r').rdr
-  elseif &filetype == 'dot'
-    let svg = expand('%:r') . '.svg'
-    let png = expand('%:r') . '.png'
-    " librsvg >> imagemagick + ghostscript
-    execute 'silent !dot -Tsvg '.file.' -o '.svg.' && '
-          \ 'rsvg-convert -z 2 '.svg.' > '.png.' && open '.png.rdr
-  else
-    return
-  end
-  redraw!
-  if !a:output | return | endif
-
-  " Scratch buffer
-  if exists('s:vim_exec_buf') && bufexists(s:vim_exec_buf)
-    execute bufwinnr(s:vim_exec_buf).'wincmd w'
-    %d
-  else
-    silent!  bdelete [vim-exec-output]
-    silent!  vertical botright split new
-    silent!  file [vim-exec-output]
-    setlocal buftype=nofile bufhidden=wipe noswapfile
-    let      s:vim_exec_buf = winnr()
-  endif
-  execute 'silent! read' ofile
-  normal! gg"_dd
-  execute win.'wincmd w'
-endfunction
-
-command! Run :call <SID>run_this_script(0)<cr>
-command! RunI :call <SID>run_this_script(1)<cr>
 
 " Syntax highlighting in code snippets
 " ----------------------------------------------------------------------------
@@ -505,151 +400,6 @@ function! s:file_type_handler()
 endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Text Objects {{{1
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Common
-" ----------------------------------------------------------------------------
-function! s:textobj_cancel()
-  if v:operator == 'c'
-    augroup textobj_undo_empty_change
-      autocmd InsertLeave <buffer> execute 'normal! u'
-            \| execute 'autocmd! textobj_undo_empty_change'
-            \| execute 'augroup! textobj_undo_empty_change'
-    augroup END
-  endif
-endfunction
-
-noremap         <Plug>(TOC) <nop>
-inoremap <expr> <Plug>(TOC) exists('#textobj_undo_empty_change')?"\<esc>":''
-
-" ?i_ ?a_ ?i. ?a. ?i, ?a, ?i/
-" ----------------------------------------------------------------------------
-function! s:between_the_chars(incll, inclr, char, vis)
-  let cursor = col('.')
-  let line   = getline('.')
-  let before = line[0 : cursor - 1]
-  let after  = line[cursor : -1]
-  let [b, e] = [cursor, cursor]
-
-  try
-    let i = stridx(join(reverse(split(before, '\zs')), ''), a:char)
-    if i < 0 | throw 'exit' | end
-    let b = len(before) - i + (a:incll ? 0 : 1)
-
-    let i = stridx(after, a:char)
-    if i < 0 | throw 'exit' | end
-    let e = cursor + i + 1 - (a:inclr ? 0 : 1)
-
-    execute printf("normal! 0%dlhv0%dlh", b, e)
-  catch 'exit'
-    call s:textobj_cancel()
-    if a:vis
-      normal! gv
-    endif
-  finally
-    " Cleanup command history
-    if histget(':', -1) =~ '<SNR>[0-9_]*between_the_chars('
-      call histdel(':', -1)
-    endif
-    echo
-  endtry
-endfunction
-
-for [s:c, s:l] in items({'_': 0, '.': 0, ',': 0, '/': 1, '-': 0})
-  execute printf("xmap <silent> i%s :<C-U>call <SID>between_the_chars(0,  0, '%s', 1)<CR><Plug>(TOC)", s:c, s:c)
-  execute printf("omap <silent> i%s :<C-U>call <SID>between_the_chars(0,  0, '%s', 0)<CR><Plug>(TOC)", s:c, s:c)
-  execute printf("xmap <silent> a%s :<C-U>call <SID>between_the_chars(%s, 1, '%s', 1)<CR><Plug>(TOC)", s:c, s:l, s:c)
-  execute printf("omap <silent> a%s :<C-U>call <SID>between_the_chars(%s, 1, '%s', 0)<CR><Plug>(TOC)", s:c, s:l, s:c)
-endfor
-
-" ?i# | inner comment
-" ----------------------------------------------------------------------------
-function! s:inner_comment(vis)
-  if synIDattr(synID(line('.'), col('.'), 0), 'name') !~? 'comment'
-    call s:textobj_cancel()
-    if a:vis
-      normal! gv
-    endif
-    return
-  endif
-
-  let origin = line('.')
-  let lines = []
-  for dir in [-1, 1]
-    let line = origin
-    let line += dir
-    while line >= 1 && line <= line('$')
-      execute 'normal!' line.'G^'
-      if synIDattr(synID(line('.'), col('.'), 0), 'name') !~? 'comment'
-        break
-      endif
-      let line += dir
-    endwhile
-    let line -= dir
-    call add(lines, line)
-  endfor
-
-  execute 'normal!' lines[0].'GV'.lines[1].'G'
-endfunction
-xmap <silent> i# :<C-U>call <SID>inner_comment(1)<CR><Plug>(TOC)
-omap <silent> i# :<C-U>call <SID>inner_comment(0)<CR><Plug>(TOC)
-
-" ?ic / ?iC | Blockwise column object
-" ----------------------------------------------------------------------------
-function! s:inner_blockwise_column(vmode, cmd)
-  if a:vmode == "\<C-V>"
-    let [pvb, pve] = [getpos("'<"), getpos("'>")]
-    normal! `z
-  endif
-
-  execute "normal! \<C-V>".a:cmd."o\<C-C>"
-  let [line, col] = [line('.'), col('.')]
-  let [cb, ce]    = [col("'<"), col("'>")]
-  let [mn, mx]    = [line, line]
-
-  for dir in [1, -1]
-    let l = line + dir
-    while line('.') > 1 && line('.') < line('$')
-      execute "normal! ".l."G".col."|"
-      execute "normal! v".a:cmd."\<C-C>"
-      if cb != col("'<") || ce != col("'>")
-        break
-      endif
-      let [mn, mx] = [min([line('.'), mn]), max([line('.'), mx])]
-      let l += dir
-    endwhile
-  endfor
-
-  execute printf("normal! %dG%d|\<C-V>%s%dG", mn, col, a:cmd, mx)
-
-  if a:vmode == "\<C-V>"
-    normal! o
-    if pvb[1] < line('.') | execute "normal! ".pvb[1]."G" | endif
-    if pvb[2] < col('.')  | execute "normal! ".pvb[2]."|" | endif
-    normal! o
-    if pve[1] > line('.') | execute "normal! ".pve[1]."G" | endif
-    if pve[2] > col('.')  | execute "normal! ".pve[2]."|" | endif
-  endif
-endfunction
-
-xnoremap <silent> ic mz:<C-U>call <SID>inner_blockwise_column(visualmode(), 'iw')<CR>
-xnoremap <silent> iC mz:<C-U>call <SID>inner_blockwise_column(visualmode(), 'iW')<CR>
-xnoremap <silent> ac mz:<C-U>call <SID>inner_blockwise_column(visualmode(), 'aw')<CR>
-xnoremap <silent> aC mz:<C-U>call <SID>inner_blockwise_column(visualmode(), 'aW')<CR>
-onoremap <silent> ic :<C-U>call   <SID>inner_blockwise_column('',           'iw')<CR>
-onoremap <silent> iC :<C-U>call   <SID>inner_blockwise_column('',           'iW')<CR>
-onoremap <silent> ac :<C-U>call   <SID>inner_blockwise_column('',           'aw')<CR>
-onoremap <silent> aC :<C-U>call   <SID>inner_blockwise_column('',           'aW')<CR>
-
-" ?i<shift>-` | Inside ``` block
-" ----------------------------------------------------------------------------
-xnoremap <silent> i~ g_?^\s*```<cr>jo/^\s*```<cr>kV:<c-u>nohl<cr>gv
-xnoremap <silent> a~ g_?^\s*```<cr>o/^\s*```<cr>V:<c-u>nohl<cr>gv
-onoremap <silent> i~ :<C-U>execute "normal vi~"<cr>
-onoremap <silent> a~ :<C-U>execute "normal va~"<cr>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " PLUGINS {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -681,85 +431,25 @@ let g:startify_bookmarks = [
 \ { 'z': '~/dotfiles/zshrc' },
 \]
 
-" Deoplete/Neosnippets
+" Coc.nvim
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:neosnippet#snippets_directory = '~/dotfiles/neosnippet'
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#auto_complete_start_length = 3
-let g:neosnippet#enable_snipmate_compatibility = 1
-let g:jedi#show_call_signatures = "2"
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-inoremap <expr><C-n>  deoplete#mappings#manual_complete()
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
-augroup startup_deoplete
-  autocmd!
-  autocmd FileType markdown
-    \ call deoplete#custom#buffer_option('auto_complete', v:false)
-augroup END
-
-imap <expr><TAB>
- \ pumvisible() ? "\<CR>" :
- \ neosnippet#expandable_or_jumpable() ?
- \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
- \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-" Expands or completes the selected snippet/item in the popup menu
-" imap <expr><silent><CR> pumvisible() ? deoplete#mappings#close_popup() .
-"   \ "\<Plug>(neosnippet_jump_or_expand)" : "\<CR>"
-
-smap <silent><CR> <Plug>(neosnippet_jump_or_expand)
-
-call deoplete#custom#var('omni', 'functions', {
-\ 'css': ['csscomplete#CompleteCSS']
-\})
-
-" Limelight
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Color name (:help cterm-colors) or ANSI code
-let g:limelight_conceal_ctermfg = 'gray'
-let g:limelight_conceal_ctermfg = 240
-
-" Color name (:help gui-colors) or RGB color
-let g:limelight_conceal_guifg = 'DarkGray'
-let g:limelight_conceal_guifg = '#777777'
-
-let g:limelight_default_coefficient = 0.9
-
-" Number of preceding/following paragraphs to include (default: 0)
-let g:limelight_paragraph_span = 5
-
-" Highlighting priority (default: 10)
-"   Set it to -1 not to overrule hlsearch
-let g:limelight_priority = -1
-
-" Goyo
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! s:goyo_enter()
-  let b:quitting = 0
-  let b:quitting_bang = 0
-  autocmd QuitPre <buffer> let b:quitting = 1
-  cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
-endfunction
-
-function! s:goyo_leave()
-  hi Normal ctermbg=none
-  " Quit Vim if this is the only remaining buffer
-  if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
-    if b:quitting_bang
-      qa!
-    else
-      qa
-    endif
-  endif
-endfunction
-
-autocmd! User GoyoEnter nested call <SID>goyo_enter()
-autocmd! User GoyoLeave nested call <SID>goyo_leave()
-
-let g:goyo_width = "70%"
-let g:goyo_height = "80%"
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
 " Indent lines
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -806,31 +496,17 @@ let g:ale_linters = {
 
 let g:ale_nasm_nasm_options = '-f elf64'
 
-let g:ale_fix_on_save = 1
-
-" LanguageClient
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:LanguageClient_serverCommands = {
-  \ 'rust': ['~/.cargo/bin/rustup', 'run', 'nightly', 'rls'],
-  \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
-  \ 'python': ['/usr/local/bin/pyls'],
-  \ }
-
-nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-
-" <leader>ld to go to definition
-nnoremap <leader>ld :call LanguageClient_textDocument_definition()<cr>
-" <leader>lh for type info under cursor
-nnoremap <leader>lh :call LanguageClient_textDocument_hover()<cr>
-" <leader>lr to rename variable under cursor
-nnoremap <leader>lr :call LanguageClient_textDocument_rename()<cr>
-
 " Context filetype
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if !exists('g:context_filetype#same_filetypes')
   let g:context_filetype#filetypes = {}
 endif
 let g:context_filetype#filetypes.svelte =
+\ [
+\    {'filetype' : 'javascript', 'start' : '<script>', 'end' : '</script>'},
+\    {'filetype' : 'css', 'start' : '<style>', 'end' : '</style>'},
+\ ]
+let g:context_filetype#filetypes.html =
 \ [
 \    {'filetype' : 'javascript', 'start' : '<script>', 'end' : '</script>'},
 \    {'filetype' : 'css', 'start' : '<style>', 'end' : '</style>'},
@@ -1068,12 +744,10 @@ augroup vimrc
 
   autocmd FileType python setlocal sw=4 ts=4 et
   autocmd FileType ruby setlocal sw=2 ts=2 et
+  autocmd FileType json setlocal sw=2 ts=2 et
   autocmd FileType yaml setlocal sw=2 ts=2 et
   autocmd FileType javascript setlocal sw=2 ts=2 et
-  autocmd FileType javascript.jsx setlocal ts=2 sts=2 sw=2
-
-  " jedi-vim no docstrings
-  autocmd FileType python setlocal completeopt-=preview
+  autocmd FileType javascript.jsx setlocal ts=2 sts=2 sw=2 et
 
   " File types
   autocmd BufNewFile,BufRead *.icc set filetype=cpp
@@ -1109,8 +783,6 @@ augroup vimrc
   " Unset paste on InsertLeave
   autocmd InsertLeave * silent! set nopaste
 
-  " Auto save
-  " autocmd TextChanged,InsertLeave * if &modified && !empty(expand('%')) | silent! w | endif
   autocmd TextChanged,InsertLeave * silent! GitGutter
 
   " Overwrite quickfix CR to close after selected
