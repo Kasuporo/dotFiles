@@ -30,7 +30,6 @@ call plug#begin('~/.config/nvim/plugged')
 
 " My plugins
 Plug 'beanpuppy/vimroot'
-Plug 'beanpuppy/gutentags_plus'
 
 " tools
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -38,10 +37,8 @@ Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'tpope/vim-fugitive'
 Plug 'mbbill/undotree'
 Plug 'mhinz/vim-startify'
-Plug 'w0rp/ale'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'ludovicchabant/vim-gutentags'
 Plug 'Shougo/context_filetype.vim'
 Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
 
@@ -55,7 +52,6 @@ Plug 'elixir-editors/vim-elixir'
 " editing
 Plug 'tpope/vim-surround'
 Plug 'tomtom/tcomment_vim'
-Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-sleuth'
 Plug 'vim-scripts/YankRing.vim'
 
@@ -63,6 +59,7 @@ Plug 'vim-scripts/YankRing.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'Yggdroot/indentline'
+Plug 'psliwka/vim-smoothie'
 Plug 'pacha/vem-tabline'
 Plug 'TaDaa/vimade'
 Plug 'ryanoasis/vim-devicons'
@@ -179,7 +176,6 @@ nnoremap <silent> == gt
 nnoremap <silent> -- gT
 
 nnoremap <silent>tt :Defx -toggle -split=vertical -winwidth=40 -direction=topleft -columns=indent:icons:filename:type<CR>
-nnoremap <leader>tt :Vista!!<CR>
 
 " Split vertical
 nnoremap <silent> vv <C-w>v
@@ -243,10 +239,6 @@ vnoremap <C-k> :m '<-2<CR>gv=gv
 " indent a line
 nnoremap <silent> <C-h> <<
 nnoremap <silent> <C-l> >>
-
-" easyalign
-xnoremap ga :EasyAlign<CR>
-nnoremap ga :EasyAlign<CR>
 
 " Fzf
 nnoremap <C-p> :FZF<CR>
@@ -423,7 +415,6 @@ let g:startify_list_order = [
 " Close Cleanup
 let g:startify_session_before_save = [
 \ 'silent! defx#do_action("close")',
-\ 'silent! Vista!',
 \]
 
 let g:startify_bookmarks = [
@@ -433,14 +424,6 @@ let g:startify_bookmarks = [
 
 " Coc.nvim
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Use tab for trigger completion with characters ahead and navigate.
-" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
@@ -456,45 +439,6 @@ nmap <silent> gr <Plug>(coc-references)
 let g:indentLine_enabled = 1 " enabled by default
 let g:indentLine_conceallevel=1
 let g:indentLine_char = "┆" " requires utf-8 in file/terminal
-
-" Ale
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! LinterStatus() abort
-  let l:counts = ale#statusline#Count(bufnr(''))
-
-  let l:all_errors = l:counts.error + l:counts.style_error
-  let l:all_non_errors = l:counts.total - l:all_errors
-
-  return l:counts.total == 0 ? 'OK' : printf(
-  \ 'W:%d E:%d',
-  \ all_non_errors,
-  \ all_errors
-  \)
-endfunction
-
-let g:ale_sign_error = '●' " Less aggressive than the default '>>'
-let g:ale_sign_warning = '.'
-
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_format = '[%linter%] %code%: %s [%severity%]'
-let g:ale_fixers = {
-\ '*': ['remove_trailing_lines', 'trim_whitespace'],
-\ 'svelte': ['prettier', 'eslint'],
-\}
-
-let g:ale_linter_aliases = {'svelte': ['css', 'javascript']}
-
-let g:ale_linters = {
-\ 'javascript': ['eslint', 'flow'],
-\ 'python': ['flake8', 'mypy'],
-\ 'sh': ['shellcheck'],
-\ 'markdown': ['vale', 'alex'],
-\ 'svelte': ['eslint'],
-\ 'html': ['htmlhint'],
-\}
-
-let g:ale_nasm_nasm_options = '-f elf64'
 
 " Context filetype
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -776,9 +720,8 @@ augroup vimrc
   autocmd FileType gitcommit setlocal completefunc=emoji#complete
   autocmd FileType gitcommit nnoremap <buffer> <silent> cd :<C-U>Gcommit --amend --date="$(date)"<CR>
 
-  " http://vim.wikia.com/wiki/Highlight_unwanted_spaces
-  autocmd BufNewFile,BufRead,InsertLeave * silent! match ExtraWhitespace /\s\+$/
-  autocmd InsertEnter * silent! match ExtraWhitespace /\s\+\%#\@<!$/
+  " Remove whitespace on save
+  autocmd BufWritePre *.py :%s/\s\+$//e
 
   " Unset paste on InsertLeave
   autocmd InsertLeave * silent! set nopaste
@@ -796,7 +739,6 @@ augroup vimrc
 
   " If in particular window, just tab to main
   autocmd FileType defx noremap <buffer> <Tab> <c-w>l
-  autocmd FileType vista noremap <buffer> <Tab> <c-w>h
 
   " Automatic rename of tmux window
   if exists('$TMUX') && !exists('$NORENAME')
