@@ -1,2 +1,3 @@
 ## dotfiles
-I don't know what I'm doing.
+
+A dotfiles to surpass Metal Gear.
