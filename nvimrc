@@ -42,12 +42,14 @@ Plug 'junegunn/fzf.vim'
 Plug 'Shougo/context_filetype.vim'
 Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
 
-" languages
+" syntax
 Plug 'rust-lang/rust.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'gabrielelana/vim-markdown'
 Plug 'evanleck/vim-svelte'
 Plug 'elixir-editors/vim-elixir'
+Plug 'lervag/vimtex'
+Plug 'cakebaker/scss-syntax.vim'
 
 " editing
 Plug 'tpope/vim-surround'
@@ -66,14 +68,9 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'kristijanhusak/defx-icons'
 Plug 'RRethy/vim-illuminate'
 Plug 'luochen1990/rainbow'
-Plug 'norcalli/nvim-colorizer.lua'
 
 " themes
 Plug 'rafi/awesome-vim-colorschemes'
-Plug 'pbrisbin/vim-colors-off'
-
-" ?
-" Plug 'junegunn/vim-emoji'
 
 " Initialise plugin system
 call plug#end()
@@ -197,19 +194,12 @@ nmap <Tab>l <Plug>vem_move_buffer_right-
 " close current buffer and move to previous one
 nnoremap <Tab>q :bp <BAR> bd #<CR>
 
-" bufexplorer
-nnoremap <silent> <Leader>bl :BufExplorerVerticalSplit<CR>
-let g:bufExplorerDisableDefaultKeyMapping=1
-
 " move 'correctly' on wrapped lines
 nnoremap j gj
 nnoremap k gk
 
 " save files as sudo
 cnoremap w!! w !sudo tee > /dev/null %
-
-" quick quit all
-cnoremap qq qall
 
 " undotree
 nnoremap <silent> U :UndotreeToggle <BAR> :UndotreeFocus<CR>
@@ -240,21 +230,16 @@ vnoremap <C-k> :m '<-2<CR>gv=gv
 nnoremap <silent> <C-h> <<
 nnoremap <silent> <C-l> >>
 
-" Fzf
-nnoremap <C-p> :FZF<CR>
-
 " Fugitive
 nnoremap <Leader>g :Gstatus<CR>gg<c-n>
 nnoremap <Leader>d :Gdiff<CR>
+nnoremap <Leader>b :Gblame<CR>
 
 " qq to record, leader-q to replay
 nnoremap <Leader>q @q
 
 " YankRing show
 nnoremap <silent>yr :YRShow<CR>
-
-" Ctags open in split
-nnoremap <C-\> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 
 " Helper to replace words under cursor
 nnoremap <Leader>r :%s/\<<C-R><C-W>\>//<Left>
@@ -269,47 +254,14 @@ xnoremap <CR> <Esc>.
 nnoremap <CR> gnzz
 nnoremap ! ungnzz
 
-" vim-emoji
-nnoremap <leader>e :%s/:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/c<CR>
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COMMANDS {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Change colorscheme
-command! Mono :colorscheme off | hi Normal ctermbg=none
-
-" chmod +x
-command! EX
-  \  if !empty(expand('%'))
-  \|   write
-  \|   call system('chmod +x '.expand('%'))
-  \|   silent e
-  \| else
-  \|   echohl WarningMsg
-  \|   echo 'Save the file first'
-  \|   echohl None
-  \| endif
-
-" edit nvimrc
-command! EditRC :e ~/dotfiles/nvimrc
-
 command! STemp :SSave! __temp__
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " FUNCTIONS {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Append modeline after last line in buffer.
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
-" files.
-function! AppendModeline()
-  let l:modeline = printf(" vim: set ts=%d sw=%d tw=%d fdm=%s %set :",
-    \ &tabstop, &shiftwidth, &textwidth, &foldmethod, &expandtab ? '' : 'no')
-  let l:modeline = substitute(&commentstring, "%s", l:modeline, "")
-  call append(line("$"), l:modeline)
-endfunction
-nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
 
 " Clear swap
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -334,62 +286,6 @@ function! NeatFoldText()
   return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
 endfunction
 set foldtext=NeatFoldText()
-
-" Syntax highlighting in code snippets
-" ----------------------------------------------------------------------------
-function! s:syntax_include(lang, b, e, inclusive)
-  let syns = split(globpath(&rtp, "syntax/".a:lang.".vim"), "\n")
-  if empty(syns)
-    return
-  endif
-
-  if exists('b:current_syntax')
-    let csyn = b:current_syntax
-    unlet b:current_syntax
-  endif
-
-  let z = "'" " Default
-  for nr in range(char2nr('a'), char2nr('z'))
-    let char = nr2char(nr)
-    if a:b !~ char && a:e !~ char
-      let z = char
-      break
-    endif
-  endfor
-
-  silent! exec printf("syntax include @%s %s", a:lang, syns[0])
-  if a:inclusive
-    exec printf('syntax region %sSnip start=%s\(%s\)\@=%s ' .
-                \ 'end=%s\(%s\)\@<=\(\)%s contains=@%s containedin=ALL',
-                \ a:lang, z, a:b, z, z, a:e, z, a:lang)
-  else
-    exec printf('syntax region %sSnip matchgroup=Snip start=%s%s%s ' .
-                \ 'end=%s%s%s contains=@%s containedin=ALL',
-                \ a:lang, z, a:b, z, z, a:e, z, a:lang)
-  endif
-
-  if exists('csyn')
-    let b:current_syntax = csyn
-  endif
-endfunction
-
-function! s:file_type_handler()
-  if &ft =~ 'jinja' && &ft != 'jinja'
-    call s:syntax_include('jinja', '{{', '}}', 1)
-    call s:syntax_include('jinja', '{%', '%}', 1)
-  elseif &ft =~ 'mkd\|markdown'
-    for lang in ['ruby', 'yaml', 'vim', 'sh', 'bash:sh', 'python', 'java', 'c',
-          \ 'clojure', 'clj:clojure', 'scala', 'sql', 'gnuplot']
-      call s:syntax_include(split(lang, ':')[-1], '```'.split(lang, ':')[0], '```', 0)
-    endfor
-
-    highlight def link Snip Folded
-    setlocal textwidth=78
-    setlocal completefunc=emoji#complete
-  elseif &ft == 'sh'
-    call s:syntax_include('ruby', '#!ruby', '/\%$', 1)
-  endif
-endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " PLUGINS {{{1
@@ -439,6 +335,7 @@ nmap <silent> gr <Plug>(coc-references)
 let g:indentLine_enabled = 1 " enabled by default
 let g:indentLine_conceallevel=1
 let g:indentLine_char = "┆" " requires utf-8 in file/terminal
+let g:indentLine_concealcursor=""
 
 " Context filetype
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -480,9 +377,8 @@ let g:fzf_colors = {
 \ 'header':  ['fg', 'Comment']
 \}
 
-" Files command with preview window
 command! -bang -nargs=? -complete=dir Files call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-nnoremap <leader>f :Files<CR>
+nnoremap <C-p> :Files<CR>
 
 if executable('rg')
   command! -bang -nargs=* Rg
@@ -496,64 +392,7 @@ if executable('rg')
 
   nnoremap MM :Rg! <C-R><C-W><CR>
   vnoremap MM y :Rg! <C-R>"<CR>
-
-elseif executable('ag')
-  command! -bang -nargs=* Ag
-  \ call fzf#vim#ag(<q-args>,
-  \                 <bang>0 ? fzf#vim#with_preview('up:60%')
-  \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \                 <bang>0)
-  nnoremap mm :Ag <C-R><C-W><CR>
-  vnoremap mm y :Ag <C-R>"<CR>
-
-  nnoremap MM :Ag! <C-R><C-W><CR>
-  vnoremap MM y :Ag! <C-R>"<CR>
-else
-  " bind mm to grep word under cursor - useful even if rg/ag not installed
-  nnoremap mm :silent! grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
-  vnoremap mm y :silent! grep! <C-R>"<CR>:cw<CR>
 endif
-
-" vim-illuminate
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:Illuminate_delay = 0
-
-" vim-easymotion
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Jump to anywhere you want with minimal keystrokes, with just one key binding.
-" `s{char}{label}`
-nmap s <Plug>(easymotion-overwin-f)
-" or
-" `s{char}{char}{label}`
-" Need one more keystroke, but on average, it may be more comfortable.
-nmap s <Plug>(easymotion-overwin-f2)
-
-" Turn on case-insensitive feature
-let g:EasyMotion_smartcase = 1
-
-" JK motions: Line motions
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
-
-" Gutentags
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" enable gtags module
-let g:gutentags_modules = ['ctags', 'gtags_cscope']
-
-" config project root markers.
-let g:gutentags_project_root = ['.git']
-
-" generate databases in my cache directory, prevent gtags files polluting my project
-let g:gutentags_cache_dir = expand('~/.cache/tags')
-
-" change focus to quickfix window after search (optional).
-let g:gutentags_plus_switch = 1
-
-let g:gutentags_enabled = 0
-
-augroup auto_gutentags
-  au FileType python,typescript,javascript,elixr,rust,sh,r let g:gutentags_enabled=1
-augroup end
 
 " Defx
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -672,9 +511,12 @@ let g:lightline = {
 \ },
 \}
 
-" vimroot
+" Other
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:vimroot_enable = 1
+let g:rainbow_active = 1
+let g:vim_json_syntax_conceal = 0
+let g:Illuminate_delay = 0
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " AUTOCMD {{{1
@@ -706,9 +548,6 @@ augroup vimrc
   " Remove all swap files on exit, if no nvims are open
   autocmd VimLeave * call ClearSwap()
 
-  " Included syntax
-  autocmd FileType,ColorScheme * call <SID>file_type_handler()
-
   " Spelling for markdown
   autocmd FileType * set nospell
   autocmd FileType markdown syntax spell toplevel | set spell spelllang=en_au
@@ -721,7 +560,7 @@ augroup vimrc
   autocmd FileType gitcommit nnoremap <buffer> <silent> cd :<C-U>Gcommit --amend --date="$(date)"<CR>
 
   " Remove whitespace on save
-  autocmd BufWritePre *.py :%s/\s\+$//e
+  autocmd BufWritePre * :%s/\s\+$//e
 
   " Unset paste on InsertLeave
   autocmd InsertLeave * silent! set nopaste
@@ -756,8 +595,6 @@ let g:PaperColor_Theme_Options = {
 \    }
 \  }
 \}
-
-let g:rainbow_active = 1
 
 " colourscheme
 set background=dark

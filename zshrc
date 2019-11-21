@@ -66,6 +66,7 @@ plugins=(
   systemd
   zsh-syntax-highlighting
   zsh-completions
+  zsh-autosuggestions
 )
 
 source $ZSH/oh-my-zsh.sh
