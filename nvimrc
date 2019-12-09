@@ -30,6 +30,7 @@ call plug#begin('~/.config/nvim/plugged')
 
 " My plugins
 Plug 'beanpuppy/vimroot'
+Plug 'beanpuppy/git-blame-nvim'
 
 " tools
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -59,6 +60,7 @@ Plug 'vim-scripts/YankRing.vim'
 
 " display
 Plug 'itchyny/lightline.vim'
+Plug 'drzel/vim-line-no-indicator'
 Plug 'airblade/vim-gitgutter'
 Plug 'Yggdroot/indentline'
 Plug 'psliwka/vim-smoothie'
@@ -135,7 +137,7 @@ set hlsearch
 " look in the current directory for 'tags', and work up the tree towards root until one is found.
 set tags=./tags;/
 " set conceal
-set conceallevel=1
+set conceallevel=0
 " set modelines
 set modeline
 set modelines=5
@@ -254,6 +256,9 @@ xnoremap <CR> <Esc>.
 nnoremap <CR> gnzz
 nnoremap ! ungnzz
 
+" Split line
+nnoremap S :keeppatterns substitute/\s*\%#\s*/\r/e <bar> normal! ==<CR>
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COMMANDS {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -293,7 +298,7 @@ set foldtext=NeatFoldText()
 
 " Startify config
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:startify_session_dir ='~/.vim/session' " share sessions with normal vim
+let g:startify_session_dir = '~/.vim/session' " share sessions with normal vim
 
 let g:startify_list_order = [
 \ ['   My sessions:'],
@@ -333,9 +338,9 @@ nmap <silent> gr <Plug>(coc-references)
 " Indent lines
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:indentLine_enabled = 1 " enabled by default
-let g:indentLine_conceallevel=1
+let g:indentLine_conceallevel = 1
 let g:indentLine_char = "┆" " requires utf-8 in file/terminal
-let g:indentLine_concealcursor=""
+let g:indentLine_concealcursor = ""
 
 " Context filetype
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -494,9 +499,8 @@ let g:lightline = {
 \     [ 'filename', 'charvaluehex' ],
 \   ],
 \   'right': [
-\     [ 'linterstatus' ],
 \     [ 'lineinfo' ],
-\     [ 'percent' ],
+\     [ 'line' ],
 \     [ 'fileformat', 'fileencoding', 'filetype', ]
 \   ]
 \ },
@@ -507,7 +511,7 @@ let g:lightline = {
 \   'filename': 'LightlineFilename',
 \   'githunks': 'GetHunks',
 \   'gitbranch': 'fugitive#head',
-\   'linterstatus': 'LinterStatus',
+\   'line': 'LineNoIndicator',
 \ },
 \}
 

@@ -72,15 +72,16 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
-#
-fpath+=('${HOME}/dotfiles/zsh/zfunc')
-PATH="$PATH:${HOME}/src/flutter/bin"
-# export MANPATH="/usr/local/man:$MANPATH"
 
 export DEVBOX='0xc0ff33'
 export EDITOR='nvim'
 export DOCKERID='beanpupper'
 export DOTFILES="$HOME/dotfiles"
+export GOPATH="$HOME/src/go"
+
+fpath+=('${HOME}/dotfiles/zsh/zfunc')
+PATH="$PATH:${HOME}:/Users/justin/.local/bin:/src/flutter/bin:$GOPATH/bin"
+# export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
