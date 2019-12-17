@@ -43,7 +43,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'Shougo/context_filetype.vim'
 Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
 
-" syntax
+" languages
 Plug 'rust-lang/rust.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'gabrielelana/vim-markdown'
@@ -51,6 +51,7 @@ Plug 'evanleck/vim-svelte'
 Plug 'elixir-editors/vim-elixir'
 Plug 'lervag/vimtex'
 Plug 'cakebaker/scss-syntax.vim'
+Plug 'neovimhaskell/haskell-vim'
 
 " editing
 Plug 'tpope/vim-surround'
@@ -232,22 +233,11 @@ vnoremap <C-k> :m '<-2<CR>gv=gv
 nnoremap <silent> <C-h> <<
 nnoremap <silent> <C-l> >>
 
-" Fugitive
-nnoremap <Leader>g :Gstatus<CR>gg<c-n>
-nnoremap <Leader>d :Gdiff<CR>
-nnoremap <Leader>b :Gblame<CR>
-
 " qq to record, leader-q to replay
 nnoremap <Leader>q @q
 
 " YankRing show
 nnoremap <silent>yr :YRShow<CR>
-
-" Helper to replace words under cursor
-nnoremap <Leader>r :%s/\<<C-R><C-W>\>//<Left>
-nnoremap <Leader>R :%s/\<<C-R><C-W>\>//c<Left><Left>
-xnoremap <Leader>r y :%s/\<<C-R>"\>//<Left>
-xnoremap <Leader>R y :%s/\<<C-R>"\>//c<Left><Left>
 
 " Nearby find and replace
 nnoremap <silent> <Leader>c :let @/='\<'.expand('<cword>').'\>'<CR>cgn
@@ -259,9 +249,6 @@ nnoremap ! ungnzz
 " Split line
 nnoremap S :keeppatterns substitute/\s*\%#\s*/\r/e <bar> normal! ==<CR>
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" COMMANDS {{{1
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 command! STemp :SSave! __temp__
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -334,6 +321,17 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+
+" Use `:Format` to format current buffer
+command! -nargs=0 Format :call CocAction('format')
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+" Remap for do codeAction of current line
+nmap <leader>ac <Plug>(coc-codeaction)
+" Fix autofix problem of current line
+nmap <leader>qf <Plug>(coc-fix-current)
 
 " Indent lines
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -592,6 +590,7 @@ augroup END
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLOUR {{{1
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:PaperColor_Theme_Options = {
 \  'theme': {
 \    'default': {
