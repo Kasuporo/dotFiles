@@ -292,7 +292,7 @@ let g:startify_list_order = [
 \ 'sessions',
 \ ['   My most recently used files in the current directory:'],
 \ 'dir',
-\ ['   My most recently used files'],
+\ ['   My most recently used files:'],
 \ 'files',
 \ ['   My bookmarks:'],
 \ 'bookmarks',
@@ -533,6 +533,7 @@ augroup vimrc
   autocmd FileType python setlocal sw=4 ts=4 et
   autocmd FileType ruby setlocal sw=2 ts=2 et
   autocmd FileType json setlocal sw=2 ts=2 et
+  autocmd FileType haskell setlocal sw=2 ts=2 et
   autocmd FileType yaml setlocal sw=2 ts=2 et
   autocmd FileType javascript setlocal sw=2 ts=2 et
   autocmd FileType javascript.jsx setlocal ts=2 sts=2 sw=2 et
@@ -601,7 +602,7 @@ let g:PaperColor_Theme_Options = {
 
 " colourscheme
 set background=dark
-colorscheme hybrid_material
+colorscheme gruvbox
 
 " Use terminal background
 hi Normal ctermbg=none
