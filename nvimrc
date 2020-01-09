@@ -590,7 +590,7 @@ function! OnTermExit(job_id, code, event) dict
 endfunction
 
 command! LazyGit :call ToggleLazyGit()
-command! Term :call ToggleScratchTerm()
+command! OpenTerm :call ToggleScratchTerm()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " AUTOCMD {{{1
