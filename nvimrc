@@ -54,7 +54,7 @@ Plug 'cakebaker/scss-syntax.vim'
 Plug 'neovimhaskell/haskell-vim'
 
 " editing
-Plug 'tpope/vim-surround'
+Plug 'machakann/vim-sandwich'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-sleuth'
 Plug 'vim-scripts/YankRing.vim'
@@ -278,6 +278,14 @@ function! NeatFoldText()
   return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
 endfunction
 set foldtext=NeatFoldText()
+
+" Create dir
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+fun! s:MkNonExDir(file, buf)
+  if empty(getbufvar(a:buf, '&buftype')) && a:file !~# '\v^\w+\:\/'
+    call mkdir(fnamemodify(a:file, ':h'), 'p')
+  endif
+endfun
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " PLUGINS {{{1
@@ -596,11 +604,16 @@ command! OpenTerm :call ToggleScratchTerm()
 " AUTOCMD {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 augroup vimrc
+  autocmd!
+
   " Jump to last cursor position unless it's invalid or in an event handler
   autocmd BufReadPost *
     \ if line("'\"") > 0 && line("'\"") <= line("$") |
     \   exe "normal g`\"" |
     \ endif
+
+  " Create directory if does not exist
+  autocmd BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
 
   autocmd FileType python setlocal sw=4 ts=4 et
   autocmd FileType ruby setlocal sw=2 ts=2 et
