@@ -28,7 +28,6 @@ endif
 " Add plugins here
 call plug#begin('~/.config/nvim/plugged')
 
-" My plugins
 Plug 'beanpuppy/vimroot'
 Plug 'beanpuppy/git-blame-nvim'
 
@@ -42,6 +41,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'Shougo/context_filetype.vim'
 Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
+Plug 'dstein64/vim-startuptime'
 
 " languages
 Plug 'rust-lang/rust.vim'
@@ -57,7 +57,6 @@ Plug 'neovimhaskell/haskell-vim'
 Plug 'machakann/vim-sandwich'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-sleuth'
-Plug 'vim-scripts/YankRing.vim'
 
 " display
 Plug 'itchyny/lightline.vim'
