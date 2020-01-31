@@ -248,6 +248,12 @@ nnoremap ! ungnzz
 " Split line
 nnoremap S :keeppatterns substitute/\s*\%#\s*/\r/e <bar> normal! ==<CR>
 
+" copy and paste
+vmap <C-c> "+y
+vmap <C-x> "+c
+vmap <C-v> c<ESC>"+p
+imap <C-v> <ESC>"+pa
+
 command! STemp :SSave! __temp__
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
