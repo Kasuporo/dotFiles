@@ -78,7 +78,6 @@ export EDITOR='nvim'
 export DOCKERID='beanpupper'
 export DOTFILES="$HOME/dotfiles"
 export GOPATH="$HOME/src/go"
-export BH_URL="http://178.128.52.174:8080"
 
 fpath+=('${HOME}/dotfiles/zsh/zfunc')
 PATH="$PATH:$HOME:$HOME/.local/bin:/src/flutter/bin:$GOPATH/bin:$HOME/.config/nvim/plugged/vim-iced/bin"

@@ -45,7 +45,9 @@ Plug 'dstein64/vim-startuptime'
 
 " languages
 Plug 'rust-lang/rust.vim'
+Plug 'arzg/vim-rust-syntax-ext'
 Plug 'pangloss/vim-javascript'
+Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'gabrielelana/vim-markdown'
 Plug 'evanleck/vim-svelte'
 Plug 'elixir-editors/vim-elixir'
@@ -534,6 +536,7 @@ let g:vimroot_enable = 1
 let g:rainbow_active = 1
 let g:vim_json_syntax_conceal = 0
 let g:Illuminate_delay = 0
+let g:gitgutter_eager = 0
 
 " Term handling
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -659,8 +662,6 @@ augroup vimrc
 
   " Unset paste on InsertLeave
   autocmd InsertLeave * silent! set nopaste
-
-  autocmd TextChanged,InsertLeave * silent! GitGutter
 
   " Overwrite quickfix CR to close after selected
   autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose<CR>
