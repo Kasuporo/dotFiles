@@ -40,8 +40,11 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'Shougo/context_filetype.vim'
 Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
-Plug 'dstein64/vim-startuptime'
 Plug 'axvr/zepl.vim'
+Plug 'rhysd/clever-f.vim'
+Plug 'machakann/vim-sandwich'
+Plug 'tomtom/tcomment_vim'
+Plug 'tpope/vim-sleuth'
 
 " languages
 Plug 'rust-lang/rust.vim'
@@ -56,11 +59,6 @@ Plug 'cakebaker/scss-syntax.vim'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'liquidz/vim-iced', {'for': 'clojure'}
 Plug 'liquidz/vim-iced-coc-source', {'for': 'clojure'}
-
-" editing
-Plug 'machakann/vim-sandwich'
-Plug 'tomtom/tcomment_vim'
-Plug 'tpope/vim-sleuth'
 
 " display
 Plug 'itchyny/lightline.vim'
