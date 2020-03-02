@@ -75,7 +75,7 @@ function gitme()
 alias ls="lsd"
 alias cat="bat"
 # 2FA recovery script
-alias recover_mfa="cd ~/Nextcloud/documents/recovery && $DOTFILES/bin/enc.sh codes.txt && cd -"
+alias recover_mfa="cd ~/Nextcloud/misc/recovery && $DOTFILES/bin/enc.sh codes.txt && cd -"
 # bw unlock
 alias bwu="source $DOTFILES/bin/bwunlock.sh"
 # bw generate

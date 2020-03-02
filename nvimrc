@@ -17,7 +17,6 @@ call system('mkdir -p ~/.cache/tags/')
 let g:python3_host_prog="/usr/local/bin/python3"
 let g:python_host_prog="/usr/local/bin/python"
 
-
 " Install vim plug if not already
 if glob("~/.config/nvim/autoload/plug.vim") ==# ""
   silent !curl -fLo ~/.config/nvim/autoload/plug.vim
@@ -42,6 +41,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'Shougo/context_filetype.vim'
 Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
 Plug 'dstein64/vim-startuptime'
+Plug 'axvr/zepl.vim'
 
 " languages
 Plug 'rust-lang/rust.vim'
@@ -530,6 +530,17 @@ let g:lightline = {
 \ },
 \}
 
+" zepl.vim
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+augroup zepl
+  autocmd!
+  autocmd FileType python     let b:repl_config = { 'cmd': 'ptpython' }
+  autocmd FileType javascript let b:repl_config = { 'cmd': 'node' }
+  autocmd FileType clojure    let b:repl_config = { 'cmd': 'clj' }
+  autocmd FileType elixir     let b:repl_config = { 'cmd': 'iex -S mix' }
+  autocmd FileType haskell    let b:repl_config = { 'cmd': 'ghci' }
+augroup END
+
 " Other
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:vimroot_enable = 1
@@ -625,19 +636,19 @@ augroup vimrc
   " Create directory if does not exist
   autocmd BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
 
-  autocmd FileType python setlocal sw=4 ts=4 et
-  autocmd FileType ruby setlocal sw=2 ts=2 et
-  autocmd FileType json setlocal sw=2 ts=2 et
-  autocmd FileType haskell setlocal sw=2 ts=2 et
-  autocmd FileType yaml setlocal sw=2 ts=2 et
-  autocmd FileType javascript setlocal sw=2 ts=2 et
+  autocmd FileType python         setlocal sw=4 ts=4 et
+  autocmd FileType ruby           setlocal sw=2 ts=2 et
+  autocmd FileType json           setlocal sw=2 ts=2 et
+  autocmd FileType haskell        setlocal sw=2 ts=2 et
+  autocmd FileType yaml           setlocal sw=2 ts=2 et
+  autocmd FileType javascript     setlocal sw=2 ts=2 et
   autocmd FileType javascript.jsx setlocal ts=2 sts=2 sw=2 et
 
   " File types
-  autocmd BufNewFile,BufRead *.icc set filetype=cpp
-  autocmd BufNewFile,BufRead *.pde set filetype=java
+  autocmd BufNewFile,BufRead *.icc               set filetype=cpp
+  autocmd BufNewFile,BufRead *.pde               set filetype=java
   autocmd BufNewFile,BufRead *.coffee-processing set filetype=coffee
-  autocmd BufNewFile,BufRead Dockerfile* set filetype=dockerfile
+  autocmd BufNewFile,BufRead Dockerfile*         set filetype=dockerfile
 
   autocmd FileType crontab setlocal bkc=yes
 
