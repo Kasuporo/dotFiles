@@ -77,6 +77,6 @@ alias cat="bat"
 # 2FA recovery script
 alias recover_mfa="cd ~/Nextcloud/misc/recovery && $DOTFILES/bin/enc.sh codes.txt && cd -"
 # bw unlock
-alias bwu="source $DOTFILES/bin/bwunlock.sh"
+alias bwu="source $DOTFILES/bin/bwunlock.sh && bwc"
 # bw generate
 alias bwg="bw generate -lusn --length 24 | pbcopy"

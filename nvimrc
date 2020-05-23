@@ -59,6 +59,8 @@ Plug 'cakebaker/scss-syntax.vim'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'liquidz/vim-iced', {'for': 'clojure'}
 Plug 'liquidz/vim-iced-coc-source', {'for': 'clojure'}
+" natural languages
+Plug 'dpelle/vim-LanguageTool'
 
 " display
 Plug 'itchyny/lightline.vim'
