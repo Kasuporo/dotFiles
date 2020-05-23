@@ -548,6 +548,7 @@ let g:rainbow_active = 1
 let g:vim_json_syntax_conceal = 0
 let g:Illuminate_delay = 0
 let g:gitgutter_eager = 0
+let g:languagetool_jar = "/Users/justin/src/LanguageTool-4.9.1/languagetool-commandline.jar"
 
 " Term handling
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
