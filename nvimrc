@@ -45,6 +45,7 @@ Plug 'rhysd/clever-f.vim'
 Plug 'machakann/vim-sandwich'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-sleuth'
+Plug 'terryma/vim-multiple-cursors'
 
 " languages
 Plug 'rust-lang/rust.vim'
@@ -549,6 +550,20 @@ let g:vim_json_syntax_conceal = 0
 let g:Illuminate_delay = 0
 let g:gitgutter_eager = 0
 let g:languagetool_jar = "/Users/justin/src/LanguageTool-4.9.1/languagetool-commandline.jar"
+
+func! Multiple_cursors_before()
+  if deoplete#is_enabled()
+    call deoplete#disable()
+    let g:deoplete_is_enable_before_multi_cursors = 1
+  else
+    let g:deoplete_is_enable_before_multi_cursors = 0
+  endif
+endfunc
+func! Multiple_cursors_after()
+  if g:deoplete_is_enable_before_multi_cursors
+    call deoplete#enable()
+  endif
+endfunc
 
 " Term handling
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
