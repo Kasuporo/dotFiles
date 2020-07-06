@@ -80,7 +80,7 @@ export DOTFILES="$HOME/dotfiles"
 export GOPATH="$HOME/src/go"
 
 fpath+=('${HOME}/dotfiles/zsh/zfunc')
-PATH="$PATH:$HOME:$HOME/.local/bin:/src/flutter/bin:$GOPATH/bin:$HOME/.config/nvim/plugged/vim-iced/bin"
+PATH="$PATH:$HOME:$HOME/.local/bin:/src/flutter/bin:$GOPATH/bin:$HOME/.config/nvim/plugged/vim-iced/bin:$HOME/src/git-fuzzy/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
