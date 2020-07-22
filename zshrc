@@ -117,6 +117,8 @@ source $DOTFILES/bin/utils.sh
 source $DOTFILES/zsh/auto-load.zsh
 source $DOTFILES/zsh/aliases.zsh
 
+. $DOTFILES/z.sh
+
 [ -x "$(command -v fuck)" ] && eval $(thefuck --alias)
 
 # Fzf things
