@@ -46,16 +46,17 @@ Plug 'machakann/vim-sandwich'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-sleuth'
 Plug 'terryma/vim-multiple-cursors'
+Plug 'justinmk/vim-sneak'
 
 " languages
 Plug 'rust-lang/rust.vim'
+Plug 'elmcast/elm-vim'
 Plug 'arzg/vim-rust-syntax-ext'
 Plug 'pangloss/vim-javascript'
 Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'gabrielelana/vim-markdown'
 Plug 'evanleck/vim-svelte'
 Plug 'elixir-editors/vim-elixir'
-Plug 'lervag/vimtex'
 Plug 'cakebaker/scss-syntax.vim'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'liquidz/vim-iced', {'for': 'clojure'}
@@ -677,6 +678,7 @@ augroup vimrc
   " Spelling for markdown
   autocmd FileType * set nospell
   autocmd FileType markdown syntax spell toplevel | set spell spelllang=en_au
+  autocmd FileType rst syntax spell toplevel | set spell spelllang=en_au
 
   " No indent lines for fzf please
   autocmd FileType fzf :IndentLinesDisable
