@@ -39,7 +39,7 @@ Plug 'mhinz/vim-startify'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'Shougo/context_filetype.vim'
-Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release', 'do': 'yarn install --frozen-lockfile'}
 Plug 'axvr/zepl.vim'
 Plug 'rhysd/clever-f.vim'
 Plug 'machakann/vim-sandwich'
