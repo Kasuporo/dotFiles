@@ -73,7 +73,6 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-export DEVBOX='0xc0ff33'
 export EDITOR='nvim'
 export DOCKERID='beanpupper'
 export DOTFILES="$HOME/dotfiles"
@@ -86,6 +85,7 @@ PATH="$PATH:$HOME/.local/bin:/src/flutter/bin"
 PATH="$PATH:$GOPATH/bin"
 PATH="$PATH:$HOME/.config/nvim/plugged/vim-iced/bin"
 PATH="$PATH:$HOME/src/git-fuzzy/bin"
+
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment

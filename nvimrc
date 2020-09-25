@@ -661,6 +661,7 @@ augroup vimrc
   autocmd FileType yaml           setlocal sw=2 ts=2 et
   autocmd FileType javascript     setlocal sw=2 ts=2 et
   autocmd FileType javascript.jsx setlocal ts=2 sts=2 sw=2 et
+  autocmd FileType go             setlocal sw=4 ts=4 noexpandtab
 
   " File types
   autocmd BufNewFile,BufRead *.icc               set filetype=cpp
