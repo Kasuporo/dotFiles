@@ -67,6 +67,7 @@ plugins=(
   zsh-syntax-highlighting
   zsh-completions
   zsh-autosuggestions
+  docker
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -118,8 +119,6 @@ source $DOTFILES/zsh/auto-load.zsh
 source $DOTFILES/zsh/aliases.zsh
 
 . $DOTFILES/z.sh
-
-[ -x "$(command -v fuck)" ] && eval $(thefuck --alias)
 
 # Fzf things
 [ -f ~/.fzf.zsh ] \
