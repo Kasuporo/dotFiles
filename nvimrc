@@ -47,6 +47,7 @@ Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-sleuth'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'justinmk/vim-sneak'
+Plug 'Olical/conjure', {'tag': 'v4.7.0'}
 
 " languages
 Plug 'rust-lang/rust.vim'
