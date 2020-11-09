@@ -63,6 +63,7 @@ Plug 'neovimhaskell/haskell-vim'
 Plug 'liquidz/vim-iced', {'for': 'clojure'}
 Plug 'liquidz/vim-iced-coc-source', {'for': 'clojure'}
 Plug 'purescript-contrib/purescript-vim'
+Plug 'uarun/vim-protobuf'
 " natural languages
 Plug 'dpelle/vim-LanguageTool'
 
@@ -655,6 +656,7 @@ augroup vimrc
   " Create directory if does not exist
   autocmd BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
 
+  autocmd FileType go             setlocal sw=4 ts=4 noexpandtab
   autocmd FileType python         setlocal sw=4 ts=4 et
   autocmd FileType ruby           setlocal sw=2 ts=2 et
   autocmd FileType json           setlocal sw=2 ts=2 et
@@ -662,7 +664,6 @@ augroup vimrc
   autocmd FileType yaml           setlocal sw=2 ts=2 et
   autocmd FileType javascript     setlocal sw=2 ts=2 et
   autocmd FileType javascript.jsx setlocal ts=2 sts=2 sw=2 et
-  autocmd FileType go             setlocal sw=4 ts=4 noexpandtab
 
   " File types
   autocmd BufNewFile,BufRead *.icc               set filetype=cpp
