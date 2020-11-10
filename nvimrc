@@ -308,6 +308,9 @@ endfun
 " Startify config
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:startify_session_dir = '~/.vim/session' " share sessions with normal vim
+let g:startify_custom_header = [
+\ '   cow died of death rip in piece . uwu ',
+\ ]
 
 let g:startify_list_order = [
 \ ['   My sessions:'],

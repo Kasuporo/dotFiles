@@ -86,6 +86,7 @@ PATH="$PATH:$HOME/.local/bin:/src/flutter/bin"
 PATH="$PATH:$GOPATH/bin"
 PATH="$PATH:$HOME/.config/nvim/plugged/vim-iced/bin"
 PATH="$PATH:$HOME/src/git-fuzzy/bin"
+PATH="$PATH:$HOME/.mix/escripts"
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
