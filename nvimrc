@@ -39,7 +39,7 @@ Plug 'mhinz/vim-startify'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'Shougo/context_filetype.vim'
-Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release', 'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
 Plug 'axvr/zepl.vim'
 Plug 'rhysd/clever-f.vim'
 Plug 'machakann/vim-sandwich'
@@ -62,6 +62,7 @@ Plug 'cakebaker/scss-syntax.vim'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'liquidz/vim-iced', {'for': 'clojure'}
 Plug 'liquidz/vim-iced-coc-source', {'for': 'clojure'}
+Plug 'elixir-lsp/coc-elixir', {'do': 'yarn install && yarn prepack'}
 Plug 'purescript-contrib/purescript-vim'
 Plug 'uarun/vim-protobuf'
 " natural languages

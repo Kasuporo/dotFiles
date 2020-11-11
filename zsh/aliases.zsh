@@ -80,6 +80,7 @@ function jdk() {
 
 alias ls="lsd"
 alias cat="bat"
+alias sed="gsed"
 # 2FA recovery script
 alias recover_mfa="cd ~/Sync/jd_misc/recovery && $DOTFILES/bin/enc.sh codes.txt && cd -"
 # bw unlock
