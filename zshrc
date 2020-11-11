@@ -63,23 +63,21 @@ plugins=(
   python
   vi-mode
   sudo
-  systemd
   zsh-syntax-highlighting
   zsh-completions
   zsh-autosuggestions
-  docker
 )
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-export EDITOR='nvim'
-export DOCKERID='beanpupper'
+export EDITOR="nvim"
+export DOCKERID="beanpupper"
 export DOTFILES="$HOME/dotfiles"
 export GOPATH="$HOME/src/go"
 
-fpath+=('${HOME}/dotfiles/zsh/zfunc')
+fpath+=("${HOME}/dotfiles/zsh/zfunc")
 PATH="/usr/local/sbin:$PATH"
 PATH="$PATH:$HOME"
 PATH="$PATH:$HOME/.local/bin:/src/flutter/bin"
