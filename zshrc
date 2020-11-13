@@ -119,6 +119,8 @@ source $DOTFILES/zsh/aliases.zsh
 
 . $DOTFILES/z.sh
 
+if which karn > /dev/null; then eval "$(karn init)"; fi
+
 # Fzf things
 [ -f ~/.fzf.zsh ] \
   && source ~/.fzf.zsh \
