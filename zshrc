@@ -75,7 +75,7 @@ source $ZSH/oh-my-zsh.sh
 export EDITOR="nvim"
 export DOCKERID="beanpupper"
 export DOTFILES="$HOME/dotfiles"
-export GOPATH="$HOME/src/go"
+export GOPATH="$HOME/go"
 
 fpath+=("${HOME}/dotfiles/zsh/zfunc")
 PATH="/usr/local/sbin:$PATH"
