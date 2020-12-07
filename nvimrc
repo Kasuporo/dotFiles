@@ -64,6 +64,7 @@ Plug 'liquidz/vim-iced', {'for': 'clojure'}
 Plug 'liquidz/vim-iced-coc-source', {'for': 'clojure'}
 Plug 'elixir-lsp/coc-elixir', {'do': 'yarn install && yarn prepack'}
 Plug 'purescript-contrib/purescript-vim'
+Plug 'unisonweb/unison', { 'branch': 'trunk', 'rtp': 'editor-support/vim' }
 Plug 'uarun/vim-protobuf'
 " natural languages
 Plug 'dpelle/vim-LanguageTool'
