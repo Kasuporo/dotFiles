@@ -74,7 +74,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'Yggdroot/indentline'
 Plug 'psliwka/vim-smoothie'
 Plug 'pacha/vem-tabline'
-Plug 'TaDaa/vimade'
+" Plug 'TaDaa/vimade'
 Plug 'ryanoasis/vim-devicons'
 Plug 'kristijanhusak/defx-icons'
 Plug 'RRethy/vim-illuminate'
@@ -575,7 +575,7 @@ endfunc
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Set login shell for :terminal command so aliases work
-set shell=/usr/local/bin/zsh
+set shell=/opt/homebrew/bin/zsh
 
 " When term starts, auto go into insert mode
 autocmd TermOpen * startinsert

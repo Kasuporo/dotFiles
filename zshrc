@@ -66,6 +66,7 @@ plugins=(
   zsh-syntax-highlighting
   zsh-completions
   zsh-autosuggestions
+  asdf
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -78,13 +79,14 @@ export DOTFILES="$HOME/dotfiles"
 export GOPATH="$HOME/go"
 
 fpath+=("${HOME}/dotfiles/zsh/zfunc")
-PATH="/usr/local/sbin:$PATH"
-PATH="$PATH:$HOME"
-PATH="$PATH:$HOME/.local/bin:/src/flutter/bin"
+PATH="/opt/homebrew/bin:$PATH"
 PATH="$PATH:$GOPATH/bin"
+PATH="$PATH:$HOME"
+PATH="$PATH:$HOME/.local/bin"
 PATH="$PATH:$HOME/.config/nvim/plugged/vim-iced/bin"
 PATH="$PATH:$HOME/src/git-fuzzy/bin"
 PATH="$PATH:$HOME/.mix/escripts"
+PATH="$PATH:$HOME/.gem/bin"
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
