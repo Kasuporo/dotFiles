@@ -28,6 +28,7 @@ function mkenv()
         if [ -f "requirements.txt" ]; then
            printgarr "Found \`requirements.txt\`. Installing."
            env LDFLAGS="-L$(brew --prefix openssl)/lib" CFLAGS="-I$(brew --prefix openssl)/include" pip install -r requirements.txt
+           pip install black flake8
         fi
 
         find_env
