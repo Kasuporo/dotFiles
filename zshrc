@@ -66,7 +66,6 @@ plugins=(
   zsh-syntax-highlighting
   zsh-completions
   zsh-autosuggestions
-  asdf
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -131,5 +130,7 @@ if which karn > /dev/null; then eval "$(karn init)"; fi
 # Iterm2 shell intergration
 test -e "${HOME}/.iterm2_shell_integration.zsh" \
   && source "${HOME}/.iterm2_shell_integration.zsh"
+
+. /opt/homebrew/opt/asdf/asdf.sh
 
 eval "$(starship init zsh)"
