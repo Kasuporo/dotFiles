@@ -14,8 +14,8 @@ call system('mkdir -p ~/.cache/tags/')
 
 " Figure out the system python for neovim - we assume that the neovim python
 " server has been installed globally.
-let g:python3_host_prog="/usr/local/bin/python3"
-let g:python_host_prog="/usr/local/bin/python"
+let g:python3_host_prog="/Users/justin/.asdf/shims/python3"
+let g:loaded_python_provider=0
 
 " Install vim plug if not already
 if glob("~/.config/nvim/autoload/plug.vim") ==# ""
@@ -39,7 +39,7 @@ Plug 'mhinz/vim-startify'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'Shougo/context_filetype.vim'
-Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'axvr/zepl.vim'
 Plug 'rhysd/clever-f.vim'
 Plug 'machakann/vim-sandwich'
