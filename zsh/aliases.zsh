@@ -27,7 +27,7 @@ function mkenv()
 
         if [ -f "requirements.txt" ]; then
            printgarr "Found \`requirements.txt\`. Installing."
-           pip install -r requirements.txt
+           env LDFLAGS="-L$(brew --prefix openssl)/lib" CFLAGS="-I$(brew --prefix openssl)/include" pip install -r requirements.txt
         fi
 
         find_env
@@ -40,10 +40,10 @@ function mkenv()
 function rmenv()
 {
     if [ "$VIRTUAL_ENV" ]; then
-        printgarr "Removing \`env\` folder."
-        eval rm -rf $VIRTUAL_ENV
         printgarr "Deactivaing virtual env."
         deactivate
+        printgarr "Removing \`env\` folder."
+        eval rm -rf $VIRTUAL_ENV
     elif [[ -d "env/" ]]; then
         printgarr "Removing \`env\` folder."
         rm -rf env/
