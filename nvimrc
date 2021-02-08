@@ -74,7 +74,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'Yggdroot/indentline'
 Plug 'psliwka/vim-smoothie'
 Plug 'pacha/vem-tabline'
-" Plug 'TaDaa/vimade'
+Plug 'TaDaa/vimade'
 Plug 'ryanoasis/vim-devicons'
 Plug 'kristijanhusak/defx-icons'
 Plug 'RRethy/vim-illuminate'
@@ -244,9 +244,6 @@ nnoremap <silent> <C-l> >>
 " qq to record, leader-q to replay
 nnoremap <Leader>q @q
 
-" YankRing show
-nnoremap <silent>yr :YRShow<CR>
-
 " Nearby find and replace
 nnoremap <silent> <Leader>c :let @/='\<'.expand('<cword>').'\>'<CR>cgn
 xnoremap <silent> <Leader>c "sy:let @/=@s<CR>cgn
@@ -380,11 +377,6 @@ let g:context_filetype#filetypes.html =
 \    {'filetype' : 'javascript', 'start' : '<script>', 'end' : '</script>'},
 \    {'filetype' : 'css', 'start' : '<style>', 'end' : '</style>'},
 \ ]
-
-" YankRing
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:yankring_replace_n_pkey = '<m-p>'
-let g:yankring_replace_n_nkey = '<m-n>'
 
 " FZF
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
