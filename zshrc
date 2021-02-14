@@ -79,6 +79,8 @@ export GOPATH="$HOME/go"
 
 fpath+=("${HOME}/dotfiles/zsh/zfunc")
 PATH="/opt/homebrew/bin:$PATH"
+PATH="/opt/homebrew/sbin:$PATH"
+PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
 PATH="$PATH:$GOPATH/bin"
 PATH="$PATH:$HOME"
 PATH="$PATH:$HOME/.local/bin"
