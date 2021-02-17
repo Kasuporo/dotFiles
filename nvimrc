@@ -175,6 +175,9 @@ set inccommand=nosplit
 set gdefault
 " Hide `-- INSERT --` at bottom
 set noshowmode
+" Show trailing whitespace
+set list
+set listchars=tab:\|\ ,trail:.,extends:>,precedes:<
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MISC KEY MAPS {{{1

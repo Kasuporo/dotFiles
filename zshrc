@@ -120,8 +120,6 @@ source $DOTFILES/bin/utils.sh
 source $DOTFILES/zsh/auto-load.zsh
 source $DOTFILES/zsh/aliases.zsh
 
-. $DOTFILES/z.sh
-
 if which karn > /dev/null; then eval "$(karn init)"; fi
 
 # Fzf things
@@ -134,5 +132,7 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" \
   && source "${HOME}/.iterm2_shell_integration.zsh"
 
 . /opt/homebrew/opt/asdf/asdf.sh
+
+eval "$(zoxide init zsh)"
 
 eval "$(starship init zsh)"
