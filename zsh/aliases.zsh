@@ -68,12 +68,22 @@ function gitme()
     git push
 }
 
-function jdk() {
+function jdk()
+{
     version=$1
     export JAVA_HOME=$(/usr/libexec/java_home -v"$version");
     java -version
 }
 
+# Do sudo with touch id
+function sudo()
+{
+    unset -f sudo
+    if [[ "$(uname)" == 'Darwin' ]] && ! grep 'pam_tid.so' /etc/pam.d/sudo --silent; then
+        sudo sed -i -e '1s;^;auth       sufficient     pam_tid.so\n;' /etc/pam.d/sudo
+    fi
+    sudo "$@"
+}
 
 #
 # Misc
