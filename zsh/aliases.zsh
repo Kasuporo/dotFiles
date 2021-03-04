@@ -99,3 +99,6 @@ alias recover_mfa="cd ~/Sync/jd_misc/recovery && $DOTFILES/bin/enc.sh codes.txt 
 alias bwu="source $DOTFILES/bin/bwunlock.sh && bwc"
 # bw generate
 alias bwg="bw generate -lusn --length 24 | pbcopy"
+# I'm an idiot
+alias rm="rm -i"
+alias mv="mv -i"
