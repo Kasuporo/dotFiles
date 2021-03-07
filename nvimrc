@@ -47,6 +47,9 @@ Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-sleuth'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'justinmk/vim-sneak'
+Plug 'clojure-vim/vim-jack-in'
+Plug 'tpope/vim-dispatch'
+Plug 'radenling/vim-dispatch-neovim'
 Plug 'Olical/conjure', {'tag': 'v4.7.0'}
 
 " languages
@@ -182,6 +185,8 @@ set listchars=tab:\|\ ,trail:.,extends:>,precedes:<
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MISC KEY MAPS {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+tnoremap <Esc> <C-\><C-n>
+
 " tab traverse
 nnoremap <silent> == gt
 nnoremap <silent> -- gT
