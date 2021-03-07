@@ -555,6 +555,14 @@ let g:vim_json_syntax_conceal = 0
 let g:Illuminate_delay = 0
 let g:gitgutter_eager = 0
 
+let g:rainbow_conf = {
+\  'separately': {
+\    '*': {},
+\    'html': 0,
+\    'markdown': {'parentheses_options': 'containedin=markdownCode contained'},
+\  }
+\}
+
 func! Multiple_cursors_before()
   if deoplete#is_enabled()
     call deoplete#disable()
