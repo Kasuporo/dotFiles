@@ -50,7 +50,6 @@ Plug 'justinmk/vim-sneak'
 Plug 'clojure-vim/vim-jack-in'
 Plug 'tpope/vim-dispatch'
 Plug 'radenling/vim-dispatch-neovim'
-Plug 'Olical/conjure', {'tag': 'v4.7.0'}
 
 " languages
 Plug 'rust-lang/rust.vim'
@@ -63,8 +62,7 @@ Plug 'evanleck/vim-svelte'
 Plug 'elixir-editors/vim-elixir'
 Plug 'cakebaker/scss-syntax.vim'
 Plug 'neovimhaskell/haskell-vim'
-Plug 'liquidz/vim-iced', {'for': 'clojure'}
-Plug 'liquidz/vim-iced-coc-source', {'for': 'clojure'}
+Plug 'Olical/conjure', {'tag': 'v4.7.0'}
 Plug 'elixir-lsp/coc-elixir', {'do': 'yarn install && yarn prepack'}
 Plug 'purescript-contrib/purescript-vim'
 Plug 'unisonweb/unison', { 'branch': 'trunk', 'rtp': 'editor-support/vim' }
