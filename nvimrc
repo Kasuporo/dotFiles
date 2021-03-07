@@ -732,6 +732,7 @@ colorscheme gruvbox
 
 " Use terminal background
 hi Normal ctermbg=none
+highlight NormalFloat ctermbg=none guibg=none
 highlight NonText ctermbg=none
 
 " vem-tabline
