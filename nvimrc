@@ -178,7 +178,7 @@ set gdefault
 set noshowmode
 " Show trailing whitespace
 set list
-set listchars=tab:\|\ ,trail:.,extends:>,precedes:<
+set listchars=tab:\|\ ,trail:·,extends:>,precedes:<
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MISC KEY MAPS {{{1
@@ -363,10 +363,8 @@ nmap <leader>qf <Plug>(coc-fix-current)
 
 " Indent lines
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:indentLine_enabled = 1 " enabled by default
-let g:indentLine_conceallevel = 1
-let g:indentLine_char = "┆" " requires utf-8 in file/terminal
-let g:indentLine_concealcursor = ""
+let g:indentLine_enabled = 1
+let g:indentLine_char = "┆"
 
 " Context filetype
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -739,9 +737,9 @@ set background=dark
 colorscheme gruvbox
 
 " Use terminal background
-hi Normal ctermbg=none
+highlight Normal ctermbg=none
 highlight NormalFloat ctermbg=none guibg=none
-highlight NonText ctermbg=none
+highlight NonText ctermbg=none ctermfg=8 guifg=gray
 
 " vem-tabline
 highlight TabLine                    cterm=none ctermfg=255 ctermbg=240 guifg=#242424 guibg=#cdcdcd gui=none
