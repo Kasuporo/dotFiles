@@ -50,6 +50,7 @@ Plug 'justinmk/vim-sneak'
 Plug 'clojure-vim/vim-jack-in'
 Plug 'tpope/vim-dispatch'
 Plug 'radenling/vim-dispatch-neovim'
+Plug 'eraserhd/parinfer-rust', {'do': 'cargo build --release'}
 
 " languages
 Plug 'rust-lang/rust.vim'
