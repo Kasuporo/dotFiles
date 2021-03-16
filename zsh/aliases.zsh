@@ -62,7 +62,7 @@ function rmenv()
 
 function gitme()
 {
-    git pull
+    git pull || return
     git add -A
     git commit -m $1
     git push
