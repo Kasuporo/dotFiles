@@ -80,6 +80,7 @@ function sudo()
 {
     unset -f sudo
     if [[ "$(uname)" == 'Darwin' ]] && ! grep 'pam_tid.so' /etc/pam.d/sudo --silent; then
+        echo "Adding touch id"
         sudo sed -i -e '1s;^;auth       sufficient     pam_tid.so\n;' /etc/pam.d/sudo
     fi
     sudo "$@"
