@@ -61,11 +61,11 @@ ZSH_THEME="minimal"
 plugins=(
   git
   python
-  vi-mode
   sudo
   zsh-syntax-highlighting
   zsh-completions
   zsh-autosuggestions
+  zsh-vi-mode
 )
 
 source $ZSH/oh-my-zsh.sh
