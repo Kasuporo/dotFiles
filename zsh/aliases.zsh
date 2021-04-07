@@ -103,3 +103,4 @@ alias bwg="bw generate -lusn --length 24 | pbcopy"
 # I'm an idiot
 alias rm="rm -i"
 alias mv="mv -i"
+alias contessh="/Users/justin/dev/git.duch.me/justin/contessh/contessh.py"

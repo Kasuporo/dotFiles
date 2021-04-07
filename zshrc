@@ -65,7 +65,6 @@ plugins=(
   zsh-syntax-highlighting
   zsh-completions
   zsh-autosuggestions
-  zsh-vi-mode
 )
 
 source $ZSH/oh-my-zsh.sh
