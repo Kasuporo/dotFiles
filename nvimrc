@@ -51,6 +51,7 @@ Plug 'clojure-vim/vim-jack-in'
 Plug 'tpope/vim-dispatch'
 Plug 'radenling/vim-dispatch-neovim'
 Plug 'eraserhd/parinfer-rust', {'do': 'cargo build --release'}
+Plug 'easymotion/vim-easymotion'
 
 " languages
 Plug 'rust-lang/rust.vim'
@@ -268,6 +269,7 @@ vmap <C-v> c<ESC>"+p
 imap <C-v> <ESC>"+pa
 
 command! STemp :SSave! __temp__
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " FUNCTIONS {{{1
@@ -545,6 +547,21 @@ augroup zepl
   autocmd FileType elixir     let b:repl_config = { 'cmd': 'iex -S mix' }
   autocmd FileType haskell    let b:repl_config = { 'cmd': 'ghci' }
 augroup END
+
+" EasyMotion
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:EasyMotion_do_mapping = 0 " Disable default mappings
+
+" `s{char}{char}{label}`
+nmap s <Plug>(easymotion-overwin-f2)
+
+" Turn on case-insensitive feature
+let g:EasyMotion_smartcase = 1
+
+" JK motions: Line motions
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
 
 " Other
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
