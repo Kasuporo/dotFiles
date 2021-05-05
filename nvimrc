@@ -84,7 +84,7 @@ Plug 'RRethy/vim-illuminate'
 Plug 'luochen1990/rainbow'
 
 " themes
-Plug 'rafi/awesome-vim-colorschemes'
+Plug 'morhetz/gruvbox'
 
 " Initialise plugin system
 call plug#end()
