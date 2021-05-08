@@ -56,18 +56,6 @@ function rmenv()
     printifo "Virtual environment removed."
 }
 
-#
-# Git stuffs
-#
-
-function gitme()
-{
-    git pull || return
-    git add -A
-    git commit -m $1
-    git push
-}
-
 function jdk()
 {
     version=$1
