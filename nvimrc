@@ -1,7 +1,6 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " nvimrc {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " We need these folders to exist
 call system('mkdir -p ~/.vim/session/' )           " session files (shared with vim)
 call system('mkdir -p ~/.config/nvim/backup/' )    " backups folder
@@ -32,7 +31,6 @@ Plug 'beanpuppy/git-blame-nvim'
 
 " tools
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'tpope/vim-fugitive'
 Plug 'mbbill/undotree'
 Plug 'mhinz/vim-startify'
@@ -52,6 +50,7 @@ Plug 'tpope/vim-dispatch'
 Plug 'radenling/vim-dispatch-neovim'
 Plug 'eraserhd/parinfer-rust', {'do': 'cargo build --release'}
 Plug 'easymotion/vim-easymotion'
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
 " languages
 Plug 'rust-lang/rust.vim'
@@ -78,8 +77,6 @@ Plug 'Yggdroot/indentline'
 Plug 'psliwka/vim-smoothie'
 Plug 'pacha/vem-tabline'
 Plug 'TaDaa/vimade'
-Plug 'ryanoasis/vim-devicons'
-Plug 'kristijanhusak/defx-icons'
 Plug 'RRethy/vim-illuminate'
 Plug 'luochen1990/rainbow'
 
@@ -100,6 +97,7 @@ set nocompatible
 " BASIC EDITING {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader=","
+let maplocalleader=" "
 
 " faster gitgutter
 set updatetime=100
@@ -191,12 +189,10 @@ tnoremap <Esc> <C-\><C-n>
 nnoremap <silent> == gt
 nnoremap <silent> -- gT
 
-nnoremap <silent>tt :Defx -toggle -split=vertical -winwidth=40 -direction=topleft -columns=indent:icons:filename:type<CR>
-
 " Split vertical
-nnoremap <silent> vv <C-w>v
+nnoremap <leader>vv <C-w>v
 " Split horizontal
-nnoremap <silent> ss <C-w>s
+nnoremap <leader>ss <C-w>s
 
 " window traverse
 nnoremap <C-h> <C-w>h
@@ -222,10 +218,6 @@ cnoremap w!! w !sudo tee > /dev/null %
 
 " undotree
 nnoremap <silent> U :UndotreeToggle <BAR> :UndotreeFocus<CR>
-
-" Enable folding/unfold with the spacebar
-nnoremap <space> za
-nnoremap <leader><space> zR
 
 " no highlight
 nnoremap // :let@/=""<CR>
@@ -262,7 +254,7 @@ nnoremap ! ungnzz
 " Split line
 nnoremap S :keeppatterns substitute/\s*\%#\s*/\r/e <bar> normal! ==<CR>
 
-" copy and paste
+" copy and paste to/from system clipboard
 vmap <C-c> "+y
 vmap <C-x> "+c
 vmap <C-v> c<ESC>"+p
@@ -270,11 +262,9 @@ imap <C-v> <ESC>"+pa
 
 command! STemp :SSave! __temp__
 
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " FUNCTIONS {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " Clear swap
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! ClearSwap()
@@ -283,21 +273,6 @@ function! ClearSwap()
     call system('rm -f ~/.config/nvim/swap/*')
   endif
 endfunction
-
-" Folds
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-hi Folded term=bold cterm=NONE ctermfg=lightblue
-function! NeatFoldText()
-  let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
-  let lines_count = v:foldend - v:foldstart + 1
-  let lines_count_text = '| ' . printf("%10s", lines_count . ' lines') . ' |'
-  let foldchar = '·'
-  let foldtextstart = strpart('+' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
-  let foldtextend = lines_count_text . repeat(foldchar, 8)
-  let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
-  return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
-endfunction
-set foldtext=NeatFoldText()
 
 " Create dir
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -310,7 +285,6 @@ endfun
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " PLUGINS {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " Startify config
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:startify_session_dir = '~/.vim/session' " share sessions with normal vim
@@ -329,11 +303,6 @@ let g:startify_list_order = [
 \ 'bookmarks',
 \ ['   My commands:'],
 \ 'commands',
-\]
-
-" Close Cleanup
-let g:startify_session_before_save = [
-\ 'silent! defx#do_action("close")',
 \]
 
 let g:startify_bookmarks = [
@@ -421,77 +390,6 @@ if executable('rg')
   vnoremap MM y :Rg! <C-R>"<CR>
 endif
 
-" Defx
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! s:defx_my_settings() abort
-  " Define mappings
-  nnoremap <silent><buffer><expr> <CR>
-  \ defx#do_action('drop')
-  nnoremap <silent><buffer><expr> l
-  \ defx#is_directory() ?
-  \ defx#do_action('open') :
-  \ defx#do_action('drop')
-  nnoremap <silent><buffer><expr> c
-  \ defx#do_action('copy')
-  nnoremap <silent><buffer><expr> m
-  \ defx#do_action('move')
-  nnoremap <silent><buffer><expr> p
-  \ defx#do_action('paste')
-  nnoremap <silent><buffer><expr> E
-  \ defx#do_action('open', 'vsplit')
-  nnoremap <silent><buffer><expr> P
-  \ defx#do_action('open', 'pedit')
-  nnoremap <silent><buffer><expr> o
-  \ defx#do_action('open_or_close_tree')
-  nnoremap <silent><buffer><expr> K
-  \ defx#do_action('new_directory')
-  nnoremap <silent><buffer><expr> N
-  \ defx#do_action('new_file')
-  nnoremap <silent><buffer><expr> M
-  \ defx#do_action('new_multiple_files')
-  nnoremap <silent><buffer><expr> C
-  \ defx#do_action('toggle_columns',
-  \                'mark:filename:type:size:time')
-  nnoremap <silent><buffer><expr> S
-  \ defx#do_action('toggle_sort', 'time')
-  nnoremap <silent><buffer><expr> d
-  \ defx#do_action('remove')
-  nnoremap <silent><buffer><expr> r
-  \ defx#do_action('rename')
-  nnoremap <silent><buffer><expr> !
-  \ defx#do_action('execute_command')
-  nnoremap <silent><buffer><expr> x
-  \ defx#do_action('execute_system')
-  nnoremap <silent><buffer><expr> yy
-  \ defx#do_action('yank_path')
-  nnoremap <silent><buffer><expr> .
-  \ defx#do_action('toggle_ignored_files')
-  nnoremap <silent><buffer><expr> ;
-  \ defx#do_action('repeat')
-  nnoremap <silent><buffer><expr> h
-  \ defx#do_action('cd', ['..'])
-  nnoremap <silent><buffer><expr> ~
-  \ defx#do_action('cd')
-  nnoremap <silent><buffer><expr> q
-  \ defx#do_action('quit')
-  nnoremap <silent><buffer><expr> <Space>
-  \ defx#do_action('toggle_select') . 'j'
-  nnoremap <silent><buffer><expr> *
-  \ defx#do_action('toggle_select_all')
-  nnoremap <silent><buffer><expr> j
-  \ line('.') == line('$') ? 'gg' : 'j'
-  nnoremap <silent><buffer><expr> k
-  \ line('.') == 1 ? 'G' : 'k'
-  nnoremap <silent><buffer><expr> <C-l>
-  \ defx#do_action('redraw')
-  nnoremap <silent><buffer><expr> <C-g>
-  \ defx#do_action('print')
-  nnoremap <silent><buffer><expr> cd
-  \ defx#do_action('change_vim_cwd')
-endfunction
-
-autocmd FileType defx call s:defx_my_settings()
-
 " lightline.vim
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! GetHunks()
@@ -550,7 +448,6 @@ augroup END
 
 " EasyMotion
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 let g:EasyMotion_do_mapping = 0 " Disable default mappings
 
 " `s{char}{char}{label}`
@@ -595,7 +492,6 @@ endfunc
 
 " Term handling
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " Set login shell for :terminal command so aliases work
 set shell=/opt/homebrew/bin/zsh
 
@@ -727,10 +623,6 @@ augroup vimrc
 
   " close quickfix if only window
   autocmd WinEnter * if (winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix") | q | endif
-  autocmd BufEnter * if (winnr("$") == 1 && getbufvar(winbufnr(winnr()), "&filetype")== "defx") | q | endif
-
-  " If in particular window, just tab to main
-  autocmd FileType defx noremap <buffer> <Tab> <c-w>l
 
   " Automatic rename of tmux window
   if exists('$TMUX') && !exists('$NORENAME')
