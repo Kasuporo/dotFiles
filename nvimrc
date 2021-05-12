@@ -26,9 +26,6 @@ endif
 " Add plugins here
 call plug#begin('~/.config/nvim/plugged')
 
-Plug 'beanpuppy/vimroot'
-Plug 'beanpuppy/git-blame-nvim'
-
 " tools
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'tpope/vim-fugitive'
@@ -82,6 +79,10 @@ Plug 'luochen1990/rainbow'
 
 " themes
 Plug 'morhetz/gruvbox'
+
+Plug 'beanpuppy/vimroot'
+Plug 'beanpuppy/git-blame-nvim'
+Plug 'beanpuppy/coc-tailwindcss', {'do': 'yarn install --frozen-lockfile && yarn run build'}
 
 " Initialise plugin system
 call plug#end()
@@ -592,6 +593,8 @@ augroup vimrc
   autocmd BufNewFile,BufRead Dockerfile*         set filetype=dockerfile
 
   autocmd FileType crontab setlocal bkc=yes
+
+  autocmd FileType python let b:coc_root_patterns = ['.env']
 
   " Auto save session as '__previous__' so we can go back
   autocmd VimLeave * if !empty(expand('%')) | SSave! __previous__ | endif
