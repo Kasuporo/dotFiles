@@ -307,8 +307,8 @@ let g:startify_list_order = [
 \]
 
 let g:startify_bookmarks = [
-\ { 'n': '~/dotfiles/nvimrc' },
-\ { 'z': '~/dotfiles/zshrc' },
+\ { 'n': '~/.dotfiles/nvim/.config/nvim/init.vim' },
+\ { 'z': '~/.dotfiles/zsh/.zshrc' },
 \]
 
 " Coc.nvim
