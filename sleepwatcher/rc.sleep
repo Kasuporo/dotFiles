@@ -1,8 +1,0 @@
-#!/bin/bash
-
-# Sleep script for sleepwatcher
-
-# Add /usr/local/bin to path
-export PATH="$PATH:/usr/local/bin:/opt/homebrew/bin"
-
-bw lock

@@ -82,13 +82,7 @@ alias ls="lsd"
 alias cat="bat"
 alias sed="gsed"
 alias http="python3 -m http.server 8000 --bind 127.0.0.1"
-# 2FA recovery script
-alias recover_mfa="cd ~/Sync/jd_misc/recovery && $DOTFILES/bin/enc.sh codes.txt && cd -"
-# bw unlock
-alias bwu="source $DOTFILES/bin/bwunlock.sh && bwc"
-# bw generate
-alias bwg="bw generate -lusn --length 24 | pbcopy"
-# I'm an idiot
+alias contessh="/Users/justin/dev/git.waifu.church/justin/contessh/contessh.py"
+# because I'm an idiot
 alias rm="rm -i"
 alias mv="mv -i"
-alias contessh="/Users/justin/dev/git.waifu.church/justin/contessh/contessh.py"

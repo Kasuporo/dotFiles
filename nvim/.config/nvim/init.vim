@@ -20,7 +20,7 @@ let g:loaded_python_provider=0
 if glob("~/.config/nvim/autoload/plug.vim") ==# ""
   silent !curl -fLo ~/.config/nvim/autoload/plug.vim
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source ~/dotfiles/nvimrc
+  autocmd VimEnter * PlugInstall --sync | source ~/.config/nvim/init.vim
 endif
 
 " Add plugins here
