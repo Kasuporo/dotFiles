@@ -46,7 +46,7 @@ Plug 'clojure-vim/vim-jack-in'
 Plug 'tpope/vim-dispatch'
 Plug 'radenling/vim-dispatch-neovim'
 Plug 'eraserhd/parinfer-rust', {'do': 'cargo build --release'}
-Plug 'easymotion/vim-easymotion'
+Plug 'phaazon/hop.nvim'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
 " languages
@@ -97,8 +97,8 @@ set nocompatible
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " BASIC EDITING {{{1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let mapleader=","
-let maplocalleader=" "
+let mapleader=" "
+let maplocalleader="'"
 
 " faster gitgutter
 set updatetime=100
@@ -447,19 +447,12 @@ augroup zepl
   autocmd FileType haskell    let b:repl_config = { 'cmd': 'ghci' }
 augroup END
 
-" EasyMotion
+" Hop
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:EasyMotion_do_mapping = 0 " Disable default mappings
+nmap <leader>n :HopChar2<cr>
+nmap <leader>l :HopLine<cr>
 
-" `s{char}{char}{label}`
-nmap s <Plug>(easymotion-overwin-f2)
-
-" Turn on case-insensitive feature
-let g:EasyMotion_smartcase = 1
-
-" JK motions: Line motions
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
+lua require'hop'.setup { keys = 'asdfhjklqweruiop', term_seq_bias = 0.5 }
 
 " Other
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
