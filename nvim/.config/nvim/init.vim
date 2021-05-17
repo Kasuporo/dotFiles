@@ -48,6 +48,7 @@ Plug 'radenling/vim-dispatch-neovim'
 Plug 'eraserhd/parinfer-rust', {'do': 'cargo build --release'}
 Plug 'phaazon/hop.nvim'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+Plug 'puremourning/vimspector'
 
 " languages
 Plug 'rust-lang/rust.vim'
@@ -453,6 +454,12 @@ nmap <leader>n :HopChar2<cr>
 nmap <leader>l :HopLine<cr>
 
 lua require'hop'.setup { keys = 'asdfhjklqweruiop', term_seq_bias = 0.5 }
+
+" Vimspector
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:vimspector_enable_mappings = 'HUMAN'
+nmap <Leader>di <Plug>VimspectorBalloonEval
+xmap <Leader>di <Plug>VimspectorBalloonEval
 
 " Other
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
