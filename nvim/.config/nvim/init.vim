@@ -360,13 +360,13 @@ let g:context_filetype#filetypes.html =
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Customize fzf colors to match color scheme
 let g:fzf_colors = {
-\ 'fg':      ['fg', 'Normal'],
-\ 'bg':      ['bg', 'Normal'],
-\ 'hl':      ['fg', 'Comment'],
-\ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-\ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-\ 'hl+':     ['fg', 'Statement'],
-\ 'info':    ['fg', 'PreProc'],
+\ 'fg': ['fg', 'Normal'],
+\ 'bg': ['bg', 'Normal'],
+\ 'hl': ['fg', 'Comment'],
+\ 'fg+': ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+\ 'bg+': ['bg', 'CursorLine', 'CursorColumn'],
+\ 'hl+': ['fg', 'Statement'],
+\ 'info': ['fg', 'PreProc'],
 \ 'border':  ['fg', 'Ignore'],
 \ 'prompt':  ['fg', 'Conditional'],
 \ 'pointer': ['fg', 'Exception'],
@@ -577,20 +577,20 @@ augroup vimrc
   " Create directory if does not exist
   autocmd BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
 
-  autocmd FileType go             setlocal sw=4 ts=4 noexpandtab
-  autocmd FileType python         setlocal sw=4 ts=4 et
-  autocmd FileType ruby           setlocal sw=2 ts=2 et
-  autocmd FileType json           setlocal sw=2 ts=2 et
-  autocmd FileType haskell        setlocal sw=2 ts=2 et
-  autocmd FileType yaml           setlocal sw=2 ts=2 et
-  autocmd FileType javascript     setlocal sw=2 ts=2 et
+  autocmd FileType go setlocal sw=4 ts=4 noexpandtab
+  autocmd FileType python setlocal sw=4 ts=4 et
+  autocmd FileType ruby setlocal sw=2 ts=2 et
+  autocmd FileType json setlocal sw=2 ts=2 et
+  autocmd FileType haskell setlocal sw=2 ts=2 et
+  autocmd FileType yaml setlocal sw=2 ts=2 et
+  autocmd FileType javascript setlocal sw=2 ts=2 et
   autocmd FileType javascript.jsx setlocal ts=2 sts=2 sw=2 et
 
   " File types
-  autocmd BufNewFile,BufRead *.icc               set filetype=cpp
-  autocmd BufNewFile,BufRead *.pde               set filetype=java
+  autocmd BufNewFile,BufRead *.icc set filetype=cpp
+  autocmd BufNewFile,BufRead *.pde set filetype=java
   autocmd BufNewFile,BufRead *.coffee-processing set filetype=coffee
-  autocmd BufNewFile,BufRead Dockerfile*         set filetype=dockerfile
+  autocmd BufNewFile,BufRead Dockerfile* set filetype=dockerfile
 
   autocmd FileType crontab setlocal bkc=yes
 
@@ -655,17 +655,17 @@ highlight NormalFloat ctermbg=none guibg=none
 highlight NonText ctermbg=none ctermfg=8 guifg=gray
 
 " vem-tabline
-highlight TabLine                    cterm=none ctermfg=255 ctermbg=240 guifg=#242424 guibg=#cdcdcd gui=none
-highlight TabLineSel                 cterm=bold ctermfg=235 ctermbg=255 guifg=#242424 guibg=#ffffff gui=bold
-highlight TabLineFill                cterm=none ctermfg=255 ctermbg=240 guifg=#e6e3d8 guibg=#404040 gui=italic
-highlight VemTablineNormal           cterm=none ctermfg=246 ctermbg=0   guifg=#262626 guibg=#000000 gui=none
-highlight VemTablineLocation         cterm=none ctermfg=255 ctermbg=240 guifg=#666666 guibg=#cdcdcd gui=none
-highlight VemTablineSelected         cterm=bold ctermfg=255 ctermbg=0   guifg=#242424 guibg=#ffffff gui=bold
+highlight TabLine cterm=none ctermfg=255 ctermbg=240 guifg=#242424 guibg=#cdcdcd gui=none
+highlight TabLineSel cterm=bold ctermfg=235 ctermbg=255 guifg=#242424 guibg=#ffffff gui=bold
+highlight TabLineFill cterm=none ctermfg=255 ctermbg=240 guifg=#e6e3d8 guibg=#404040 gui=italic
+highlight VemTablineNormal cterm=none ctermfg=246 ctermbg=0   guifg=#262626 guibg=#000000 gui=none
+highlight VemTablineLocation cterm=none ctermfg=255 ctermbg=240 guifg=#666666 guibg=#cdcdcd gui=none
+highlight VemTablineSelected cterm=bold ctermfg=255 ctermbg=0   guifg=#242424 guibg=#ffffff gui=bold
 highlight VemTablineLocationSelected cterm=bold ctermfg=235 ctermbg=255 guifg=#666666 guibg=#ffffff gui=bold
-highlight VemTablineShown            cterm=none ctermfg=255 ctermbg=240 guifg=#242424 guibg=#cdcdcd gui=none
-highlight VemTablineLocationShown    cterm=none ctermfg=255 ctermbg=240 guifg=#666666 guibg=#cdcdcd gui=none
-highlight VemTablineSeparator        cterm=none ctermfg=246 ctermbg=240 guifg=#e6e3d8 guibg=#404040 gui=italic
-highlight VemTablineTabNormal        cterm=none ctermfg=246 ctermbg=0   guifg=#262626 guibg=#000000 gui=none
-highlight VemTablineTabSelected      cterm=bold ctermfg=255 ctermbg=0   guifg=#242424 guibg=#ffffff gui=bold
+highlight VemTablineShown cterm=none ctermfg=255 ctermbg=240 guifg=#242424 guibg=#cdcdcd gui=none
+highlight VemTablineLocationShown cterm=none ctermfg=255 ctermbg=240 guifg=#666666 guibg=#cdcdcd gui=none
+highlight VemTablineSeparator cterm=none ctermfg=246 ctermbg=240 guifg=#e6e3d8 guibg=#404040 gui=italic
+highlight VemTablineTabNormal cterm=none ctermfg=246 ctermbg=0   guifg=#262626 guibg=#000000 gui=none
+highlight VemTablineTabSelected cterm=bold ctermfg=255 ctermbg=0   guifg=#242424 guibg=#ffffff gui=bold
 
 " vim: set ts=2 sw=2 tw=78 fdm=marker et :
