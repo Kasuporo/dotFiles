@@ -120,6 +120,8 @@ source $DOTFILES/zsh/aliases.zsh
 
 if which karn > /dev/null; then eval "$(karn init)"; fi
 
+autoload -U +X bashcompinit && bashcompinit
+
 # Fzf things
 [ -f ~/.fzf.zsh ] \
   && source ~/.fzf.zsh \
@@ -134,3 +136,5 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" \
 eval "$(zoxide init zsh)"
 
 eval "$(starship init zsh)"
+
+complete -o nospace -C /opt/homebrew/bin/terraform terraform
