@@ -1,5 +1,5 @@
 {
-  "coc.preferences.formatOnSaveFiletypes": ["rs", "clj", "svelte"],
+  "coc.preferences.formatOnSaveFiletypes": ["rs", "clj", "svelte", "tf"],
   "codeLens.enable": true,
   "languageserver": {
     "rust": {

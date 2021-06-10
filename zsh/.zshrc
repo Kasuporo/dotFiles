@@ -75,6 +75,7 @@ export EDITOR="nvim"
 export DOCKERID="beanpupper"
 export DOTFILES="$HOME/.dotfiles"
 export GOPATH="$HOME/go"
+export KUBECONFIG="$HOME/.kube/config.yaml"
 
 fpath+=("${HOME}/.dotfiles/zsh/zfunc")
 fpath+=("${HOME}/.config/hcloud/completion/zsh")
@@ -148,3 +149,6 @@ complete -o nospace -C /opt/homebrew/bin/terraform terraform
 
 # Scaleway CLI autocomplete
 eval "$(scw autocomplete script shell=zsh)"
+
+# Kubectl autocomplete
+source <(kubectl completion zsh)
