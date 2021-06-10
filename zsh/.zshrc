@@ -77,6 +77,7 @@ export DOTFILES="$HOME/.dotfiles"
 export GOPATH="$HOME/go"
 
 fpath+=("${HOME}/.dotfiles/zsh/zfunc")
+fpath+=("${HOME}/.config/hcloud/completion/zsh")
 PATH="/opt/homebrew/bin:$PATH"
 PATH="/opt/homebrew/sbin:$PATH"
 PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
@@ -115,14 +116,16 @@ export SSH_KEY_PATH="~/.ssh/rsa_id"
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+autoload -Uz compinit && compinit
+autoload -Uz bashcompinit && bashcompinit
+
 source $DOTFILES/zsh/auto-load.zsh
 source $DOTFILES/zsh/aliases.zsh
 
+# Karn
 if which karn > /dev/null; then eval "$(karn init)"; fi
 
-autoload -U +X bashcompinit && bashcompinit
-
-# Fzf things
+# Fzf
 [ -f ~/.fzf.zsh ] \
   && source ~/.fzf.zsh \
   && source $DOTFILES/zsh/fzf.zsh
@@ -131,10 +134,17 @@ autoload -U +X bashcompinit && bashcompinit
 test -e "${HOME}/.iterm2_shell_integration.zsh" \
   && source "${HOME}/.iterm2_shell_integration.zsh"
 
+# Asdf-vm
 . /opt/homebrew/opt/asdf/asdf.sh
 
-eval "$(zoxide init zsh)"
-
+# Starship
 eval "$(starship init zsh)"
 
+# Zoxide
+eval "$(zoxide init zsh)"
+
+# Terraform autocomplete
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
+
+# Scaleway CLI autocomplete
+eval "$(scw autocomplete script shell=zsh)"
