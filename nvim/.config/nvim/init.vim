@@ -66,6 +66,7 @@ Plug 'elixir-lsp/coc-elixir', {'do': 'yarn install && yarn prepack'}
 Plug 'purescript-contrib/purescript-vim'
 Plug 'unisonweb/unison', { 'branch': 'trunk', 'rtp': 'editor-support/vim' }
 Plug 'uarun/vim-protobuf'
+Plug 'hashivim/vim-terraform'
 
 " display
 Plug 'itchyny/lightline.vim'
