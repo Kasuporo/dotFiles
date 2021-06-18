@@ -89,6 +89,7 @@ PATH="$PATH:$HOME/.config/nvim/plugged/vim-iced/bin"
 PATH="$PATH:$HOME/src/git-fuzzy/bin"
 PATH="$PATH:$HOME/.mix/escripts"
 PATH="$PATH:$HOME/.gem/bin"
+PATH="$PATH:$(npm config get prefix)/bin"
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
