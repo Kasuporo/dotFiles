@@ -2,4 +2,10 @@
 set -eu
 set -o pipefail
 
+rbw unlocked 2>/dev/null || true
+
+if [[ $? ]]; then
+    rbw unlock
+fi
+
 rbw ls --fields name,user,folder | perl -plE'/^([^\t]*)\t([^\t]*)\t([^\t]*)$/; $_ = join("/", grep { length } ($3, $1, $2)) . "\t$_"' | sort | fzf --with-nth=1 | perl -ple'/^([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)$/; $_ = "$2 $3"' | xargs -r rbw get | pbcopy
