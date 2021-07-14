@@ -77,6 +77,8 @@ export DOTFILES="$HOME/.dotfiles"
 export GOPATH="$HOME/go"
 export KUBECONFIG="$HOME/.kube/config.yaml"
 
+export NIX_PATH="darwin-config=/Users/justin/.nixpkgs/darwin-configuration.nix:/Users/justin/.nix-defexpr/channels"
+
 fpath+=("${HOME}/.dotfiles/zsh/zfunc")
 fpath+=("${HOME}/.config/hcloud/completion/zsh")
 PATH="/opt/homebrew/bin:$PATH"
@@ -152,3 +154,6 @@ eval "$(scw autocomplete script shell=zsh)"
 
 # Kubectl autocomplete
 source <(kubectl completion zsh)
+
+# Nix
+if [ -e /Users/justin/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/justin/.nix-profile/etc/profile.d/nix.sh; fi

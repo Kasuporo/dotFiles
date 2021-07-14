@@ -66,6 +66,7 @@ Plug 'purescript-contrib/purescript-vim'
 Plug 'unisonweb/unison', { 'branch': 'trunk', 'rtp': 'editor-support/vim' }
 Plug 'uarun/vim-protobuf'
 Plug 'hashivim/vim-terraform'
+Plug 'LnL7/vim-nix'
 
 " display
 Plug 'itchyny/lightline.vim'
@@ -494,7 +495,7 @@ endfunc
 " Term handling
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Set login shell for :terminal command so aliases work
-set shell=/opt/homebrew/bin/zsh
+set shell=/run/current-system/sw/bin/zsh
 
 " When term starts, auto go into insert mode
 autocmd TermOpen * startinsert

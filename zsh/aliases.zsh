@@ -83,6 +83,7 @@ alias cat="bat"
 alias sed="gsed"
 alias http="python3 -m http.server 8000 --bind 127.0.0.1"
 alias contessh="/Users/justin/dev/git.waifu.church/justin/contessh/contessh.py"
+alias wget="wget2"
 # because I'm an idiot
 alias rm="rm -i"
 alias mv="mv -i"
